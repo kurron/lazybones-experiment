@@ -4,7 +4,7 @@ group = "${group}"
 version = "${version}"
 
 repositories {
-    jCentral()
+    mavenCentral()
 }
 
 dependencies {

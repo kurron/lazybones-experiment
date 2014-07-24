@@ -1,12 +1,11 @@
 buildscript {
     ext {
-        springBootVersion = '1.1.4.RELEASE'
     }    
     repositories {
-        jCenter()
+        jcenter()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}" 
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE" 
     }
 }
 
@@ -17,7 +16,7 @@ group = "${group}"
 version = "${version}"
 
 repositories {
-    jCenter()
+    jcenter()
 }
 
 dependencies {

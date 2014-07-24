@@ -25,10 +25,18 @@ version = '0.0.1'
 dependencies {
     versionManagement "io.spring.platform:platform-versions:${springPlatformVersion}@properties"
 
-    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
     // notice we don't have to supply version numbers, Spring Boot plug-in manages that
     compile 'org.springframework.boot:spring-boot-starter'
     compile 'org.springframework.boot:spring-boot-starter-amqp'
+    compile 'org.springframework.boot:spring-boot-starter-integration'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
+
+compileGroovy.groovyOptions.optimizationOptions['indy'] = true
+compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+

@@ -1,11 +1,27 @@
+buildscript {
+    ext {
+        springBootVersion = '1.1.4.RELEASE'
+    }    
+    repositories {
+        jCenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}" 
+    }
+}
+
 apply plugin: 'groovy' 
+apply plugin: 'spring-boot'
 
 group = "${group}"
 version = "${version}"
 
 repositories {
-    mavenCentral()
+    jCenter()
 }
 
 dependencies {
+    versionManagement 'io.spring.platform:platform-versions:1.0.1.RELEASE@properties'
+    // notice we don't have to supply version numbers, Spring Boot plug-in manages that
+    compile 'org.springframework:spring-core'
 }

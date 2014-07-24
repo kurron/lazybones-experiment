@@ -1,26 +1,34 @@
 buildscript {
     ext {
+        groovyVersion = '2.3.4'
+        springBootVersion = '1.1.4.RELEASE'
+        springPlatformVersion = '1.0.1.RELEASE'
     }    
     repositories {
         jcenter()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE" 
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}" 
     }
 }
-
-apply plugin: 'groovy' 
-apply plugin: 'spring-boot'
-
-group = "${group}"
-version = "${version}"
 
 repositories {
     jcenter()
 }
 
+apply plugin: 'groovy' 
+apply plugin: 'spring-boot'
+
+group = 'org.example' 
+version = '0.0.1' 
+
 dependencies {
-    versionManagement 'io.spring.platform:platform-versions:1.0.1.RELEASE@properties'
+    versionManagement "io.spring.platform:platform-versions:${springPlatformVersion}@properties"
+
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
     // notice we don't have to supply version numbers, Spring Boot plug-in manages that
-    compile 'org.springframework:spring-core'
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-amqp'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

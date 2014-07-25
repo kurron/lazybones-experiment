@@ -38,6 +38,9 @@ dependencies {
     testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
 }
 
+defaultTasks << 'clean'
+defaultTasks << 'build'
+
 compileGroovy.groovyOptions.optimizationOptions['indy'] = true
 compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
 

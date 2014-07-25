@@ -1,5 +1,6 @@
 buildscript {
     ext {
+        codenarcVersion = '0.21'
         groovyVersion = '2.3.4'
         spockVersion = '0.7-groovy-2.0'
         springBootVersion = '1.1.4.RELEASE'
@@ -19,6 +20,7 @@ repositories {
 
 apply plugin: 'groovy' 
 apply plugin: 'spring-boot'
+apply plugin: 'codenarc'
 
 configurations {
     providedRuntime
@@ -51,6 +53,13 @@ defaultTasks << 'build'
 compileGroovy.groovyOptions.optimizationOptions['indy'] = true
 compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
+codenarc {
+    configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
+    toolVersion = codenarcVersion
+    ignoreFailures = false
+    enabled = true
+    enabled = true
+}

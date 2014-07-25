@@ -4,7 +4,7 @@ import java.security.SecureRandom
 import spock.lang.Specification
 
 /**
-* Base class for all unit-level tests.  A nice place to put shared data generation and setup routines.
+* Base class for all Spock-based tests.  A nice place to put shared data generation routines.
 **/
 class BaseSpecification extends Specification {
 

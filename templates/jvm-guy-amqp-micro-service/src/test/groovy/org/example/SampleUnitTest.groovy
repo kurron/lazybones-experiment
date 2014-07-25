@@ -1,9 +1,9 @@
 package org.example
 
 /**
- * Created by vagrant on 7/24/14.
+ * Simple example of a Spock unit test.
  */
-class SampleUnitTest extends BaseSpecification {
+class SampleUnitTest extends BaseUnitTest {
 
     /**
      * Subject under test.

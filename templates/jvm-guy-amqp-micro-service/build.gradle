@@ -20,6 +20,10 @@ repositories {
 apply plugin: 'groovy' 
 apply plugin: 'spring-boot'
 
+configurations {
+    providedRuntime
+}
+
 group = 'org.example' 
 version = '0.0.1' 
 
@@ -32,6 +36,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-amqp'
     compile 'org.springframework.boot:spring-boot-starter-integration'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+
+    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }

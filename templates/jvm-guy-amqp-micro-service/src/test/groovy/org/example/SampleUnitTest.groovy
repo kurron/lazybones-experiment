@@ -8,7 +8,7 @@ class SampleUnitTest extends BaseUnitTest {
     /**
      * Subject under test.
      */
-    List<String> sut = []
+    private final List<String> sut = []
 
     def 'verify addition operator'() {
         given: 'an empty list'

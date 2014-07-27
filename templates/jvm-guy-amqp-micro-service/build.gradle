@@ -60,6 +60,6 @@ codenarc {
     configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
     toolVersion = codenarcVersion
     ignoreFailures = false
-    enabled = true
-    enabled = true
+    codenarcMain.enabled = true
+    codenarcTest.enabled = true
 }

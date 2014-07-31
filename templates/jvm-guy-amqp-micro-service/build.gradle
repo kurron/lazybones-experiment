@@ -88,7 +88,8 @@ task verifyCodeCoverage( dependsOn: 'jacocoTestReport' ) {
         def xmlStr = new File( jacocoReportPath ).text.replace( '<!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">', '' )
         def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
 
-        def jacocoExclude = properties.containsKey( 'coverageExcludes' ) ? coverageExcludes : []
+        def jacocoExclude = coverageExcludes ? coverageExcludes : []
+        jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
         def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
         def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
         def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }

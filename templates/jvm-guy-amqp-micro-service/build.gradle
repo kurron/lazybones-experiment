@@ -65,6 +65,9 @@ compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
+compileGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
+compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
+
 codenarc {
     configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
     toolVersion = codenarcVersion

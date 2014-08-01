@@ -23,6 +23,8 @@ apply plugin: 'groovy'
 apply plugin: 'spring-boot'
 apply plugin: 'codenarc'
 apply plugin: 'jacoco'
+apply plugin: 'project-report'
+apply plugin: 'build-dashboard'
 
 configurations {
     providedRuntime
@@ -50,6 +52,8 @@ dependencies {
 }
 
 defaultTasks << 'clean'
+defaultTasks << 'projectReport'
+defaultTasks << 'buildDashboard'
 defaultTasks << 'build'
 
 compileGroovy.groovyOptions.optimizationOptions['indy'] = true

@@ -32,7 +32,9 @@ configurations {
 }
 
 group = 'org.example' 
-version = '0.0.1' 
+version = '0.0.1'
+
+war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
 
 dependencies {
     versionManagement "io.spring.platform:platform-versions:${springPlatformVersion}@properties"

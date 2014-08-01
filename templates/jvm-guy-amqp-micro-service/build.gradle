@@ -44,6 +44,7 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
     // notice we don't have to supply version numbers, Spring Boot plug-in manages that
     compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-amqp'
     compile 'org.springframework.boot:spring-boot-starter-integration'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'

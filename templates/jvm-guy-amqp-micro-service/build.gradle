@@ -25,6 +25,14 @@ subprojects {
         }
     }
 
+    task printStage() {
+        group = 'Help'
+        description = 'Prints the stage the build would execute with the current property settings'
+        doLast {
+            logger.quiet "Stage: ${stage}"
+        }
+    }
+
     // comment out if you want to have version conflicts detected
     /*
     configurations*.resolutionStrategy {
@@ -65,7 +73,6 @@ subprojects {
 }
 
 allprojects {
-    defaultTasks << 'printVersion'
 
     // commit phase
     if ( 'one' == stage  ) {

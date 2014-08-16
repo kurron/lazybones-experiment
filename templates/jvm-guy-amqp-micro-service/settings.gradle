@@ -1,1 +1,3 @@
 rootProject.name = 'jvm-guy-amqp-micro-service'
+
+include 'service'

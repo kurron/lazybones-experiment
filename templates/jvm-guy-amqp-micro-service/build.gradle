@@ -7,189 +7,176 @@ buildscript {
     }
 }
 
-repositories {
-    jcenter()
-}
+subprojects {
 
-apply plugin: 'groovy' 
-apply plugin: 'spring-boot'
-apply plugin: 'war'
-apply plugin: 'codenarc'
-apply plugin: 'jacoco'
-apply plugin: 'project-report'
-apply plugin: 'build-dashboard'
-apply plugin: 'build-announcements'
+    group = 'org.example'
+    version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
 
-configurations {
-    providedRuntime {
-        description = 'dependencies that are required at compile time but expected to be provided by the container at runtime'
+    repositories {
+        jcenter()
     }
-}
 
-// comment out if you want to have version conflicts detected
-/*
-configurations*.resolutionStrategy {
-    failOnVersionConflict()
-}
-*/
 
-group = 'org.example'
-version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
+    apply plugin: 'groovy' 
+    apply plugin: 'spring-boot'
+    apply plugin: 'codenarc'
+    apply plugin: 'jacoco'
+    apply plugin: 'project-report'
+    apply plugin: 'build-dashboard'
+    apply plugin: 'build-announcements'
 
-war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
-
-dependencies {
-    compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
-    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-amqp:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-integration:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-
-    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
-
-    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
-    testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
-    testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
-}
-
-defaultTasks << 'clean'
-defaultTasks << 'projectReport'
-defaultTasks << 'buildDashboard'
-defaultTasks << 'build'
-
-compileGroovy.groovyOptions.optimizationOptions['indy'] = true
-compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
-compileGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
-compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
-
-codenarc {
-    configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
-    toolVersion = codenarcVersion
-    ignoreFailures = false
-    codenarcMain.enabled = true
-    codenarcTest.enabled = true
-}
-
-jacoco {
-    toolVersion = jacocoVersion
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled true
-        html.enabled true
+    dependencies {
+        compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
+        testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
+        testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
     }
-}
-// Since the JaCoCo plug in does not honor excludes or break the build if coverage thresholds are crossed, we have to do it by hand.
-task verifyCodeCoverage( dependsOn: 'jacocoTestReport' ) {
-    description = 'Parses the generated JaCoCo xml report, and determines if sufficient coverage is present.'
-    group = 'Build'
 
-    doFirst {
-        // remove the DOCTYPE tag from the generated xml, otherwise we have to provide report.dtd ourselves.
-        def jacocoReportPath = "${jacoco.reportsDir}/test/jacocoTestReport.xml"
-        def xmlStr = new File( jacocoReportPath ).text.replace( '<!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">', '' )
-        def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
+    compileGroovy.groovyOptions.optimizationOptions['indy'] = true
+    compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
 
-        def jacocoExclude = coverageExcludes ? coverageExcludes : []
-        jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
-        def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
-        def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
-        def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }
-        if ( offenders ) {
-            offenders.each { logger.quiet "Insufficient code coverage: ${it}" }
-            throw new IllegalStateException( "Not enough code coverage! Consult ${jacoco.reportsDir}/test/html/index.html for details." )
-        }
-        else {
-            logger.quiet 'Adequate code coverage detected.'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    compileGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
+    compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
+
+    codenarc {
+        configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
+        toolVersion = codenarcVersion
+        ignoreFailures = false
+        codenarcMain.enabled = true
+        codenarcTest.enabled = true
+    }
+
+    jacoco {
+        toolVersion = jacocoVersion
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+            csv.enabled true
+            html.enabled true
         }
     }
-}
-check.dependsOn 'verifyCodeCoverage'
 
-ext.sharedManifest = manifest {
-    attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
-}
+    // Since the JaCoCo plug in does not honor excludes or break the build if coverage thresholds are crossed, we have to do it by hand.
+    task verifyCodeCoverage( dependsOn: 'jacocoTestReport' ) {
+        description = 'Parses the generated JaCoCo xml report, and determines if sufficient coverage is present.'
+        group = 'Build'
 
-jar {
-    manifest = project.manifest {
-        from sharedManifest
+        doFirst {
+            // remove the DOCTYPE tag from the generated xml, otherwise we have to provide report.dtd ourselves.
+            def jacocoReportPath = "${jacoco.reportsDir}/test/jacocoTestReport.xml"
+            def xmlStr = new File( jacocoReportPath ).text.replace( '<!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">', '' )
+            def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
+
+            def jacocoExclude = coverageExcludes ? coverageExcludes : []
+            jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
+            def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
+            def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
+            def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }
+            if ( offenders ) {
+                offenders.each { logger.quiet "Insufficient code coverage: ${it}" }
+                throw new IllegalStateException( "Not enough code coverage! Consult ${jacoco.reportsDir}/test/html/index.html for details." )
+            }
+            else {
+                logger.quiet 'Adequate code coverage detected.'
+            }
+        }
     }
-}
+    check.dependsOn 'verifyCodeCoverage'
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-    manifest = project.manifest {
-        from sharedManifest
+    ext.sharedManifest = manifest {
+        attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
     }
-}
 
-task testSourcesJar(type: Jar, dependsOn: testClasses) {
-    classifier = 'test-sources'
-    from sourceSets.test.allSource
-    manifest = project.manifest {
-        from sharedManifest
+    jar {
+        manifest = project.manifest {
+            from sharedManifest
+        }
     }
-}
 
-task testBinariesJar(type: Jar, dependsOn: testClasses) {
-    classifier = 'test'
-    from sourceSets.test.output
-    manifest = project.manifest {
-        from sharedManifest
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+        manifest = project.manifest {
+            from sharedManifest
+        }
     }
-}
 
-task groovydocJar(type: Jar, dependsOn: groovydoc) {
-    classifier = 'groovydoc'
-    from project.docsDir.path + '/groovydoc'
-    manifest = project.manifest {
-        from sharedManifest
+    task testSourcesJar(type: Jar, dependsOn: testClasses) {
+        classifier = 'test-sources'
+        from sourceSets.test.allSource
+        manifest = project.manifest {
+            from sharedManifest
+        }
     }
-}
 
-artifacts {
-    archives sourcesJar
-    archives testSourcesJar
-    archives testBinariesJar
-    archives groovydocJar
-}
-
-groovydoc {
-    docTitle = "docTitle: $project.name $version"
-    footer = "footer: $project.name $version"
-    header = "header: $project.name $version"
-    windowTitle = "windowTitle: $project.name $version"
-    includePrivate = false
-    overview = 'overview.html'
-    use = true
-}
-
-task collectJars(type: Copy) {
-    description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
-    from configurations.testRuntime.asFileTree
-    into "$buildDir/dependencies"
-}
-
-task printVersion() {
-    group = 'Help'
-    description = 'Prints project version'
-    doLast {
-        logger.quiet "Version: ${version}"
+    task testBinariesJar(type: Jar, dependsOn: testClasses) {
+        classifier = 'test'
+        from sourceSets.test.output
+        manifest = project.manifest {
+            from sharedManifest
+        }
     }
+
+    task groovydocJar(type: Jar, dependsOn: groovydoc) {
+        classifier = 'groovydoc'
+        from project.docsDir.path + '/groovydoc'
+        manifest = project.manifest {
+            from sharedManifest
+        }
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives testSourcesJar
+        archives testBinariesJar
+        archives groovydocJar
+    }
+
+    groovydoc {
+        docTitle = "docTitle: $project.name $version"
+        footer = "footer: $project.name $version"
+        header = "header: $project.name $version"
+        windowTitle = "windowTitle: $project.name $version"
+        includePrivate = false
+        overview = 'overview.html'
+        use = true
+    }
+
+    task collectJars(type: Copy) {
+        description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
+        from configurations.testRuntime.asFileTree
+        into "$buildDir/dependencies"
+    }
+
+    task printVersion() {
+        group = 'Help'
+        description = 'Prints project version'
+        doLast {
+            logger.quiet "Version: ${version}"
+        }
+    }
+
+    // comment out if you want to have version conflicts detected
+    /*
+    configurations*.resolutionStrategy {
+        failOnVersionConflict()
+    }
+    */
+
 }
 
-defaultTasks << 'collectJars'
+allprojects {
+    defaultTasks << 'clean'
+    defaultTasks << 'projectReport'
+    defaultTasks << 'build'
+    defaultTasks << 'buildDashboard'
+    defaultTasks << 'collectJars'
+}
 
-// excludes classes from code coverage check, can specify a directory or individual files
-ext.coverageExcludes = ['org/example/',
-                        'org/example/EmbeddedServletContainerEventListener',
-                       ]
+
+
+

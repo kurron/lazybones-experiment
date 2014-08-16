@@ -1,14 +1,4 @@
 buildscript {
-    ext {
-        codenarcVersion = '0.21'
-        groovyVersion = '2.3.4'
-        jacocoVersion = '0.7.1.201405082137'
-        spockVersion = '0.7-groovy-2.0'
-        springBootVersion = '1.1.4.RELEASE'
-        springPlatformVersion = '1.0.1.RELEASE'
-
-        groovyDocApiURL = 'http://beta.groovy-lang.org/docs/latest/html/gapi/'
-    }    
     repositories {
         jcenter()
     }
@@ -39,20 +29,17 @@ version = '0.0.1'
 war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
 
 dependencies {
-    versionManagement "io.spring.platform:platform-versions:${springPlatformVersion}@properties"
-
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
-    // notice we don't have to supply version numbers, Spring Boot plug-in manages that
-    compile 'org.springframework.boot:spring-boot-starter'
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework.boot:spring-boot-starter-amqp'
-    compile 'org.springframework.boot:spring-boot-starter-integration'
-    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-amqp:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-integration:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
 
     providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
     testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
 }

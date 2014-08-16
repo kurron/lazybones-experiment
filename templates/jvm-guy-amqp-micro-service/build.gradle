@@ -37,13 +37,13 @@ subprojects {
 
     // commit phase
     if ( 'one' == stage ) {
-        apply plugin: 'codenarc'
         apply plugin: 'jdepend'
         apply plugin: 'project-report'
         apply plugin: 'build-dashboard'
         apply plugin: 'build-announcements'
 
         apply from: "$rootDir/gradle/jacoco.gradle"
+        apply from: "$rootDir/gradle/codenarc.gradle"
 
         dependencies {
             compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
@@ -70,14 +70,6 @@ subprojects {
                 exceptionFormat = 'full'
                 events( 'started', 'passed', 'skipped', 'failed' )
             }
-        }
-
-        codenarc {
-            configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
-            toolVersion = codenarcVersion
-            ignoreFailures = false
-            codenarcMain.enabled = true
-            codenarcTest.enabled = true
         }
 
 

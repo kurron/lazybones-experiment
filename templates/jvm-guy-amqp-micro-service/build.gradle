@@ -21,8 +21,17 @@ apply plugin: 'build-dashboard'
 apply plugin: 'build-announcements'
 
 configurations {
-    providedRuntime
+    providedRuntime {
+        description = 'dependencies that are required at compile time but expected to be provided by the container at runtime'
+    }
 }
+
+// comment out if you want to have version conflicts detected
+/*
+configurations*.resolutionStrategy {
+    failOnVersionConflict()
+}
+*/
 
 group = 'org.example'
 version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
@@ -166,8 +175,8 @@ groovydoc {
 
 task collectJars(type: Copy) {
     description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
+    from configurations.testRuntime.asFileTree
     into "$buildDir/dependencies"
-    from( configurations.testRuntime )
 }
 
 task printVersion() {

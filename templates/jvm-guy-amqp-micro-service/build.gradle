@@ -24,7 +24,7 @@ configurations {
 }
 
 group = 'org.example'
-version = new ProjectVersion( 0 ,0, 0, false )
+version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
 
 war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
 

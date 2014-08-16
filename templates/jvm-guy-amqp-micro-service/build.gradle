@@ -19,6 +19,7 @@ subprojects {
 
     apply plugin: 'groovy' 
     apply plugin: 'codenarc'
+    apply plugin: 'jdepend'
     apply plugin: 'jacoco'
     apply plugin: 'project-report'
     apply plugin: 'build-dashboard'
@@ -46,6 +47,8 @@ subprojects {
         maxParallelForks = Runtime.runtime.availableProcessors()
         testLogging {
             showStandardStreams = true
+            exceptionFormat = 'full'
+            events( 'started', 'passed', 'skipped', 'failed' )
         }
     }
 

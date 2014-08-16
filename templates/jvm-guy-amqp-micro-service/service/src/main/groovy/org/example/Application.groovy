@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan
  * Application launcher that can operate as either a self-executing WAR or embedded inside a servlet container.
  */
 @EnableAutoConfiguration
-@ComponentScan( ['org.example'] )
+@ComponentScan
 @Slf4j
 class Application extends SpringBootServletInitializer {
 

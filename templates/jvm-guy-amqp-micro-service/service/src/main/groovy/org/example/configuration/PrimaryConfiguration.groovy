@@ -24,7 +24,7 @@ class PrimaryConfiguration {
     MongoOperations mongoOperations
 
     @Bean
-    EchoDocumentRepositoryExtension echoDocumentRepositoryExtension() {
+    EchoDocumentRepositoryImpl echoDocumentRepositoryImpl() {
         new EchoDocumentRepositoryImpl( mongoOperations )
     }
 }

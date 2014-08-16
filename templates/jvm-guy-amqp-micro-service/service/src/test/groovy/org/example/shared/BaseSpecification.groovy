@@ -1,4 +1,4 @@
-package org.example
+package org.example.shared
 
 import java.security.SecureRandom
 import spock.lang.Specification

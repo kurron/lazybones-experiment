@@ -1,6 +1,7 @@
 package org.example
 
 import groovy.util.logging.Slf4j
+import org.example.shared.BaseUnitTest
 
 /**
  * Simple example of a Spock unit test.

@@ -1,5 +1,6 @@
 package org.example.shared
 
+import groovy.transform.Canonical
 import org.springframework.data.mongodb.core.MongoOperations
 
 /**
@@ -12,7 +13,7 @@ class BaseRepository {
      */
     protected final MongoOperations theMongoDbTemplate
 
-    protected BaseRepository( MongoOperations mongoDbOperations ) {
-        theMongoDbTemplate = mongoDbOperations
+    protected BaseRepository( MongoOperations aTemplate ) {
+        theMongoDbTemplate = aTemplate
     }
 }

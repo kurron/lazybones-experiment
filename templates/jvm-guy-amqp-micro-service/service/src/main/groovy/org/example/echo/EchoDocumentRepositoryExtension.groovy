@@ -5,5 +5,4 @@ package org.example.echo
  * or if you use MongoDB's aggregation framework.
  */
 interface EchoDocumentRepositoryExtension {
-
 }

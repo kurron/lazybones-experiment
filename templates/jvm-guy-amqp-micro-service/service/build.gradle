@@ -1,31 +1,29 @@
-if ( 'one' == stage ) {
-    apply plugin: 'spring-boot'
-    apply plugin: 'war'
+apply plugin: 'spring-boot'
+apply plugin: 'war'
 
-    war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
+war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
 
-    configurations {
-        providedRuntime {
-            description = 'dependencies that are required at compile time but expected to be provided by the container at runtime'
-        }
+configurations {
+    providedRuntime {
+        description = 'dependencies that are required at compile time but expected to be provided by the container at runtime'
     }
-
-    dependencies {
-        compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
-        compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
-        compile "org.springframework.boot:spring-boot-starter-amqp:${springBootVersion}"
-        compile "org.springframework.boot:spring-boot-starter-integration:${springBootVersion}"
-        compile "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
-        compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-
-        providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
-
-        testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
-    }
-
-    // excludes classes from code coverage check, can specify a directory or individual files
-    ext.coverageExcludes = ['org/example/',
-                            'org/example/EmbeddedServletContainerEventListener',
-                           ]
 }
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-amqp:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-integration:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+
+    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+}
+
+// excludes classes from code coverage check, can specify a directory or individual files
+ext.coverageExcludes = ['org/example/',
+                        'org/example/EmbeddedServletContainerEventListener',
+]
 

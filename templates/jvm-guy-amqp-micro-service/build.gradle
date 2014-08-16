@@ -40,48 +40,35 @@ subprojects {
     }
     */
 
-    if ( 'one' == stage ) {
-        logger.info "Project ${project.name} executing stage one, the commit phase"
-        apply plugin: 'jdepend'
-        apply plugin: 'project-report'
-        apply plugin: 'build-dashboard'
-        apply plugin: 'build-announcements'
+    logger.info "Project ${project.name} executing stage one, the commit phase"
+    apply plugin: 'jdepend'
+    apply plugin: 'project-report'
+    apply plugin: 'build-dashboard'
+    apply plugin: 'build-announcements'
 
-        apply from: "$rootDir/gradle/groovy.gradle"
-        apply from: "$rootDir/gradle/jacoco.gradle"
-        apply from: "$rootDir/gradle/codenarc.gradle"
+    apply from: "$rootDir/gradle/groovy.gradle"
+    apply from: "$rootDir/gradle/jacoco.gradle"
+    apply from: "$rootDir/gradle/codenarc.gradle"
 
-        dependencies {
-            compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
-            testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
-            testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
-        }
-
-        task collectJars(type: Copy) {
-            description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
-            from configurations.testRuntime.asFileTree
-            into "$buildDir/dependencies"
-        }
-
+    dependencies {
+        compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
+        testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
+        testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
     }
-    else if ( 'two' == stage ) {
-        logger.info "Project ${project.name} executing stage two, the component and acceptance test phase"
-    }
-    else if ( 'three' == stage ) {
-        logger.info "Project ${project.name} executing stage three, the artifact publication phase"
+
+    task collectJars(type: Copy) {
+        description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
+        from configurations.testRuntime.asFileTree
+        into "$buildDir/dependencies"
     }
 }
 
 allprojects {
-
-    // commit phase
-    if ( 'one' == stage  ) {
-        defaultTasks << 'clean'
-        defaultTasks << 'projectReport'
-        defaultTasks << 'build'
-        defaultTasks << 'buildDashboard'
-        defaultTasks << 'collectJars'
-    }
+    defaultTasks << 'clean'
+    defaultTasks << 'projectReport'
+    defaultTasks << 'build'
+    defaultTasks << 'buildDashboard'
+    defaultTasks << 'collectJars'
 }
 
 

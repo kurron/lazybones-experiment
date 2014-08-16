@@ -1,7 +1,6 @@
 package org.example.configuration
 
 import org.example.ApplicationProperties
-import org.example.echo.EchoDocumentRepositoryExtension
 import org.example.echo.EchoDocumentRepositoryImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.EnableConfigurationProperties

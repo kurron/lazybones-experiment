@@ -17,11 +17,11 @@ subprojects {
         jcenter()
     }
 
-    task printStage() {
+    task printVersion() {
         group = 'Help'
-        description = 'Prints the stage, or phase, the build is running'
+        description = 'Prints project version'
         doLast {
-            logger.quiet "Stage: ${stage}"
+            logger.quiet "Version: ${version}"
         }
     }
 
@@ -32,8 +32,8 @@ subprojects {
     }
     */
 
-    // commit phase
     if ( 'one' == stage ) {
+        logger.info "Project ${project.name} executing stage one, the commit phase"
         apply plugin: 'jdepend'
         apply plugin: 'project-report'
         apply plugin: 'build-dashboard'
@@ -55,19 +55,16 @@ subprojects {
             into "$buildDir/dependencies"
         }
 
-        task printVersion() {
-            group = 'Help'
-            description = 'Prints project version'
-            doLast {
-                logger.quiet "Version: ${version}"
-            }
-        }
-
+    }
+    else if ( 'two' == stage ) {
+        logger.info "Project ${project.name} executing stage two, the component and acceptance test phase"
+    }
+    else if ( 'three' == stage ) {
+        logger.info "Project ${project.name} executing stage three, the artifact publication phase"
     }
 }
 
 allprojects {
-    defaultTasks << 'printStage'
     defaultTasks << 'printVersion'
 
     // commit phase

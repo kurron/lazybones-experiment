@@ -1,11 +1,15 @@
-jar.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
+if ( 'one' == stage ) {
+    jar.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
 
-dependencies {
+    dependencies {
+    }
+
+    //TODO: remove once we put in some code
+    verifyCodeCoverage.enabled = false
+
+
+    // excludes classes from code coverage check, can specify a directory or individual files
+    ext.coverageExcludes = []
+
 }
 
-//TODO: remove once we put in some code
-verifyCodeCoverage.enabled = false
-
-
-// excludes classes from code coverage check, can specify a directory or individual files
-ext.coverageExcludes = []

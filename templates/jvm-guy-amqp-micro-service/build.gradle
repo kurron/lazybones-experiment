@@ -9,6 +9,7 @@ buildscript {
 
 subprojects {
 
+    // -------- all stages -------------------
     group = 'org.example'
     version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
 
@@ -16,159 +17,13 @@ subprojects {
         jcenter()
     }
 
+    apply plugin: 'groovy'
 
-    apply plugin: 'groovy' 
-    apply plugin: 'codenarc'
-    apply plugin: 'jdepend'
-    apply plugin: 'jacoco'
-    apply plugin: 'project-report'
-    apply plugin: 'build-dashboard'
-    apply plugin: 'build-announcements'
-
-    dependencies {
-        compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
-        testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
-        testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
-    }
-
-    compileGroovy.groovyOptions.optimizationOptions['indy'] = true
-    compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
-
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-
-    compileGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
-    compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
-
-    test {
-        scanForTestClasses = false
-        includes = ['**/*UnitTest.class']
-        excludes = ['**/BaseUnitTest.class']
-        maxParallelForks = Runtime.runtime.availableProcessors()
-        testLogging {
-            showStandardStreams = true
-            exceptionFormat = 'full'
-            events( 'started', 'passed', 'skipped', 'failed' )
-        }
-    }
-
-    codenarc {
-        configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
-        toolVersion = codenarcVersion
-        ignoreFailures = false
-        codenarcMain.enabled = true
-        codenarcTest.enabled = true
-    }
-
-    jacoco {
-        toolVersion = jacocoVersion
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.enabled true
-            csv.enabled true
-            html.enabled true
-        }
-    }
-
-    // Since the JaCoCo plug in does not honor excludes or break the build if coverage thresholds are crossed, we have to do it by hand.
-    task verifyCodeCoverage( dependsOn: 'jacocoTestReport' ) {
-        description = 'Parses the generated JaCoCo xml report, and determines if sufficient coverage is present.'
-        group = 'Build'
-
-        doFirst {
-            // remove the DOCTYPE tag from the generated xml, otherwise we have to provide report.dtd ourselves.
-            def jacocoReportPath = "${jacoco.reportsDir}/test/jacocoTestReport.xml"
-            def xmlStr = new File( jacocoReportPath ).text.replace( '<!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">', '' )
-            def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
-
-            def jacocoExclude = coverageExcludes ? coverageExcludes : []
-            jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
-            def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
-            def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
-            def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }
-            if ( offenders ) {
-                offenders.each { logger.quiet "Insufficient code coverage: ${it}" }
-                throw new IllegalStateException( "Not enough code coverage! Consult ${jacoco.reportsDir}/test/html/index.html for details." )
-            }
-            else {
-                logger.quiet 'Adequate code coverage detected.'
-            }
-        }
-    }
-    check.dependsOn 'verifyCodeCoverage'
-
-    ext.sharedManifest = manifest {
-        attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
-    }
-
-    jar {
-        manifest = project.manifest {
-            from sharedManifest
-        }
-    }
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-        manifest = project.manifest {
-            from sharedManifest
-        }
-    }
-
-    task testSourcesJar(type: Jar, dependsOn: testClasses) {
-        classifier = 'test-sources'
-        from sourceSets.test.allSource
-        manifest = project.manifest {
-            from sharedManifest
-        }
-    }
-
-    task testBinariesJar(type: Jar, dependsOn: testClasses) {
-        classifier = 'test'
-        from sourceSets.test.output
-        manifest = project.manifest {
-            from sharedManifest
-        }
-    }
-
-    task groovydocJar(type: Jar, dependsOn: groovydoc) {
-        classifier = 'groovydoc'
-        from project.docsDir.path + '/groovydoc'
-        manifest = project.manifest {
-            from sharedManifest
-        }
-    }
-
-    artifacts {
-        archives sourcesJar
-        archives testSourcesJar
-        archives testBinariesJar
-        archives groovydocJar
-    }
-
-    groovydoc {
-        docTitle = "docTitle: $project.name $version"
-        footer = "footer: $project.name $version"
-        header = "header: $project.name $version"
-        windowTitle = "windowTitle: $project.name $version"
-        includePrivate = false
-        overview = 'overview.html'
-        use = true
-    }
-
-    task collectJars(type: Copy) {
-        description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
-        from configurations.testRuntime.asFileTree
-        into "$buildDir/dependencies"
-    }
-
-    task printVersion() {
+    task printStage() {
         group = 'Help'
-        description = 'Prints project version'
+        description = 'Prints the stage, or phase, the build is running'
         doLast {
-            logger.quiet "Version: ${version}"
+            logger.quiet "Stage: ${stage}"
         }
     }
 
@@ -179,14 +34,179 @@ subprojects {
     }
     */
 
+
+    // commit phase
+    if ( 'one' == stage ) {
+        apply plugin: 'codenarc'
+        apply plugin: 'jdepend'
+        apply plugin: 'jacoco'
+        apply plugin: 'project-report'
+        apply plugin: 'build-dashboard'
+        apply plugin: 'build-announcements'
+
+        dependencies {
+            compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
+            testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
+            testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
+        }
+
+        compileGroovy.groovyOptions.optimizationOptions['indy'] = true
+        compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
+
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+
+        compileGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
+        compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
+
+        test {
+            scanForTestClasses = false
+            includes = ['**/*UnitTest.class']
+            excludes = ['**/BaseUnitTest.class']
+            maxParallelForks = Runtime.runtime.availableProcessors()
+            testLogging {
+                showStandardStreams = true
+                exceptionFormat = 'full'
+                events( 'started', 'passed', 'skipped', 'failed' )
+            }
+        }
+
+        codenarc {
+            configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
+            toolVersion = codenarcVersion
+            ignoreFailures = false
+            codenarcMain.enabled = true
+            codenarcTest.enabled = true
+        }
+
+        jacoco {
+            toolVersion = jacocoVersion
+        }
+
+        jacocoTestReport {
+            reports {
+                xml.enabled true
+                csv.enabled true
+                html.enabled true
+            }
+        }
+
+        // Since the JaCoCo plug in does not honor excludes or break the build if coverage thresholds are crossed, we have to do it by hand.
+        task verifyCodeCoverage( dependsOn: 'jacocoTestReport' ) {
+            description = 'Parses the generated JaCoCo xml report, and determines if sufficient coverage is present.'
+            group = 'Build'
+
+            doFirst {
+                // remove the DOCTYPE tag from the generated xml, otherwise we have to provide report.dtd ourselves.
+                def jacocoReportPath = "${jacoco.reportsDir}/test/jacocoTestReport.xml"
+                def xmlStr = new File( jacocoReportPath ).text.replace( '<!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">', '' )
+                def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
+
+                def jacocoExclude = coverageExcludes ? coverageExcludes : []
+                jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
+                def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
+                def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
+                def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }
+                if ( offenders ) {
+                    offenders.each { logger.quiet "Insufficient code coverage: ${it}" }
+                    throw new IllegalStateException( "Not enough code coverage! Consult ${jacoco.reportsDir}/test/html/index.html for details." )
+                }
+                else {
+                    logger.quiet 'Adequate code coverage detected.'
+                }
+            }
+        }
+        check.dependsOn 'verifyCodeCoverage'
+
+        ext.sharedManifest = manifest {
+            attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
+        }
+
+        jar {
+            manifest = project.manifest {
+                from sharedManifest
+            }
+        }
+
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+            manifest = project.manifest {
+                from sharedManifest
+            }
+        }
+
+        task testSourcesJar(type: Jar, dependsOn: testClasses) {
+            classifier = 'test-sources'
+            from sourceSets.test.allSource
+            manifest = project.manifest {
+                from sharedManifest
+            }
+        }
+
+        task testBinariesJar(type: Jar, dependsOn: testClasses) {
+            classifier = 'test'
+            from sourceSets.test.output
+            manifest = project.manifest {
+                from sharedManifest
+            }
+        }
+
+        task groovydocJar(type: Jar, dependsOn: groovydoc) {
+            classifier = 'groovydoc'
+            from project.docsDir.path + '/groovydoc'
+            manifest = project.manifest {
+                from sharedManifest
+            }
+        }
+
+        artifacts {
+            archives sourcesJar
+            archives testSourcesJar
+            archives testBinariesJar
+            archives groovydocJar
+        }
+
+        groovydoc {
+            docTitle = "docTitle: $project.name $version"
+            footer = "footer: $project.name $version"
+            header = "header: $project.name $version"
+            windowTitle = "windowTitle: $project.name $version"
+            includePrivate = false
+            overview = 'overview.html'
+            use = true
+        }
+
+        task collectJars(type: Copy) {
+            description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
+            from configurations.testRuntime.asFileTree
+            into "$buildDir/dependencies"
+        }
+
+        task printVersion() {
+            group = 'Help'
+            description = 'Prints project version'
+            doLast {
+                logger.quiet "Version: ${version}"
+            }
+        }
+
+    }
+
 }
 
 allprojects {
-    defaultTasks << 'clean'
-    defaultTasks << 'projectReport'
-    defaultTasks << 'build'
-    defaultTasks << 'buildDashboard'
-    defaultTasks << 'collectJars'
+    defaultTasks << 'printStage'
+    defaultTasks << 'printVersion'
+
+    // commit phase
+    if ( 'one' == stage  ) {
+        defaultTasks << 'clean'
+        defaultTasks << 'projectReport'
+        defaultTasks << 'build'
+        defaultTasks << 'buildDashboard'
+        defaultTasks << 'collectJars'
+    }
 }
 
 

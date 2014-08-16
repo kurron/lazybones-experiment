@@ -17,8 +17,6 @@ subprojects {
         jcenter()
     }
 
-    apply plugin: 'groovy'
-
     task printStage() {
         group = 'Help'
         description = 'Prints the stage, or phase, the build is running'
@@ -34,7 +32,6 @@ subprojects {
     }
     */
 
-
     // commit phase
     if ( 'one' == stage ) {
         apply plugin: 'jdepend'
@@ -42,6 +39,7 @@ subprojects {
         apply plugin: 'build-dashboard'
         apply plugin: 'build-announcements'
 
+        apply from: "$rootDir/gradle/groovy.gradle"
         apply from: "$rootDir/gradle/jacoco.gradle"
         apply from: "$rootDir/gradle/codenarc.gradle"
 
@@ -49,87 +47,6 @@ subprojects {
             compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
             testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
             testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
-        }
-
-        compileGroovy.groovyOptions.optimizationOptions['indy'] = true
-        compileTestGroovy.groovyOptions.optimizationOptions['indy'] = true
-
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
-
-        compileGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
-        compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
-
-        test {
-            scanForTestClasses = false
-            includes = ['**/*UnitTest.class']
-            excludes = ['**/BaseUnitTest.class']
-            maxParallelForks = Runtime.runtime.availableProcessors()
-            testLogging {
-                showStandardStreams = true
-                exceptionFormat = 'full'
-                events( 'started', 'passed', 'skipped', 'failed' )
-            }
-        }
-
-
-        ext.sharedManifest = manifest {
-            attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
-        }
-
-        jar {
-            manifest = project.manifest {
-                from sharedManifest
-            }
-        }
-
-        task sourcesJar(type: Jar, dependsOn: classes) {
-            classifier = 'sources'
-            from sourceSets.main.allSource
-            manifest = project.manifest {
-                from sharedManifest
-            }
-        }
-
-        task testSourcesJar(type: Jar, dependsOn: testClasses) {
-            classifier = 'test-sources'
-            from sourceSets.test.allSource
-            manifest = project.manifest {
-                from sharedManifest
-            }
-        }
-
-        task testBinariesJar(type: Jar, dependsOn: testClasses) {
-            classifier = 'test'
-            from sourceSets.test.output
-            manifest = project.manifest {
-                from sharedManifest
-            }
-        }
-
-        task groovydocJar(type: Jar, dependsOn: groovydoc) {
-            classifier = 'groovydoc'
-            from project.docsDir.path + '/groovydoc'
-            manifest = project.manifest {
-                from sharedManifest
-            }
-        }
-
-        artifacts {
-            archives sourcesJar
-            archives testSourcesJar
-            archives testBinariesJar
-            archives groovydocJar
-        }
-
-        groovydoc {
-            docTitle = "docTitle: $project.name $version"
-            footer = "footer: $project.name $version"
-            header = "header: $project.name $version"
-            windowTitle = "windowTitle: $project.name $version"
-            includePrivate = false
-            overview = 'overview.html'
-            use = true
         }
 
         task collectJars(type: Copy) {
@@ -147,7 +64,6 @@ subprojects {
         }
 
     }
-
 }
 
 allprojects {

@@ -39,10 +39,11 @@ subprojects {
     if ( 'one' == stage ) {
         apply plugin: 'codenarc'
         apply plugin: 'jdepend'
-        apply plugin: 'jacoco'
         apply plugin: 'project-report'
         apply plugin: 'build-dashboard'
         apply plugin: 'build-announcements'
+
+        apply from: "$rootDir/gradle/jacoco.gradle"
 
         dependencies {
             compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
@@ -79,44 +80,6 @@ subprojects {
             codenarcTest.enabled = true
         }
 
-        jacoco {
-            toolVersion = jacocoVersion
-        }
-
-        jacocoTestReport {
-            reports {
-                xml.enabled true
-                csv.enabled true
-                html.enabled true
-            }
-        }
-
-        // Since the JaCoCo plug in does not honor excludes or break the build if coverage thresholds are crossed, we have to do it by hand.
-        task verifyCodeCoverage( dependsOn: 'jacocoTestReport' ) {
-            description = 'Parses the generated JaCoCo xml report, and determines if sufficient coverage is present.'
-            group = 'Build'
-
-            doFirst {
-                // remove the DOCTYPE tag from the generated xml, otherwise we have to provide report.dtd ourselves.
-                def jacocoReportPath = "${jacoco.reportsDir}/test/jacocoTestReport.xml"
-                def xmlStr = new File( jacocoReportPath ).text.replace( '<!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">', '' )
-                def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
-
-                def jacocoExclude = coverageExcludes ? coverageExcludes : []
-                jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
-                def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
-                def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
-                def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }
-                if ( offenders ) {
-                    offenders.each { logger.quiet "Insufficient code coverage: ${it}" }
-                    throw new IllegalStateException( "Not enough code coverage! Consult ${jacoco.reportsDir}/test/html/index.html for details." )
-                }
-                else {
-                    logger.quiet 'Adequate code coverage detected.'
-                }
-            }
-        }
-        check.dependsOn 'verifyCodeCoverage'
 
         ext.sharedManifest = manifest {
             attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )

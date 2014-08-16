@@ -39,6 +39,13 @@ subprojects {
     compileGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
     compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
 
+    test {
+        scanForTestClasses = false
+        includes = ['**/*UnitTest.class']
+        excludes = ['**/BaseUnitTest.class']
+        maxParallelForks = Runtime.runtime.availableProcessors()
+    }
+
     codenarc {
         configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
         toolVersion = codenarcVersion

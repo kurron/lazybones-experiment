@@ -23,8 +23,8 @@ configurations {
     providedRuntime
 }
 
-group = 'org.example' 
-version = '0.0.1'
+group = 'org.example'
+version = new ProjectVersion( 0 ,0, 0, false )
 
 war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
 
@@ -169,29 +169,12 @@ task collectJars(type: Copy) {
     from( configurations.testRuntime )
 }
 
-ext.versionFile = file( 'version.properties' )
-
-task loadVersion() {
-    project.version = readVersion()
-}
-
 task printVersion() {
     group = 'Help'
     description = 'Prints project version'
     doLast {
         logger.quiet "Version: ${version}"
     }
-}
-
-ProjectVersion readVersion() {
-    def versionProperties = new Properties()
-    versionFile.withInputStream { stream ->
-        versionProperties.load( stream )
-    }
-    new ProjectVersion( versionProperties.major.toInteger(),
-                        versionProperties.minor.toInteger(),
-                        versionProperties.patch.toInteger(),
-                        versionProperties.release.toBoolean() )
 }
 
 defaultTasks << 'collectJars'

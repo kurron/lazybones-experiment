@@ -23,7 +23,8 @@ dependencies {
 }
 
 // excludes classes from code coverage check, can specify a directory or individual files
-ext.coverageExcludes = ['org/example/',
-                        'org/example/EmbeddedServletContainerEventListener',
+ext.coverageExcludes = ['org/example/EmbeddedServletContainerEventListener',
+                        'org/example/echo/EchoDocument',
+                        'org/example/shared/BaseRepository',
 ]
 

@@ -44,6 +44,9 @@ subprojects {
         includes = ['**/*UnitTest.class']
         excludes = ['**/BaseUnitTest.class']
         maxParallelForks = Runtime.runtime.availableProcessors()
+        testLogging {
+            showStandardStreams = true
+        }
     }
 
     codenarc {

@@ -1,8 +1,11 @@
 package org.example
 
+import groovy.util.logging.Slf4j
+
 /**
  * Simple example of a Spock unit test.
  */
+@Slf4j
 class SampleUnitTest extends BaseUnitTest {
 
     /**
@@ -20,5 +23,6 @@ class SampleUnitTest extends BaseUnitTest {
 
         then: 'sut contains the new string'
         sut.find { it == added }
+        log.debug( 'end of test' )
     }
 }

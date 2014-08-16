@@ -18,6 +18,7 @@ apply plugin: 'codenarc'
 apply plugin: 'jacoco'
 apply plugin: 'project-report'
 apply plugin: 'build-dashboard'
+apply plugin: 'build-announcements'
 
 configurations {
     providedRuntime

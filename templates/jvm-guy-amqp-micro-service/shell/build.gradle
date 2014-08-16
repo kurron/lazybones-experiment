@@ -1,0 +1,10 @@
+jar.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
+
+dependencies {
+}
+
+
+
+
+// excludes classes from code coverage check, can specify a directory or individual files
+ext.coverageExcludes = []

@@ -1,3 +1,4 @@
+apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )

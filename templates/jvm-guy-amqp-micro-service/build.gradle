@@ -18,7 +18,6 @@ subprojects {
 
 
     apply plugin: 'groovy' 
-    apply plugin: 'spring-boot'
     apply plugin: 'codenarc'
     apply plugin: 'jacoco'
     apply plugin: 'project-report'

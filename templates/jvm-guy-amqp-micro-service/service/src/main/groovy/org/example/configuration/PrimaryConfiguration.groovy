@@ -6,6 +6,7 @@ import org.example.echo.DocumentWriter
 import org.example.echo.EchoDocumentRepositoryImpl
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -72,6 +73,11 @@ class PrimaryConfiguration {
         def bean = new AmqpInboundGateway( uploadListenerContainer() )
         bean.requestChannel = uploadChannel()
         bean
+    }
+
+    @Bean
+    Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+        new Jackson2JsonMessageConverter()
     }
 
     @Bean

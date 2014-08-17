@@ -1,9 +1,8 @@
 package org.example.echo
 
 import org.example.shared.BaseComponentTest
-
+import org.springframework.amqp.core.Message
 import org.springframework.amqp.core.MessageBuilder
-import org.springframework.messaging.Message
 
 /**
  * Component test of the 'echo' services.
@@ -26,10 +25,11 @@ class EchoServiceComponentTest extends BaseComponentTest {
                                     .setCorrelationId( UUID.randomUUID().toString().bytes )
                                     .build()
         // use the default exchange and the routing key is the queue name
-        def response = rabbitOperations.sendAndReceive( applicationProperties.queue, message ) as EchoResponse
+        def response = rabbitOperations.sendAndReceive( applicationProperties.queue, message )
+        EchoResponse echoResponse = objectMapper.fromJson( response.body, EchoResponse )
 
         then: 'the document can be found in the database'
-        EchoDocument found = echoDocumentRepository.findOne( response.id )
+        EchoDocument found = echoDocumentRepository.findOne( echoResponse.id )
 
         and: 'the document matches the original'
         found.message == request.message

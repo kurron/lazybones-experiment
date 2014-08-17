@@ -9,7 +9,6 @@ buildscript {
 
 subprojects {
 
-    // -------- all stages -------------------
     group = 'org.example'
     version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
 
@@ -27,9 +26,9 @@ subprojects {
 
     task printStage() {
         group = 'Help'
-        description = 'Prints the stage the build would execute with the current property settings'
+        description = 'Displays whether or not Gradle thinks we are running on a CI server.'
         doLast {
-            logger.quiet "Stage: ${stage}"
+            logger.quiet "On Build Server: ${onBuildServer}"
         }
     }
 

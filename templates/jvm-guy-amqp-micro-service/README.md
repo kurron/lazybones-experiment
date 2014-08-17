@@ -1,6 +1,7 @@
 # Building
 All you need is the `JAVA_HOME` environment variable pointing to a JDK 8 installation and to type `./gradlew` to
-build the project.
+build the project.  By default, the build will execute only the steps required for a developer build.  If you set the `onBuildServer` property,
+via `-PonBuildServer=true`, then the build will execute additional steps that are normally run on the CI server.
 
 # Deployment
 

@@ -13,7 +13,7 @@ test {
     scanForTestClasses = false
     if ( onBuildServer ) {
         includes = ['**/*UnitTest.class', '**/*ComponentTest.class', '**/*AcceptanceTest.class']
-        excludes = ['**/BaseUnitTest.class','**/BaseComponentTest.class', '**/BaseMongoDbComponentTest.class']
+        excludes = ['**/BaseUnitTest.class','**/BaseComponentTest.class', '**/BaseMongoDbComponentTest.class','**/BaseAcceptanceTest.class']
     }
     else {
         includes = ['**/*UnitTest.class']
@@ -23,7 +23,7 @@ test {
     testLogging {
         showStandardStreams = true
         exceptionFormat = 'full'
-        events( 'started', 'passed', 'skipped', 'failed' )
+        //events( 'started', 'passed', 'skipped', 'failed' )
     }
 }
 

@@ -1,14 +1,14 @@
-package org.example.echo
+package org.example
 
 import cucumber.api.junit.Cucumber
 import org.junit.runner.RunWith
 
 /**
- * User acceptance test for the echo service.
+ * Driver for user acceptance tests.
  */
 @RunWith( Cucumber )
 @Cucumber.Options( tags = ['@api'],
                    format = ['pretty', 'html:target/cucumber'],
                    features = ['src/test/resources'] )
-class EchoServiceAcceptanceTest {
+class ApiAcceptanceTest {
 }

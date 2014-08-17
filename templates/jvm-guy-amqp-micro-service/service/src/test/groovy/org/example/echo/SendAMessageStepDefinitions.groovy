@@ -64,7 +64,8 @@ class SendAMessageStepDefinitions extends BaseStepDefinition {
                                     .setCorrelationId( UUID.randomUUID().toString().bytes )
                                     .build()
         // use the default exchange and the routing key is the queue name
-        response = rabbitOperations.sendAndReceive( properties.queue, message ) as EchoResponse
+        def responseMessage = rabbitOperations.sendAndReceive( properties.queue, message )
+        response = objectMapper.fromJson( responseMessage.body, EchoResponse )
     }
 
     @Then( '^my message should be stored in the system$' )

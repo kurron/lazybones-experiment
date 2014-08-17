@@ -8,7 +8,7 @@ import org.springframework.integration.transformer.Transformer
 import org.springframework.messaging.Message
 
 /**
- * Handles saving an echo request to the database.
+ * Handles converting the raw message payload into a POGO.
  */
 @Slf4j
 class BytesToEchoRequestTransformer implements Transformer {
@@ -22,6 +22,7 @@ class BytesToEchoRequestTransformer implements Transformer {
     @Override
     Message<?> transform( Message<?> message) {
         log.debug( 'Transforming byte payload into request' )
+        // a more robust implementation would verify the content-type before proceeding
         MessageBuilder.withPayload( objectMapper.fromJson( message.payload, EchoRequest ) ).copyHeaders( message.headers ).build()
     }
 }

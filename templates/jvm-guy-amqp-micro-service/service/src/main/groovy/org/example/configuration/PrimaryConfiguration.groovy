@@ -4,15 +4,14 @@ import org.example.ApplicationProperties
 import org.example.echo.BytesToEchoRequestTransformer
 import org.example.echo.DocumentWriter
 import org.example.echo.EchoDocumentRepositoryImpl
+import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.core.MongoOperations
-import org.springframework.amqp.core.Queue
 import org.springframework.integration.amqp.inbound.AmqpInboundGateway
 import org.springframework.integration.channel.DirectChannel
 import org.springframework.integration.handler.MessageHandlerChain
@@ -41,6 +40,9 @@ class PrimaryConfiguration {
     @Autowired
     MongoOperations mongoOperations
 
+    /**
+     * The RabbitMQ connection manager.
+     */
     @Autowired
     ConnectionFactory connectionFactory
 
@@ -72,12 +74,8 @@ class PrimaryConfiguration {
     AmqpInboundGateway uploadInboundGateway() {
         def bean = new AmqpInboundGateway( uploadListenerContainer() )
         bean.requestChannel = uploadChannel()
+        // a robust solution would also set up an error channel to handle failures
         bean
-    }
-
-    @Bean
-    Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
-        new Jackson2JsonMessageConverter()
     }
 
     @Bean

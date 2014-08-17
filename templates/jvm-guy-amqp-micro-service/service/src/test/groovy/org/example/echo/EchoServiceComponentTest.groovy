@@ -1,7 +1,6 @@
 package org.example.echo
 
 import org.example.shared.BaseComponentTest
-import org.springframework.amqp.core.Message
 import org.springframework.amqp.core.MessageBuilder
 
 /**

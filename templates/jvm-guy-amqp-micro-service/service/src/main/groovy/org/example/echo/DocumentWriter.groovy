@@ -25,6 +25,11 @@ class DocumentWriter {
     @Autowired
     JsonObjectMapper objectMapper
 
+    /**
+     * Store the data into the database and returns the primary key of the document.
+     * @param request data to store.
+     * @return a JSON response containing the newly created document's primary key.
+     */
     @ServiceActivator
     Message<byte[]> storeDocument( EchoRequest request ) {
         log.debug( 'Storing document with message {}', request.message )

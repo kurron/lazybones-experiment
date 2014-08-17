@@ -11,14 +11,15 @@ compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UT
 
 test {
     scanForTestClasses = false
-    if ( onBuildServer ) {
+    if ( true == onBuildServer ) {
         includes = ['**/*UnitTest.class', '**/*ComponentTest.class', '**/*AcceptanceTest.class']
-        excludes = ['**/BaseUnitTest.class','**/BaseComponentTest.class', '**/BaseMongoDbComponentTest.class','**/BaseAcceptanceTest.class']
+        excludes = ['**/BaseUnitTest.class','**/BaseComponentTest.class','**/BaseAcceptanceTest.class']
     }
     else {
         includes = ['**/*UnitTest.class']
         excludes = ['**/BaseUnitTest.class']
     }
+
     maxParallelForks = Runtime.runtime.availableProcessors()
     testLogging {
         showStandardStreams = true

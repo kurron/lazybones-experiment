@@ -23,7 +23,7 @@ class DocumentWriter {
      * Manages JSON-to-POGO transformations.
      */
     @Autowired
-    JsonObjectMapper objectMapper
+    JsonObjectMapper theObjectMapper
 
     /**
      * Store the data into the database and returns the primary key of the document.
@@ -35,7 +35,7 @@ class DocumentWriter {
         log.debug( 'Storing document with message {}', request.message )
         EchoDocument saved = theRepository.save( new EchoDocument( message:request.message, datetime:System.currentTimeMillis() ) )
         def response = new EchoResponse( saved.id )
-        MessageBuilder.withPayload( objectMapper.toJson( response ).bytes )
+        MessageBuilder.withPayload( theObjectMapper.toJson( response ).bytes )
                       .setHeaderIfAbsent( 'contentType', 'application/json;type=echo-response' ).build()
     }
 }

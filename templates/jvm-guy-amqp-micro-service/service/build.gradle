@@ -27,4 +27,9 @@ dependencies {
 ext.coverageExcludes = ['org/example/EmbeddedServletContainerEventListener',
                         'org/example/echo/EchoDocument',
                         'org/example/shared/BaseRepository',
-]
+                        'org/example/configuration/',
+                        'org/example/WebContext',
+                        'org/example/ApplicationProperties',
+                        'org/example/Application',
+                        'org/example/echo/EchoRequest',
+                        'org/example/echo/EchoResponse']

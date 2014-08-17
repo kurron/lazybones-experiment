@@ -52,8 +52,17 @@ subprojects {
 
     dependencies {
         compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
-        testCompile( "org.spockframework:spock-core:${spockVersion}" ) { exclude module: 'groovy-all' }
-        testCompile( "org.spockframework:spock-spring:${spockVersion}" ) { exclude module: 'groovy-all' }
+        testCompile( "org.spockframework:spock-core:${spockVersion}" ) {
+            exclude module: 'groovy-all'
+            exclude module: 'junit-dep'
+        }
+        testCompile( "org.spockframework:spock-spring:${spockVersion}" ) {
+            exclude module: 'groovy-all'
+            exclude module: 'junit-dep'
+        }
+        testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
+        testCompile "info.cukes:cucumber-groovy:${cucumberVersion}"
+        testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
     }
 
     task collectJars(type: Copy) {

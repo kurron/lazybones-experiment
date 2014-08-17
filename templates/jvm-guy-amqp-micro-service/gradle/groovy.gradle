@@ -12,7 +12,7 @@ compileTestGroovy.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UT
 test {
     scanForTestClasses = false
     if ( onBuildServer ) {
-        includes = ['**/*UnitTest.class', '**/*ComponentTest.class']
+        includes = ['**/*UnitTest.class', '**/*ComponentTest.class', '**/*AcceptanceTest.class']
         excludes = ['**/BaseUnitTest.class','**/BaseComponentTest.class', '**/BaseMongoDbComponentTest.class']
     }
     else {

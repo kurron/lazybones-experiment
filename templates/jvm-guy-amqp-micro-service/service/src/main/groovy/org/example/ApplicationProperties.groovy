@@ -10,5 +10,5 @@ class ApplicationProperties {
     /**
      * The name of the AMQP queue where messages go to.
      */
-    String queue = 'example-queue'
+    String queue = 'echo-queue'
 }

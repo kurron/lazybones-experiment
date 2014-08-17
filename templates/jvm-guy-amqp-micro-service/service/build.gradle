@@ -16,6 +16,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-integration:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.integration:spring-integration-amqp:${springIntegrationVersion}"
 
     providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
 
@@ -27,4 +28,3 @@ ext.coverageExcludes = ['org/example/EmbeddedServletContainerEventListener',
                         'org/example/echo/EchoDocument',
                         'org/example/shared/BaseRepository',
 ]
-

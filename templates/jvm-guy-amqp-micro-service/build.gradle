@@ -40,8 +40,6 @@ subprojects {
     }
     */
 
-    logger.info "Project ${project.name} executing stage one, the commit phase"
-    apply plugin: 'jdepend'
     apply plugin: 'project-report'
     apply plugin: 'build-dashboard'
     apply plugin: 'build-announcements'

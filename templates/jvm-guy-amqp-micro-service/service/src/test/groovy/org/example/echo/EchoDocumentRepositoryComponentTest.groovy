@@ -1,11 +1,11 @@
 package org.example.echo
 
-import org.example.shared.BaseMongoDbComponentTest
+import org.example.shared.BaseComponentTest
 
 /**
  * Component test of the EchoDocumentRepository object.
  */
-class EchoDocumentRepositoryComponentTest extends BaseMongoDbComponentTest {
+class EchoDocumentRepositoryComponentTest extends BaseComponentTest {
 
     def 'exercise save operation'() {
         given: 'subject under test'

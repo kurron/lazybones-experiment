@@ -5,8 +5,10 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.example.ApplicationProperties
 import org.example.shared.BaseStepDefinition
+import org.springframework.amqp.core.MessageBuilder
 import org.springframework.amqp.rabbit.core.RabbitOperations
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.integration.support.json.JsonObjectMapper
 
 /**
  * Implementation of the upload message scenario.
@@ -32,6 +34,12 @@ class SendAMessageStepDefinitions extends BaseStepDefinition {
     EchoDocumentRepository repository
 
     /**
+     * Manages JSON-to-POGO transformations.
+     */
+    @Autowired
+    JsonObjectMapper objectMapper
+
+    /**
      * Message to send.
      */
     EchoRequest request
@@ -43,18 +51,27 @@ class SendAMessageStepDefinitions extends BaseStepDefinition {
 
     @Given( '^a text message I want to store$' )
     void a_text_message_I_want_to_store() throws Throwable {
-        request = new EchoRequest( 'Hello, world' )
+        request = new EchoRequest( UUID.randomUUID().toString() )
     }
 
     @When( '^I call the echo message service$' )
     void i_call_the_echo_message_service() throws Throwable {
+        def message = MessageBuilder.withBody( objectMapper.toJson( request ).bytes )
+                                    .setContentType( 'application/json;type=echo-request' )
+                                    .setMessageId( UUID.randomUUID().toString() )
+                                    .setTimestamp( Calendar.getInstance( TimeZone.getTimeZone( 'UTC' ) ).time )
+                                    .setAppId( 'send-test' )
+                                    .setCorrelationId( UUID.randomUUID().toString().bytes )
+                                    .build()
         // use the default exchange and the routing key is the queue name
-        response = rabbitOperations.convertSendAndReceive( properties.queue, request ) as EchoResponse
+        response = rabbitOperations.sendAndReceive( properties.queue, message ) as EchoResponse
     }
 
     @Then( '^my message should be stored in the system$' )
     void my_message_should_be_stored_in_the_system() throws Throwable {
         assert response
-        assert repository.findOne( response.id )
+        def found = repository.findOne( response.id )
+        assert found
+        assert found.message == request.message
     }
 }

@@ -1,13 +1,24 @@
 package org.example.configuration
 
 import org.example.ApplicationProperties
+import org.example.echo.BytesToEchoRequestTransformer
+import org.example.echo.DocumentWriter
 import org.example.echo.EchoDocumentRepositoryImpl
+import org.springframework.amqp.rabbit.connection.ConnectionFactory
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.amqp.core.Queue
+import org.springframework.integration.amqp.inbound.AmqpInboundGateway
+import org.springframework.integration.channel.DirectChannel
+import org.springframework.integration.handler.MessageHandlerChain
+import org.springframework.integration.handler.ServiceActivatingHandler
+import org.springframework.integration.support.json.Jackson2JsonObjectMapper
+import org.springframework.integration.transformer.MessageTransformingHandler
+import org.springframework.messaging.MessageHandler
 
 /**
  * Spring context configuration that contains the definitions of application's beans.  Be aware
@@ -29,6 +40,9 @@ class PrimaryConfiguration {
     @Autowired
     MongoOperations mongoOperations
 
+    @Autowired
+    ConnectionFactory connectionFactory
+
     @Bean
     EchoDocumentRepositoryImpl echoDocumentRepositoryImpl() {
         new EchoDocumentRepositoryImpl( mongoOperations )
@@ -37,5 +51,50 @@ class PrimaryConfiguration {
     @Bean
     Queue echoQueue() {
         new Queue( properties.queue )
+    }
+
+    @Bean
+    DirectChannel uploadChannel() {
+        def bean = new DirectChannel()
+        bean.subscribe( uploadMessageHandlerChain() )
+        bean
+    }
+
+    @Bean
+    SimpleMessageListenerContainer uploadListenerContainer() {
+        def bean = new SimpleMessageListenerContainer( connectionFactory )
+        bean.queueNames = [properties.queue]
+        bean
+    }
+
+    @Bean
+    AmqpInboundGateway uploadInboundGateway() {
+        def bean = new AmqpInboundGateway( uploadListenerContainer() )
+        bean.requestChannel = uploadChannel()
+        bean
+    }
+
+    @Bean
+    MessageHandlerChain uploadMessageHandlerChain() {
+        def bean = new MessageHandlerChain()
+        List<MessageHandler> handlers = [new MessageTransformingHandler( bytesToEchoRequestTransformer() ),
+                                         new ServiceActivatingHandler( documentWriter() )]
+        bean.handlers = handlers
+        bean
+    }
+
+    @Bean
+    BytesToEchoRequestTransformer bytesToEchoRequestTransformer() {
+        new BytesToEchoRequestTransformer()
+    }
+
+    @Bean
+    DocumentWriter documentWriter() {
+        new DocumentWriter()
+    }
+
+    @Bean
+    Jackson2JsonObjectMapper jackson2JsonObjectMapper() {
+        new Jackson2JsonObjectMapper()
     }
 }

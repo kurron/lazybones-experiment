@@ -19,6 +19,9 @@ UI, and finally publish the templates with
 
     ./gradlew publishAllTemplates
 
+To experiment with a locally installed template, try something like this:
+`lazybones create jvm-guy-amqp-micro-service 1.0.0 my-new-project`
+
 You can find out more about creating templates on [the GitHub wiki][1].
 
 [1]: https://github.com/pledbrook/lazybones/wiki/Template-developers-guide

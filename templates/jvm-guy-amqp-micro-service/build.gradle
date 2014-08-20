@@ -16,6 +16,11 @@ subprojects {
         jcenter()
     }
 
+    configurations.all {
+        exclude group: 'commons-logging'
+        exclude module: 'junit-dep'
+    }
+
     task printVersion() {
         group = 'Help'
         description = 'Prints project version'
@@ -49,6 +54,10 @@ subprojects {
 
     dependencies {
         compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
+        compile "com.netflix.hystrix:hystrix-core:${hystrixVersion}"
+        compile "com.netflix.rxjava:rxjava-core:${rxjavaVersion}"
+        compile "com.netflix.archaius:archaius-core:${archaiusVersion}"
+
         testCompile( "org.spockframework:spock-core:${spockVersion}" ) {
             exclude module: 'groovy-all'
             exclude module: 'junit-dep'

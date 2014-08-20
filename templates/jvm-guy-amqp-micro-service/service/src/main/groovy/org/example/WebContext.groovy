@@ -16,4 +16,9 @@ class WebContext extends WebMvcConfigurerAdapter {
     EmbeddedServletContainerEventListener embeddedServletContainerEventListener() {
         new EmbeddedServletContainerEventListener()
     }
+
+    @Bean
+    ContextClosedEventListener contextClosedEventListener() {
+        new ContextClosedEventListener()
+    }
 }

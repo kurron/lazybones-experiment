@@ -1,4 +1,4 @@
-package org.example
+package org.example.configuration
 
 import ch.qos.logback.classic.LoggerContext
 import org.slf4j.LoggerFactory

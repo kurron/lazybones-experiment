@@ -1,4 +1,4 @@
-package org.example
+package org.example.configuration
 
 import groovy.util.logging.Slf4j
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent

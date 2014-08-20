@@ -32,4 +32,8 @@ ext.coverageExcludes = ['org/example/EmbeddedServletContainerEventListener',
                         'org/example/ApplicationProperties',
                         'org/example/Application',
                         'org/example/echo/EchoRequest',
-                        'org/example/echo/EchoResponse']
+                        'org/example/echo/EchoResponse',
+                        'org/example/shared/RecoverableError',
+                        'org/example/shared/Deviation',
+                        'org/example/shared/UnrecoverableError',
+                        'org/example/shared/LoggingFeedbackProvider']

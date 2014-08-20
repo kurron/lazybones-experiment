@@ -33,7 +33,7 @@ public class HystrixSettingsBuilder {
     }
 
     /**
-     * Builds the necessary Hystrix configuration instance.
+     * Builds the necessary Hystrix configuration instance suitable for timeout prevention.
      * @param groupKey the group key to associate the command to.
      * @param timeout the duration, in milliseconds, to wait for the command to complete before cancelling it and timing out.
      * @return properly constructed Hystrix settings.
@@ -42,6 +42,23 @@ public class HystrixSettingsBuilder {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) )
                              .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
                              .withExecutionIsolationThreadTimeoutInMilliseconds( timeout ) );
+
+    }
+
+    /**
+     * Builds the necessary Hystrix configuration instance suitable for circuit-breaker semantics.
+     * @param groupKey the group key to associate the command to.
+     * @param commandKey the key to associate the command to.
+     * @param forceOpen set to true if you want the breaker to be initially set to the open position.
+     * @return properly constructed Hystrix settings.
+     */
+    public static HystrixCommand.Setter buildForCircuitBreakerCommand( String groupKey,
+                                                                       String commandKey,
+                                                                       boolean forceOpen ) {
+        return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) )
+                .andCommandKey( HystrixCommandKey.Factory.asKey( commandKey ) )
+                .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
+                .withCircuitBreakerForceOpen( forceOpen ) );
 
     }
 }

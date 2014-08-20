@@ -29,7 +29,7 @@ class LoggingFeedbackProvider implements FeedbackProvider {
      */
     private final String theApplicationType
 
-    LoggingFeedbackProvider( final Logger aLogger, final String anApplicationType ) {
+    LoggingFeedbackProvider( Logger aLogger, String anApplicationType ) {
         if ( null == aLogger ) {
             throw new IllegalArgumentException( 'Logger may not be null!' )
         }

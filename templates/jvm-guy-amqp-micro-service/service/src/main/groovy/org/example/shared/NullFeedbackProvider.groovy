@@ -6,12 +6,12 @@ package org.example.shared
  */
 class NullFeedbackProvider implements FeedbackProvider {
     @Override
-    void sendFeedback( final FeedbackContext context, final Object[] arguments ) {
+    void sendFeedback( FeedbackContext context, Object[] arguments ) {
         // do nothing
     }
 
     @Override
-    void sendFeedback( final FeedbackContext context, final Throwable error ) {
+    void sendFeedback( FeedbackContext context, Throwable error ) {
         // do nothing
     }
 }

@@ -18,7 +18,7 @@ class FeedbackAwareBeanPostProcessor implements BeanPostProcessor {
     }
 
     @Override
-    Object postProcessBeforeInitialization(final Object bean, final String beanName) throws BeansException {
+    Object postProcessBeforeInitialization( Object bean, String beanName) throws BeansException {
         if ( bean instanceof FeedbackAware ) {
             def provider = new LoggingFeedbackProvider(LoggerFactory.getLogger(bean.class), theApplicationType)
             bean.feedbackProvider = provider
@@ -27,7 +27,7 @@ class FeedbackAwareBeanPostProcessor implements BeanPostProcessor {
     }
 
     @Override
-    Object postProcessAfterInitialization(final Object bean, final String beanName) throws BeansException {
+    Object postProcessAfterInitialization( Object bean, String beanName) throws BeansException {
         bean
     }
 }

@@ -24,16 +24,14 @@ dependencies {
 }
 
 // excludes classes from code coverage check, can specify a directory or individual files
-ext.coverageExcludes = ['org/example/EmbeddedServletContainerEventListener',
-                        'org/example/echo/EchoDocument',
-                        'org/example/shared/BaseRepository',
-                        'org/example/configuration/',
-                        'org/example/WebContext',
+ext.coverageExcludes = ['org/example/configuration/',
                         'org/example/ApplicationProperties',
                         'org/example/Application',
+                        'org/example/echo/EchoDocument',
                         'org/example/echo/EchoRequest',
                         'org/example/echo/EchoResponse',
-                        'org/example/shared/RecoverableError',
-                        'org/example/shared/Deviation',
-                        'org/example/shared/UnrecoverableError',
-                        'org/example/shared/LoggingFeedbackProvider']
+                        'org/example/shared/BaseRepository',
+                        'org/example/shared/feedback/Deviation',
+                        'org/example/shared/feedback/RecoverableError',
+                        'org/example/shared/feedback/UnrecoverableError',
+                        'org/example/shared/feedback/LoggingFeedbackProvider']

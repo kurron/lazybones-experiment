@@ -1,4 +1,4 @@
-package org.example.shared
+package org.example.shared.feedback
 
 /**
  * This interface describes a contract for objects that are intended to send feedback through the system, including

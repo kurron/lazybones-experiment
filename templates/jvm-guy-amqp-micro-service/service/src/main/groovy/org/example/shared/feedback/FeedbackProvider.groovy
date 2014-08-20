@@ -1,4 +1,4 @@
-package org.example.shared
+package org.example.shared.feedback
 
 /**
  * Contract for objects that know how to send feedback via various mechanisms, such as logging.

@@ -1,4 +1,4 @@
-package org.example.shared
+package org.example.shared.feedback
 
 /**
  * Interface Injection: any bean implementing this interface is indicating that it was a feedback provider injected into

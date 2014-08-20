@@ -1,8 +1,8 @@
 package org.example.echo
 
-import static org.example.shared.CustomFeedbackContext.DOCUMENT_STORAGE
+import static org.example.shared.feedback.CustomFeedbackContext.DOCUMENT_STORAGE
 
-import org.example.shared.BaseFeedbackAware
+import org.example.shared.feedback.BaseFeedbackAware
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.integration.annotation.ServiceActivator
 import org.springframework.integration.support.MessageBuilder

@@ -1,4 +1,4 @@
-package org.example.shared
+package org.example.shared.feedback
 
 /**
  * Null Object Pattern: a no-op implementation of the feedback provider interface. Typically used only in testing

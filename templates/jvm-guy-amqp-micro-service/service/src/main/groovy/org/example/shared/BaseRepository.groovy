@@ -1,6 +1,7 @@
 package org.example.shared
 
 import groovy.transform.Canonical
+import org.example.shared.feedback.BaseFeedbackAware
 import org.springframework.data.mongodb.core.MongoOperations
 
 /**

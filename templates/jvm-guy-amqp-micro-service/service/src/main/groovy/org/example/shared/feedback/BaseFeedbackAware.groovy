@@ -1,4 +1,4 @@
-package org.example.shared
+package org.example.shared.feedback
 
 /**
  * Convenience base class for objects that wish to have a feedback provider injected into them.

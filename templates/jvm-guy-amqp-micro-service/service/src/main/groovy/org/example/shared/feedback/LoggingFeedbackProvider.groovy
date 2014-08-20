@@ -1,4 +1,4 @@
-package org.example.shared
+package org.example.shared.feedback
 
 import groovy.transform.CompileStatic
 import org.slf4j.Logger

@@ -1,4 +1,4 @@
-package org.example.shared
+package org.example.shared.feedback
 
 /**
  * Message codes specific to this micro-service.  Make sure to select a series of message codes that are unique

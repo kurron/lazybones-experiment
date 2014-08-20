@@ -38,7 +38,7 @@ public class HystrixSettingsBuilder {
      * @param timeout the duration, in milliseconds, to wait for the command to complete before cancelling it and timing out.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter build( String groupKey, int timeout ) {
+    public static HystrixCommand.Setter buildForTimeoutCommand(String groupKey, int timeout) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) )
                              .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
                              .withExecutionIsolationThreadTimeoutInMilliseconds( timeout ) );

@@ -1,6 +1,7 @@
 package org.example.shared.resilience
+
 /**
- * Created by vagrant on 8/20/14.
+ * A command the showcases how to timeout potentially latent integration points.
  */
 class ExampleTimeoutCommand extends TimeoutCommand<String> {
 

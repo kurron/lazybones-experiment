@@ -4,6 +4,7 @@ import org.example.ApplicationProperties
 import org.example.echo.BytesToEchoRequestTransformer
 import org.example.echo.DocumentWriter
 import org.example.echo.EchoDocumentRepositoryImpl
+import org.example.shared.FeedbackAwareBeanPostProcessor
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer
@@ -45,6 +46,11 @@ class PrimaryConfiguration {
      */
     @Autowired
     ConnectionFactory connectionFactory
+
+    @Bean
+    FeedbackAwareBeanPostProcessor feedbackAwareBeanPostProcessor() {
+        new FeedbackAwareBeanPostProcessor( properties.applicationType )
+    }
 
     @Bean
     EchoDocumentRepositoryImpl echoDocumentRepositoryImpl() {

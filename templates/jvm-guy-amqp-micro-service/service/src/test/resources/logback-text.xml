@@ -2,7 +2,7 @@
 <configuration debug="false">
     <contextName>TEST</contextName>
     <property name="MESSAGE_FORMAT"
-              value="%contextName %5.5relative %1(%.-1level) %35.35logger{0} %message %throwable{short}%n"/>
+              value="%contextName %5.5relative %1(%.-1level) %4.4mdc{application-type} %35.35logger{0} %message %throwable{short}%n"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

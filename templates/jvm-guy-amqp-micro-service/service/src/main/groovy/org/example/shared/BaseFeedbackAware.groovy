@@ -1,6 +1,5 @@
 package org.example.shared
 
-
 /**
  * Convenience base class for objects that wish to have a feedback provider injected into them.
  */

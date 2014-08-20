@@ -9,6 +9,7 @@ import groovy.transform.Canonical
 class FlickeringResource {
     boolean shouldFail = false
 
+    @SuppressWarnings( 'ThrowRuntimeException' )
     String fetchResource() {
         if ( shouldFail ) {
             throw new RuntimeException( 'I was forced to fail' )

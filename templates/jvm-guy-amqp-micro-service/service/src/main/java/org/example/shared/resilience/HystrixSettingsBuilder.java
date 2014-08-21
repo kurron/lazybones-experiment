@@ -61,4 +61,14 @@ public class HystrixSettingsBuilder {
                 .withCircuitBreakerForceOpen( forceOpen ) );
 
     }
+
+    /**
+     * Builds the necessary Hystrix configuration instance suitable for thread pool-based load shedding semantics.
+     * @param groupKey the group key to associate the command to.
+     * @return properly constructed Hystrix settings.
+     */
+    public static HystrixCommand.Setter buildForThreadPoolLoadShedderCommand( String groupKey ) {
+        return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) );
+
+    }
 }

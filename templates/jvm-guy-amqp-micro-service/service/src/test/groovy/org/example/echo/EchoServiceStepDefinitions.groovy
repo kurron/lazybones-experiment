@@ -1,43 +1,23 @@
 package org.example.echo
 
+import cucumber.api.PendingException
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import org.example.ApplicationProperties
 import org.example.shared.BaseStepDefinition
 import org.springframework.amqp.core.MessageBuilder
-import org.springframework.amqp.rabbit.core.RabbitOperations
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.integration.support.json.JsonObjectMapper
 
 /**
- * Implementation of the upload message scenario.
+ * Implementation of the Echo Service feature steps.
  */
-class SendAMessageStepDefinitions extends BaseStepDefinition {
-
-    /**
-     * Application-specific properties.
-     */
-    @Autowired
-    ApplicationProperties properties
-
-    /**
-     * Manages interactions with RabbitMQ.
-     */
-    @Autowired
-    RabbitOperations rabbitOperations
+class EchoServiceStepDefinitions extends BaseStepDefinition {
 
     /**
      * Manages interactions with MongoDB.
      */
     @Autowired
     EchoDocumentRepository repository
-
-    /**
-     * Manages JSON-to-POGO transformations.
-     */
-    @Autowired
-    JsonObjectMapper objectMapper
 
     /**
      * Message to send.
@@ -75,4 +55,23 @@ class SendAMessageStepDefinitions extends BaseStepDefinition {
         assert found
         assert found.message == request.message
     }
+
+    @Given('^a previously echoed message$')
+    void a_previously_echoed_message() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException()
+    }
+
+    @When('^I call the fetch message service$')
+    void i_call_the_fetch_message_service() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException()
+    }
+
+    @Then('^my message should be downloaded$')
+    void my_message_should_be_downloaded() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException()
+    }
+
 }

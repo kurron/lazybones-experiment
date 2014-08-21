@@ -19,6 +19,7 @@ import org.springframework.integration.handler.ServiceActivatingHandler
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper
 import org.springframework.integration.transformer.MessageTransformingHandler
 import org.springframework.messaging.MessageHandler
+import org.springframework.web.client.RestTemplate
 
 /**
  * Spring context configuration that contains the definitions of application's beans.  Be aware
@@ -105,5 +106,10 @@ class PrimaryConfiguration {
     @Bean
     Jackson2JsonObjectMapper jackson2JsonObjectMapper() {
         new Jackson2JsonObjectMapper()
+    }
+
+    @Bean
+    RestTemplate restTemplate() {
+        new RestTemplate()
     }
 }

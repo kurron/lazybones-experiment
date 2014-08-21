@@ -1,5 +1,7 @@
-package org.example.shared.feedback
+package org.example.configuration
 
+import org.example.shared.feedback.FeedbackAware
+import org.example.shared.feedback.LoggingFeedbackProvider
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeansException
 import org.springframework.beans.factory.config.BeanPostProcessor

@@ -34,4 +34,5 @@ ext.coverageExcludes = ['org/example/configuration/',
                         'org/example/shared/feedback/Deviation',
                         'org/example/shared/feedback/RecoverableError',
                         'org/example/shared/feedback/UnrecoverableError',
-                        'org/example/shared/feedback/LoggingFeedbackProvider']
+                        'org/example/shared/feedback/LoggingFeedbackProvider',
+                        'org/example/echo/SaveEchoDocumentGateway']

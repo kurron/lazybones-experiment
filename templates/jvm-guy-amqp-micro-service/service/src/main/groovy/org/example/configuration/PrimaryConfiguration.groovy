@@ -4,7 +4,6 @@ import org.example.ApplicationProperties
 import org.example.echo.BytesToEchoRequestTransformer
 import org.example.echo.DocumentWriter
 import org.example.echo.EchoDocumentRepositoryImpl
-import org.example.shared.feedback.FeedbackAwareBeanPostProcessor
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer

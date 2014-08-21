@@ -35,7 +35,9 @@ class DocumentWriter extends BaseFeedbackAware {
     Message<byte[]> storeDocument( EchoRequest request ) {
         feedbackProvider.sendFeedback( DOCUMENT_STORAGE, request.message )
 
-        EchoDocument saved = theRepository.save( new EchoDocument( message:request.message, datetime:System.currentTimeMillis() ) )
+        def toSave = new EchoDocument( message:request.message, datetime:System.currentTimeMillis() )
+        def gateway = new SaveEchoDocumentGateway( theRepository, toSave )
+        EchoDocument saved = gateway.run()
         def response = new EchoResponse( saved.id )
         MessageBuilder.withPayload( theObjectMapper.toJson( response ).bytes )
                       .setHeaderIfAbsent( 'contentType', 'application/json;type=echo-response' ).build()

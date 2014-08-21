@@ -9,6 +9,7 @@ import groovy.transform.Canonical
 class LatentResource {
     long latency = 1000
 
+    @SuppressWarnings( 'EmptyCatchBlock' )
     String fetchResource() {
         try {
             Thread.currentThread().sleep( latency )

@@ -10,7 +10,11 @@ class LatentResource {
     long latency = 1000
 
     String fetchResource() {
-        Thread.currentThread().sleep( latency )
+        try {
+            Thread.currentThread().sleep( latency )
+        } catch ( InterruptedException e ) {
+            // nothing important to do
+        }
         'Success!'
     }
 }

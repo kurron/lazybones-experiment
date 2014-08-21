@@ -80,4 +80,13 @@ public class HystrixSettingsBuilder {
                 .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
                         .withExecutionIsolationStrategy( HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE ) );
     }
+
+    /**
+     * Builds the necessary Hystrix configuration instance suitable for fail fast semantics.
+     * @param groupKey the group key to associate the command to.
+     * @return properly constructed Hystrix settings.
+     */
+    public static HystrixCommand.Setter buildForFailFastCommand( String groupKey ) {
+        return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) );
+    }
 }

@@ -12,7 +12,7 @@ class FlickeringResource {
     @SuppressWarnings( 'ThrowRuntimeException' )
     String fetchResource() {
         if ( shouldFail ) {
-            throw new RuntimeException( 'I was forced to fail' )
+            throw new RuntimeException( 'I was forced to fail!' )
         }
         'Success!'
     }

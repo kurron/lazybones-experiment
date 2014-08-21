@@ -10,6 +10,8 @@ configurations {
 }
 
 dependencies {
+    compile "com.codahale.metrics:metrics-core:${codahaleVersion}"
+    compile "com.codahale.metrics:metrics-servlets:${codahaleVersion}"
     compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-amqp:${springBootVersion}"

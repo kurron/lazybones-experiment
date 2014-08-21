@@ -4,7 +4,8 @@ import com.netflix.hystrix.HystrixCommand
 import org.example.shared.resilience.HystrixSettingsBuilder
 
 /**
- * Resource gateway to a MongoDB resource.
+ * Resource gateway to a MongoDB resource.  Notice that there is no fallback logic.  That is because there isn't
+ * anything useful you can return if the document could not be saved.
  */
 class SaveEchoDocumentGateway extends HystrixCommand<EchoDocument> {
 

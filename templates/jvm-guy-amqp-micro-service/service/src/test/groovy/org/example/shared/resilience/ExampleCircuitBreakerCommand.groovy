@@ -1,16 +1,18 @@
 package org.example.shared.resilience
 
+import com.netflix.hystrix.HystrixCommand
+
 /**
  * A command the showcases how to protect against flickering integration points.
  */
-class ExampleCircuitBreakerCommand extends CircuitBreakerCommand<String> {
+class ExampleCircuitBreakerCommand extends HystrixCommand<String> {
 
     private final FlickeringResource theResource
 
     ExampleCircuitBreakerCommand( String commandKey,
                                   FlickeringResource aResource,
                                   boolean forceOpen = false ) {
-        super( 'group', commandKey, forceOpen )
+        super( HystrixSettingsBuilder.buildForCircuitBreakerCommand( 'group', commandKey, forceOpen ) )
         theResource = aResource
     }
 

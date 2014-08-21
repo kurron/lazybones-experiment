@@ -5,12 +5,12 @@ import com.netflix.hystrix.HystrixCommand
 /**
  * A command the showcases how to shed load when working with potentially latent integration points.
  */
-class ExampleThreadPoolLoadShedderCommand extends HystrixCommand<String> {
+class ExampleSemaphoreLoadShedderCommand extends HystrixCommand<String> {
 
     private final LatentResource theResource
 
-    ExampleThreadPoolLoadShedderCommand( LatentResource aResource) {
-        super( HystrixSettingsBuilder.buildForThreadPoolLoadShedderCommand( 'thread-pool load shed example' ) )
+    ExampleSemaphoreLoadShedderCommand( LatentResource aResource) {
+        super( HystrixSettingsBuilder.buildForSemaphoreLoadShedderCommand( 'semaphore load shed example' ) )
         theResource = aResource
     }
 

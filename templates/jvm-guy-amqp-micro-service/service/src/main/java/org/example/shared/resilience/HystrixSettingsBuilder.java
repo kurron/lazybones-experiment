@@ -59,7 +59,6 @@ public class HystrixSettingsBuilder {
                 .andCommandKey( HystrixCommandKey.Factory.asKey( commandKey ) )
                 .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
                 .withCircuitBreakerForceOpen( forceOpen ) );
-
     }
 
     /**
@@ -69,6 +68,16 @@ public class HystrixSettingsBuilder {
      */
     public static HystrixCommand.Setter buildForThreadPoolLoadShedderCommand( String groupKey ) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) );
+    }
 
+    /**
+     * Builds the necessary Hystrix configuration instance suitable for semaphore-based load shedding semantics.
+     * @param groupKey the group key to associate the command to.
+     * @return properly constructed Hystrix settings.
+     */
+    public static HystrixCommand.Setter buildForSemaphoreLoadShedderCommand( String groupKey ) {
+        return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) )
+                .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
+                        .withExecutionIsolationStrategy( HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE ) );
     }
 }

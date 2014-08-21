@@ -21,3 +21,9 @@ Feature: Operations Support
     When I call the info endpoint
     Then I get a 200 HTTP status code
     And detailed version information
+
+  Scenario: Metrics Check
+    Given a standing server
+    When I call the metrics endpoint
+    Then I get a 200 HTTP status code
+    And detailed metrics information

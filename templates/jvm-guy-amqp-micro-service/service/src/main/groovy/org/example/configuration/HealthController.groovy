@@ -1,5 +1,6 @@
 package org.example.configuration
 
+import static org.example.shared.Counters.HEALTH_CHECK
 import static org.example.shared.feedback.CustomFeedbackContext.SYNTHETIC_TRANSACTION_FAILURE
 
 import com.netflix.hystrix.HystrixCircuitBreaker
@@ -14,6 +15,7 @@ import org.springframework.amqp.rabbit.core.RabbitOperations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.actuate.health.Health
 import org.springframework.boot.actuate.health.HealthIndicator
+import org.springframework.boot.actuate.metrics.CounterService
 import org.springframework.integration.support.json.JsonObjectMapper
 
 /**
@@ -40,8 +42,16 @@ class HealthController extends BaseFeedbackAware implements HealthIndicator {
     @Autowired
     private JsonObjectMapper objectMapper
 
+    /**
+     * Used to track how many times this gets called.
+     */
+    @Autowired
+    private CounterService counterService
+
     @Override
     Health health() {
+        counterService.increment( HEALTH_CHECK.toString() )
+
         def status = Health.up()
         Map<String,String> breakerStatus = [:]
         Gateways.values().each {

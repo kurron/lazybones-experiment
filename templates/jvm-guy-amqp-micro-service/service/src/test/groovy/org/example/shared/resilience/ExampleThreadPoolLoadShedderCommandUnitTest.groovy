@@ -12,7 +12,7 @@ class ExampleThreadPoolLoadShedderCommandUnitTest extends BaseUnitTest {
         List<Future<String>> futures = []
 
         given: 'a slow resource'
-        def resource = new LatentResource( 2000 )
+        def resource = new LatentResource( 750 )
 
         and: 'all available threads are used up'
         10.times {
@@ -25,5 +25,10 @@ class ExampleThreadPoolLoadShedderCommandUnitTest extends BaseUnitTest {
 
         then: 'the operation is denied and the fallback mechanism is invoked'
         'Fallback triggered!' == results
+
+        and: 'all others succeed'
+        futures.each {
+            assert 'Success!' == it.get()
+        }
     }
 }

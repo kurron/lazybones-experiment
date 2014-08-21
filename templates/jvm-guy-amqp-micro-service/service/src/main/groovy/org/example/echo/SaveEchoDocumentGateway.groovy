@@ -1,5 +1,7 @@
 package org.example.echo
 
+import static org.example.shared.Gateways.SAVE_ECHO_DOCUMENT
+
 import com.netflix.hystrix.HystrixCommand
 import org.example.shared.resilience.HystrixSettingsBuilder
 
@@ -20,7 +22,7 @@ class SaveEchoDocumentGateway extends HystrixCommand<EchoDocument> {
     private final EchoDocument theDocument
 
     SaveEchoDocumentGateway( EchoDocumentRepository aRepository, EchoDocument aDocument) {
-        super( HystrixSettingsBuilder.buildUsingDefaults( 'save echo document' ) )
+        super( HystrixSettingsBuilder.buildUsingDefaults( SAVE_ECHO_DOCUMENT.name() ) )
         theDocument = aDocument
         theRepository = aRepository
     }

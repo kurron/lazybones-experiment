@@ -89,4 +89,13 @@ public class HystrixSettingsBuilder {
     public static HystrixCommand.Setter buildForFailFastCommand( String groupKey ) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) );
     }
+
+    /**
+     * Builds the necessary Hystrix configuration instance suitable for fail silent semantics.
+     * @param groupKey the group key to associate the command to.
+     * @return properly constructed Hystrix settings.
+     */
+    public static HystrixCommand.Setter buildForFailSilentCommand( String groupKey ) {
+        return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) );
+    }
 }

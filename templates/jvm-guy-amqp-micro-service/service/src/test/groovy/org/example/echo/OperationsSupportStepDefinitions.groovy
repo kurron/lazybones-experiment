@@ -79,4 +79,16 @@ class OperationsSupportStepDefinitions extends BaseStepDefinition {
         assert response.body
         //TODO: slurp the body and verify the JSON payload
     }
+
+    @When('^I call the metrics endpoint$')
+    void i_call_the_metrics_endpoint() throws Throwable {
+        def components = builder.path( '/metrics' ).build()
+        response = restOperations.getForEntity( components.toUri(), String )
+    }
+
+    @Then('^detailed metrics information$')
+    void detailed_metrics_information() throws Throwable {
+        assert response.body
+        //TODO: slurp the body and verify the JSON payload
+    }
 }

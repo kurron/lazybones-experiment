@@ -1,6 +1,8 @@
 package org.example.configuration
 
 import groovy.util.logging.Slf4j
+import org.example.ApplicationProperties
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent
 import org.springframework.context.ApplicationListener
 
@@ -10,8 +12,15 @@ import org.springframework.context.ApplicationListener
 @Slf4j
 class EmbeddedServletContainerEventListener implements ApplicationListener<EmbeddedServletContainerInitializedEvent> {
 
+    /**
+     * Application-specific properties.
+     */
+    @Autowired
+    ApplicationProperties properties
+
     @Override
     void onApplicationEvent( EmbeddedServletContainerInitializedEvent event ) {
-        log.info( 'Micro-Service is listening on port {}', event.embeddedServletContainer.port )
+        properties.httpListeningPort = event.embeddedServletContainer.port
+        log.info( 'Micro-Service is listening on port {}', properties.httpListeningPort )
     }
 }

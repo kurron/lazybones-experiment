@@ -17,4 +17,10 @@ class ApplicationProperties {
      * Useful in filtering through messages.
      */
     String applicationType = 'BEEF'
+
+    /**
+     * Intended for testing only, this property will contain the port that the embedded container is listening on
+     * for HTTP traffic.
+     */
+    int httpListeningPort = Integer.MIN_VALUE
 }

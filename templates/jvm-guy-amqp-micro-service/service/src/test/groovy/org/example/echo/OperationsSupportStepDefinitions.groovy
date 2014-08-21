@@ -1,6 +1,6 @@
 package org.example.echo
 
-import cucumber.api.PendingException
+import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -22,6 +22,18 @@ class OperationsSupportStepDefinitions extends BaseStepDefinition {
      */
     ResponseEntity<String> response
 
+    /**
+     * Simplifies the creation of URIs.
+     */
+    UriComponentsBuilder builder
+
+    @Before
+    void setup() {
+        builder = UriComponentsBuilder.newInstance().scheme( 'http' )
+                                                    .host( 'localhost' )
+                                                    .port( properties.httpListeningPort )
+    }
+
     @Given('^a standing server$')
     void a_standing_server() throws Throwable {
         assert properties.httpListeningPort
@@ -29,12 +41,7 @@ class OperationsSupportStepDefinitions extends BaseStepDefinition {
 
     @When('^I call the health check endpoint$')
     void i_call_the_health_check_endpoint() throws Throwable {
-        def components = UriComponentsBuilder.newInstance().scheme( 'http' )
-                                                           .host( 'localhost' )
-                                                           .port( properties.httpListeningPort )
-                                                           .path( '/health' )
-                                                           .build()
-        log.debug( 'URI = {}', components.toUriString() )
+        def components = builder.path( '/health' ).build()
         response = restOperations.getForEntity( components.toUri(), String )
     }
 
@@ -51,8 +58,8 @@ class OperationsSupportStepDefinitions extends BaseStepDefinition {
 
     @When('^I call the environment endpoint$')
     void i_call_the_environment_endpoint() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException()
+        def components = builder.path( '/env' ).build()
+        response = restOperations.getForEntity( components.toUri(), String )
     }
 
     @Then('^detailed environmental information$')
@@ -63,8 +70,8 @@ class OperationsSupportStepDefinitions extends BaseStepDefinition {
 
     @When('^I call the info endpoint$')
     void i_call_the_info_endpoint() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException()
+        def components = builder.path( '/info' ).build()
+        response = restOperations.getForEntity( components.toUri(), String )
     }
 
     @Then('^detailed version information$')

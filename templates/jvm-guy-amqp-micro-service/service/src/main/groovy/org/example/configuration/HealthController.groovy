@@ -21,6 +21,7 @@ class HealthController implements HealthIndicator {
             breakerStatus[it.toString()] = breaker?.open ? 'DOWN' : 'UP'
         }
         status.withDetail( 'circuit-breakers', breakerStatus )
+        //TODO: add some synthetic transactions to verify the system is operating correctly
         status.build()
     }
 }

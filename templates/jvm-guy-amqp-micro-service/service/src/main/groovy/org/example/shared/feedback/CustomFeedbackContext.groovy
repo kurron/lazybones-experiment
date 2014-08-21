@@ -10,6 +10,7 @@ enum CustomFeedbackContext implements FeedbackContext {
 
     PAYLOAD_TRANSFORMATION( 1000, 'Transforming byte payload into request', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
     DOCUMENT_STORAGE( 1001, 'Storing document with message {}', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
+    SYNTHETIC_TRANSACTION_FAILURE( 1002, 'Problem executing synthetic transaction', FeedbackLevel.ERROR, Audience.OPERATIONS ),
 
     /**
      * Unique context code for this instance.

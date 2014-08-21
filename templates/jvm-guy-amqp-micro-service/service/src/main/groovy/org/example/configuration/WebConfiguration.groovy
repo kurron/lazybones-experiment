@@ -22,4 +22,9 @@ class WebConfiguration extends WebMvcConfigurerAdapter {
     ContextClosedEventListener contextClosedEventListener() {
         new ContextClosedEventListener()
     }
+
+    @Bean
+    HealthController healthController() {
+        new HealthController()
+    }
 }

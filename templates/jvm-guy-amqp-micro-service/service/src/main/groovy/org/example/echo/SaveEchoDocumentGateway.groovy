@@ -1,6 +1,6 @@
 package org.example.echo
 
-import static org.example.shared.Gateways.SAVE_ECHO_DOCUMENT
+import static org.example.shared.resilience.Gateways.SAVE_ECHO_DOCUMENT
 
 import com.netflix.hystrix.HystrixCommand
 import org.example.shared.resilience.HystrixSettingsBuilder

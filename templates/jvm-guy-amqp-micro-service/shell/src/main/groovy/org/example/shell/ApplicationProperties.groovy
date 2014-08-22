@@ -14,6 +14,11 @@ class ApplicationProperties {
      * The name of the AMQP queue where messages go to.
      */
     @Value( '${queue.name}' )
-    String queue = 'default-queue'
+    String queue = 'unset'
 
+    /**
+     * How the shell should identify itself to the service.
+     */
+    @Value( '${application.id}' )
+    String applicationID = 'unset'
 }

@@ -1,6 +1,8 @@
 jar.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
 
 dependencies {
+    compile "org.springframework.shell:spring-shell:${springShellVersion}"
+
 }
 
 //TODO: remove once we put in some code

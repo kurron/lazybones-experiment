@@ -11,6 +11,7 @@ dependencies {
 // excludes classes from code coverage check, can specify a directory or individual files
 ext.coverageExcludes = ['org/example/shell/Application']
 
+applicationName = implementationName
 mainClassName = "org.example.shell.Application"
 applicationDefaultJvmArgs = ['-Dexample.property=change-me']
 

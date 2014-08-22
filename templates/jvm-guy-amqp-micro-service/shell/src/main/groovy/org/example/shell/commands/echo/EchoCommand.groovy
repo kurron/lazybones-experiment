@@ -25,6 +25,6 @@ class EchoCommand extends BaseCommand {
         def request = new EchoRequest( contents ?: hexString() )
         def message =  createMessage( toJsonBytes( request ), request.contentType )
         def reply = sendMessage( message, configuration.queue )
-        "Service responsed with ${reply}"
+        "Service responded with ${reply}"
     }
 }

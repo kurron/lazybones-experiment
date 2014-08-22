@@ -1,4 +1,9 @@
+description = 'Command shell for the micro-service'
+
+apply plugin: 'application'
+
 jar.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
+
 
 dependencies {
     compile "org.springframework.amqp:spring-rabbit:${springAmqpVersion}"
@@ -17,3 +22,11 @@ dependencies {
 // excludes classes from code coverage check, can specify a directory or individual files
 ext.coverageExcludes = ['org/example/shell/Application']
 
+mainClassName = "org.example.shell.Application"
+applicationDefaultJvmArgs = ['-Dexample.property=change-me']
+
+run {
+    standardInput = System.in
+}
+
+assemble.dependsOn 'distTar'

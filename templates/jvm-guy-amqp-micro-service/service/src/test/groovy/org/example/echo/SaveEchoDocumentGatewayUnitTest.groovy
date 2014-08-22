@@ -15,7 +15,7 @@ class SaveEchoDocumentGatewayUnitTest extends BaseUnitTest {
 
     def 'verify normal operation'() {
         given: 'a document to save'
-        def toSave = new EchoDocument( message:randomHexString() )
+        def toSave = new EchoDocument( message: randomHexString() )
 
         and: 'a test double'
         def repository = Mock( EchoDocumentRepository )
@@ -39,7 +39,7 @@ class SaveEchoDocumentGatewayUnitTest extends BaseUnitTest {
 
     def 'verify failing resource'() {
         given: 'a document to save'
-        def toSave = new EchoDocument( message:randomHexString() )
+        def toSave = new EchoDocument( message: randomHexString() )
 
         and: 'a test double'
         def repository = Stub( EchoDocumentRepository )

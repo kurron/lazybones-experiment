@@ -16,6 +16,9 @@
         <rule-config name='LineLength'>
             <property name='length' value='150'/>
         </rule-config>
+        <rule-config name='SpaceAroundMapEntryColon' >
+            <property name='characterAfterColonRegex' value='\s'/>
+        </rule-config>
     </ruleset-ref>
     <ruleset-ref path='rulesets/generic.xml'/>
     <ruleset-ref path='rulesets/grails.xml'/>

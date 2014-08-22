@@ -17,10 +17,10 @@ class DocumentWriterUnitTest extends BaseUnitTest {
             document.id = randomHexString()
             document
         }
-        def sut = new DocumentWriter( theObjectMapper:MAPPER, theRepository:repository )
+        def sut = new DocumentWriter( theObjectMapper: MAPPER, theRepository: repository )
 
         and: 'a valid message'
-        def request = new EchoRequest( message:randomHexString() )
+        def request = new EchoRequest( message: randomHexString() )
 
         when: 'message storage is requested'
         def output = sut.storeDocument( request )

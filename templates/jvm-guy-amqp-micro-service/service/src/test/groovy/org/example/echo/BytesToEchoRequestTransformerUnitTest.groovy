@@ -13,7 +13,7 @@ class BytesToEchoRequestTransformerUnitTest extends BaseUnitTest {
 
     def 'verify transform operation'() {
         given: 'subject under test'
-        def sut = new BytesToEchoRequestTransformer( objectMapper:MAPPER )
+        def sut = new BytesToEchoRequestTransformer( objectMapper: MAPPER )
 
         and: 'a valid message'
         def data = new EchoRequest( randomHexString() )

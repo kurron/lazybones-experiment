@@ -12,7 +12,7 @@ class EchoDocumentRepositoryComponentTest extends BaseComponentTest {
         assert echoDocumentRepository
 
         and: 'populated document'
-        def document = new EchoDocument( datetime:0, message:randomHexString() )
+        def document = new EchoDocument( datetime: 0, message: randomHexString() )
 
         when: 'save is called'
         EchoDocument saved = echoDocumentRepository.save( document )

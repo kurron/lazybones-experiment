@@ -1,7 +1,5 @@
 apply plugin: 'application'
 
-jar.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
-
 run {
     standardInput = System.in
 }

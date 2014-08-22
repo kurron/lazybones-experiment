@@ -26,20 +26,20 @@ task verifyCodeCoverage( dependsOn: 'jacocoTestReport' ) {
             def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
 
             def jacocoExclude = coverageExcludes ? coverageExcludes : []
-            jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
+            jacocoExclude.each { logger.info "Excluding ${it} from code coverage check." }
             def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
             def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
             def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }
             if ( offenders ) {
-                offenders.each { logger.quiet "Insufficient code coverage: ${it}" }
+                offenders.each { logger.error "Insufficient code coverage: ${it}" }
                 throw new IllegalStateException( "Not enough code coverage! Consult ${jacoco.reportsDir}/test/html/index.html for details." )
             }
             else {
-                logger.quiet 'Adequate code coverage detected.'
+                logger.info 'Adequate code coverage detected.'
             }
         }
         else {
-            logger.quiet 'No JaCoCo report was generated.'
+            logger.info 'No JaCoCo report was generated.'
         }
     }
 }

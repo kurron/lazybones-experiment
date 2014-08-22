@@ -22,9 +22,9 @@ test {
 
     maxParallelForks = Runtime.runtime.availableProcessors()
     testLogging {
-        showStandardStreams = true
+        showStandardStreams = false
         exceptionFormat = 'full'
-        //events( 'started', 'passed', 'skipped', 'failed' )
+//      events( 'started', 'passed', 'skipped', 'failed' )
     }
 }
 

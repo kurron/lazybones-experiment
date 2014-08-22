@@ -33,7 +33,7 @@ public class HystrixSettingsBuilder {
      * @param command the command key to associate the command to.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter buildUsingDefaults( String command ) {
+    public static HystrixCommand.Setter buildUsingDefaults( final String command ) {
         final HystrixCommandGroupKey groupKey = HystrixCommandGroupKey.Factory.asKey( "example" );
         final HystrixCommandKey commandKey = HystrixCommandKey.Factory.asKey( command );
         final HystrixThreadPoolKey poolKey = HystrixThreadPoolKey.Factory.asKey( command );

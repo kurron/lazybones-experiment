@@ -51,6 +51,7 @@ subprojects {
     apply from: "$rootDir/gradle/groovy.gradle"
     apply from: "$rootDir/gradle/jacoco.gradle"
     apply from: "$rootDir/gradle/codenarc.gradle"
+    apply from: "$rootDir/gradle/checkstyle.gradle"
 
     dependencies {
         compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"

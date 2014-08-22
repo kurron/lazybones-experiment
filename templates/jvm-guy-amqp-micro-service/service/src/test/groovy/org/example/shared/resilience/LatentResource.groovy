@@ -11,10 +11,12 @@ class LatentResource {
 
     @SuppressWarnings( 'EmptyCatchBlock' )
     String fetchResource() {
-        try {
-            Thread.currentThread().sleep( latency )
-        } catch ( InterruptedException e ) {
-            // nothing important to do
+        if ( latency ) {
+            try {
+                Thread.currentThread().sleep( latency )
+            } catch ( InterruptedException e ) {
+                // nothing important to do
+            }
         }
         'Success!'
     }

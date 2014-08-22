@@ -48,7 +48,7 @@ public class HystrixSettingsBuilder {
      * @param command the command key to associate the command to.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter buildUsingDefaults( String command ) {
+    public static HystrixCommand.Setter buildUsingDefaults( final String command ) {
         final HystrixCommandGroupKey groupKey = HystrixCommandGroupKey.Factory.asKey( "example" );
         final HystrixCommandKey commandKey = HystrixCommandKey.Factory.asKey( command );
         final HystrixThreadPoolKey poolKey = HystrixThreadPoolKey.Factory.asKey( command );
@@ -62,7 +62,7 @@ public class HystrixSettingsBuilder {
      * @param timeout the duration, in milliseconds, to wait for the command to complete before cancelling it and timing out.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter buildForTimeoutCommand(String groupKey, int timeout) {
+    public static HystrixCommand.Setter buildForTimeoutCommand( final String groupKey, final int timeout) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) )
                              .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
                              .withExecutionIsolationThreadTimeoutInMilliseconds( timeout ) );
@@ -76,9 +76,9 @@ public class HystrixSettingsBuilder {
      * @param forceOpen set to true if you want the breaker to be initially set to the open position.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter buildForCircuitBreakerCommand( String groupKey,
-                                                                       String commandKey,
-                                                                       boolean forceOpen ) {
+    public static HystrixCommand.Setter buildForCircuitBreakerCommand( final String groupKey,
+                                                                       final String commandKey,
+                                                                       final boolean forceOpen ) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) )
                 .andCommandKey( HystrixCommandKey.Factory.asKey( commandKey ) )
                 .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
@@ -90,7 +90,7 @@ public class HystrixSettingsBuilder {
      * @param groupKey the group key to associate the command to.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter buildForThreadPoolLoadShedderCommand( String groupKey ) {
+    public static HystrixCommand.Setter buildForThreadPoolLoadShedderCommand( final String groupKey ) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) );
     }
 
@@ -99,7 +99,7 @@ public class HystrixSettingsBuilder {
      * @param groupKey the group key to associate the command to.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter buildForSemaphoreLoadShedderCommand( String groupKey ) {
+    public static HystrixCommand.Setter buildForSemaphoreLoadShedderCommand( final String groupKey ) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) )
                 .andCommandPropertiesDefaults( HystrixCommandProperties.Setter()
                         .withExecutionIsolationStrategy( HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE ) );
@@ -110,7 +110,7 @@ public class HystrixSettingsBuilder {
      * @param groupKey the group key to associate the command to.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter buildForFailFastCommand( String groupKey ) {
+    public static HystrixCommand.Setter buildForFailFastCommand( final String groupKey ) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) );
     }
 
@@ -119,7 +119,7 @@ public class HystrixSettingsBuilder {
      * @param groupKey the group key to associate the command to.
      * @return properly constructed Hystrix settings.
      */
-    public static HystrixCommand.Setter buildForFailSilentCommand( String groupKey ) {
+    public static HystrixCommand.Setter buildForFailSilentCommand( final String groupKey ) {
         return HystrixCommand.Setter.withGroupKey( HystrixCommandGroupKey.Factory.asKey( groupKey ) );
     }
 }

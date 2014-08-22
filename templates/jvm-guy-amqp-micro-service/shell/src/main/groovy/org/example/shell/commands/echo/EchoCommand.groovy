@@ -19,8 +19,10 @@ class EchoCommand extends BaseCommand {
      */
     @SuppressWarnings( 'GroovyUnusedDeclaration' )
     @CliCommand( value = 'send', help = 'Send a message to the micro-service' )
-    String send( @CliOption( key = ['message'],
+    String send( @CliOption( key = ['message', 'text'],
                              mandatory = false,
+                             unspecifiedDefaultValue = 'Hello!',
+                             specifiedDefaultValue = 'Goodbye!',
                              help = 'Contents of the message' ) final String contents ) {
         def request = new EchoRequest( contents ?: hexString() )
         def message =  createMessage( toJsonBytes( request ), request.CONTENT_TYPE )

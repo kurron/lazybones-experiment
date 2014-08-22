@@ -31,7 +31,7 @@ abstract class BaseCommand implements CommandMarker {
      * Application-specific properties.
      */
     @Autowired
-    protected ApplicationProperties properties
+    protected ApplicationProperties configuration
 
     /**
      * Handles AMQP communications.
@@ -52,6 +52,10 @@ abstract class BaseCommand implements CommandMarker {
         SECURE_RANDOM.nextBytes( buffer )
     }
 
+    protected static String hexString() {
+        Integer.toHexString( SECURE_RANDOM.nextInt( Integer.MAX_VALUE ) ).toUpperCase()
+    }
+
     protected static byte[] generateCorrelationID() {
         // there is some strange UTF-8 encoding going on here so don't just send randomized bytes
         UUID.randomUUID().toString().bytes
@@ -63,7 +67,7 @@ abstract class BaseCommand implements CommandMarker {
                       .setContentType( contentType )
                       .setMessageId( generateMessageID() )
                       .setTimestamp( generateTimeStamp() )
-                      .setAppId( properties.applicationID )
+                      .setAppId( configuration.applicationID )
                       .setCorrelationId( generateCorrelationID() )
                       .build()
     }

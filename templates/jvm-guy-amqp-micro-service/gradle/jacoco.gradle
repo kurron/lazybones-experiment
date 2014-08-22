@@ -20,20 +20,26 @@ task verifyCodeCoverage( dependsOn: 'jacocoTestReport' ) {
     doFirst {
         // remove the DOCTYPE tag from the generated xml, otherwise we have to provide report.dtd ourselves.
         def jacocoReportPath = "${jacoco.reportsDir}/test/jacocoTestReport.xml"
-        def xmlStr = new File( jacocoReportPath ).text.replace( '<!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">', '' )
-        def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
+        def jacocoReportFile = new File( jacocoReportPath )
+        if ( jacocoReportFile.exists() ) {
+            def xmlStr = new File( jacocoReportPath ).text.replace( '<!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">', '' )
+            def xml = new XmlParser( false, false ).parse( new ByteArrayInputStream( xmlStr.bytes ) )
 
-        def jacocoExclude = coverageExcludes ? coverageExcludes : []
-        jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
-        def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
-        def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
-        def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }
-        if ( offenders ) {
-            offenders.each { logger.quiet "Insufficient code coverage: ${it}" }
-            throw new IllegalStateException( "Not enough code coverage! Consult ${jacoco.reportsDir}/test/html/index.html for details." )
+            def jacocoExclude = coverageExcludes ? coverageExcludes : []
+            jacocoExclude.each { logger.quiet "Excluding ${it} from code coverage check." }
+            def filtered = xml.package.class.findAll { clazz -> !jacocoExclude.any { clazz.@name.contains( it ) } }
+            def instructions = filtered.collect{ it.counter }.flatten().findAll{ it.@type == 'INSTRUCTION' }.flatten()
+            def offenders = instructions.findAll { (it.@missed as int) >= (it.@covered as int) }.collect { it.parent().attributes().name }
+            if ( offenders ) {
+                offenders.each { logger.quiet "Insufficient code coverage: ${it}" }
+                throw new IllegalStateException( "Not enough code coverage! Consult ${jacoco.reportsDir}/test/html/index.html for details." )
+            }
+            else {
+                logger.quiet 'Adequate code coverage detected.'
+            }
         }
         else {
-            logger.quiet 'Adequate code coverage detected.'
+            logger.quiet 'No JaCoCo report was generated.'
         }
     }
 }

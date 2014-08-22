@@ -14,10 +14,6 @@ dependencies {
     runtime "ch.qos.logback:logback-classic:${logbackVersion}"
 }
 
-//TODO: remove once we put in some code
-verifyCodeCoverage.enabled = false
-
-
 // excludes classes from code coverage check, can specify a directory or individual files
-ext.coverageExcludes = []
+ext.coverageExcludes = ['org/example/shell/Application']
 

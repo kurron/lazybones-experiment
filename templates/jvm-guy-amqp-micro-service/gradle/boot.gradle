@@ -1,0 +1,17 @@
+apply plugin: 'spring-boot'
+
+dependencies {
+    compile "com.codahale.metrics:metrics-core:${codahaleVersion}"
+    compile "com.codahale.metrics:metrics-servlets:${codahaleVersion}"
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-amqp:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-integration:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.integration:spring-integration-amqp:${springIntegrationVersion}"
+
+    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+}

@@ -1,7 +1,7 @@
 apply plugin: 'codenarc'
 
 codenarc {
-    configFile = file( "${projectDir}/src/main/config/codenarc.xml" )
+    configFile = file( "${rootDir}/config/codenarc.xml" )
     toolVersion = codenarcVersion
     ignoreFailures = false
     codenarcMain.enabled = true

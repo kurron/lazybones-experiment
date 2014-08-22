@@ -6,6 +6,9 @@ import org.springframework.shell.plugin.support.DefaultBannerProvider
 import org.springframework.shell.support.util.OsUtils
 import org.springframework.stereotype.Component
 
+/**
+ * Provides a customized banner that the shell will display at startup.
+ */
 @SuppressWarnings( ['GroovyUnusedDeclaration', 'UnnecessaryGetter', 'GetterMethodCouldBeProperty'] )
 @Component
 @Order( Ordered.HIGHEST_PRECEDENCE )

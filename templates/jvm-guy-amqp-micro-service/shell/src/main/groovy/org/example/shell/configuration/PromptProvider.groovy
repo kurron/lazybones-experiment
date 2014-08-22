@@ -5,6 +5,9 @@ import org.springframework.core.annotation.Order
 import org.springframework.shell.plugin.support.DefaultPromptProvider
 import org.springframework.stereotype.Component
 
+/**
+ * Customizes the prompt the shell uses.
+ */
 @SuppressWarnings( ['GroovyUnusedDeclaration', 'GetterMethodCouldBeProperty'] )
 @Component
 @Order( Ordered.HIGHEST_PRECEDENCE )

@@ -6,25 +6,32 @@ import org.springframework.stereotype.Component
 /**
  * Application specific properties.
  */
+@SuppressWarnings( ['GStringExpressionWithinString'] )
 @Component
 class ApplicationProperties {
+
+    /**
+     * Default value of string properties.
+     */
+    private static final String UNSET = 'unset'
+
     /**
      * The name of the AMQP queue where messages go to.
      */
     @Value( '${queue.name}' )
-    String queue = 'unset'
+    String queue = UNSET
 
     /**
      * How the shell should identify itself to the service.
      */
     @Value( '${application.id}' )
-    String applicationID = 'unset'
+    String applicationID = UNSET
 
     /**
      * Host name or ip address of the RabbitMQ server.
      */
     @Value( '${rabbitmq.host}' )
-    String rabbitHost = 'unset'
+    String rabbitHost = UNSET
 
     /**
      * Port of the RabbitMQ server.
@@ -36,18 +43,18 @@ class ApplicationProperties {
      * Virtual host to use.
      */
     @Value( '${rabbitmq.virtualHost}' )
-    String rabbitVirtualHost = 'unset'
+    String rabbitVirtualHost = UNSET
 
     /**
      * Username to use when communicating with RabbitMQ.
      */
     @Value( '${rabbitmq.username}' )
-    String rabbitUsername = 'unset'
+    String rabbitUsername = UNSET
 
     /**
      * Password to use when communicating with RabbitMQ.
      */
     @Value( '${rabbitmq.password}' )
-    String rabbitPassword = 'unset'
+    String rabbitPassword = UNSET
 
 }

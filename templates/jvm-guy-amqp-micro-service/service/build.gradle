@@ -1,15 +1,8 @@
 description = 'Example micro-service implementation'
 
+apply from: "$rootDir/gradle/war.gradle"
+
 apply plugin: 'spring-boot'
-apply plugin: 'war'
-
-war.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
-
-configurations {
-    providedRuntime {
-        description = 'dependencies that are required at compile time but expected to be provided by the container at runtime'
-    }
-}
 
 dependencies {
     compile "com.codahale.metrics:metrics-core:${codahaleVersion}"

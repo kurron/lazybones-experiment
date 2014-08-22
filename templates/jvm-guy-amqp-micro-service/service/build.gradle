@@ -1,5 +1,6 @@
 description = 'Example micro-service implementation'
-archivesBaseName = 'micro-service'
+ext.implementationName = 'micro-service'
+archivesBaseName = implementationName
 
 apply from: "$rootDir/gradle/war.gradle"
 apply from: "$rootDir/gradle/boot.gradle"

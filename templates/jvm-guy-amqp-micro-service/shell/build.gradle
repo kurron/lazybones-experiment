@@ -1,5 +1,6 @@
 description = 'Command shell for the micro-service'
-archivesBaseName = 'micro-service-shell'
+ext.implementationName = 'micro-service-shell'
+archivesBaseName = implementationName
 
 apply from: "$rootDir/gradle/application.gradle"
 apply from: "$rootDir/gradle/shell.gradle"

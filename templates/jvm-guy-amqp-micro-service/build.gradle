@@ -52,6 +52,8 @@ subprojects {
     apply from: "$rootDir/gradle/jacoco.gradle"
     apply from: "$rootDir/gradle/codenarc.gradle"
     apply from: "$rootDir/gradle/checkstyle.gradle"
+//  TODO: Not sure why but FindBugs never completes.  Must revisit.
+//  apply from: "$rootDir/gradle/findbugs.gradle"
 
     dependencies {
         compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"

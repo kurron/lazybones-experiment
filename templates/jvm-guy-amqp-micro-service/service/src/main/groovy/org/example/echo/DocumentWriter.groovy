@@ -40,6 +40,6 @@ class DocumentWriter extends BaseFeedbackAware {
         EchoDocument saved = gateway.run()
         def response = new EchoResponse( saved.id )
         MessageBuilder.withPayload( theObjectMapper.toJson( response ).bytes )
-                      .setHeaderIfAbsent( 'contentType', 'application/json;type=echo-response;version=0.0.0' ).build()
+                      .setHeaderIfAbsent( 'contentType', EchoResponse.CONTENT_TYPE ).build()
     }
 }

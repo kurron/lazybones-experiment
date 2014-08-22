@@ -37,7 +37,7 @@ public class HystrixSettingsBuilder {
         final HystrixCommandGroupKey groupKey = HystrixCommandGroupKey.Factory.asKey( "example" );
         final HystrixCommandKey commandKey = HystrixCommandKey.Factory.asKey( command );
         final HystrixThreadPoolKey poolKey = HystrixThreadPoolKey.Factory.asKey( command );
-        final HystrixCommandProperties.Setter defaults = HystrixCommandProperties.Setter();
+        final HystrixCommandProperties.Setter defaults = HystrixCommandProperties.Setter().withExecutionIsolationThreadTimeoutInMilliseconds( 2000 );
         return HystrixCommand.Setter.withGroupKey( groupKey ).andCommandKey( commandKey).andThreadPoolKey( poolKey ).andCommandPropertiesDefaults( defaults );
     }
 }

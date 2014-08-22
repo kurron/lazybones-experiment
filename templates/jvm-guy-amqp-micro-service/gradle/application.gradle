@@ -4,4 +4,4 @@ run {
     standardInput = System.in
 }
 
-assemble.dependsOn 'distTar'
+assemble.dependsOn( 'distTar', 'installApp' )

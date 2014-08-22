@@ -23,7 +23,7 @@ class EchoCommand extends BaseCommand {
                              mandatory = false,
                              help = 'Contents of the message' ) final String contents ) {
         def request = new EchoRequest( contents ?: hexString() )
-        def message =  createMessage( toJsonBytes( request ), request.contentType )
+        def message =  createMessage( toJsonBytes( request ), request.CONTENT_TYPE )
         def reply = sendMessage( message, configuration.queue )
         "Service responded with ${reply}"
     }

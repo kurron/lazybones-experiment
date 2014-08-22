@@ -2,7 +2,14 @@ jar.manifest.attributes( "Implementation-Title": project.name, "Implementation-V
 
 dependencies {
     compile "org.springframework.shell:spring-shell:${springShellVersion}"
+    compile "org.springframework:spring-context-support:${springFrameworkVersion}"
+    compile "org.springframework:spring-core:${springFrameworkVersion}"
 
+    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+    compile "org.slf4j:jul-to-slf4j:${slf4jVersion}"
+    compile "org.slf4j:log4j-over-slf4j:${slf4jVersion}"
+
+    runtime "ch.qos.logback:logback-classic:${logbackVersion}"
 }
 
 //TODO: remove once we put in some code

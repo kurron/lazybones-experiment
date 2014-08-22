@@ -12,6 +12,11 @@ import org.springframework.stereotype.Component
 @Component
 class EchoCommand extends BaseCommand {
 
+    /**
+     * Handle the sending of a message to the service.
+     * @param contents the text to send.
+     * @return the results returned from the service.
+     */
     @SuppressWarnings( 'GroovyUnusedDeclaration' )
     @CliCommand( value = 'send', help = 'Send a message to the micro-service' )
     String send( @CliOption( key = ['message'],
@@ -19,8 +24,7 @@ class EchoCommand extends BaseCommand {
                              help = 'Contents of the message' ) final String contents ) {
         def request = new EchoRequest( contents ?: hexString() )
         def message =  createMessage( toJsonBytes( request ), request.contentType )
-        def response = theTemplate.sendAndReceive( configuration.queue, message )
-        def reply = printJsonPayload( response )
+        def reply = sendMessage( message, configuration.queue )
         "Service responsed with ${reply}"
     }
 }

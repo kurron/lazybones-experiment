@@ -1,9 +1,6 @@
 description = 'Command shell for the micro-service'
 
-apply plugin: 'application'
-
-jar.manifest.attributes( "Implementation-Title": project.name, "Implementation-Version": project.version )
-
+apply from: "$rootDir/gradle/application.gradle"
 
 dependencies {
     compile "org.springframework.amqp:spring-rabbit:${springAmqpVersion}"
@@ -25,8 +22,3 @@ ext.coverageExcludes = ['org/example/shell/Application']
 mainClassName = "org.example.shell.Application"
 applicationDefaultJvmArgs = ['-Dexample.property=change-me']
 
-run {
-    standardInput = System.in
-}
-
-assemble.dependsOn 'distTar'

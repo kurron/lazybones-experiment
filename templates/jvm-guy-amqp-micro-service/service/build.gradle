@@ -3,6 +3,9 @@ description = 'Example micro-service implementation'
 apply from: "$rootDir/gradle/war.gradle"
 apply from: "$rootDir/gradle/boot.gradle"
 
+dependencies {
+}
+
 // excludes classes from code coverage check, can specify a directory or individual files
 ext.coverageExcludes = ['org/example/ApplicationProperties',
                         'org/example/Application',

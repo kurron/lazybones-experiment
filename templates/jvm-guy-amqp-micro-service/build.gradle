@@ -56,6 +56,8 @@ subprojects {
 //  apply from: "$rootDir/gradle/findbugs.gradle"
 //  TODO: No JDK 8 support yet and not sure which rule sets to use
 //  apply from: "$rootDir/gradle/pmd.gradle"
+//  TODO: No JD 8 support yet
+//  apply from: "$rootDir/gradle/jdepend.gradle"
 
     dependencies {
         compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"

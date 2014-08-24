@@ -9,30 +9,31 @@ import org.example.shared.BaseUnitTest
 import spock.lang.Unroll
 
 /**
- * Learning test to see how Jackson can be configured to deal with required and optional properties.
+ * Learning test to see if Jackson can be configured to deal with required and optional properties.
  */
+@SuppressWarnings( ['LineLength', 'UnnecessaryBooleanExpression'] )
 class ExampleMediaTypeUnitTest extends BaseUnitTest {
 
     /**
      * Subject under test.
      */
-    static def sut = new ObjectMapper()
+    private static final SUT = new ObjectMapper()
 
     def setupSpec() {
-        sut.enable( SerializationFeature.INDENT_OUTPUT )
-        sut.disable( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS )
-        sut.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false )
-        sut.setVisibility( PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE )
+        SUT.enable( SerializationFeature.INDENT_OUTPUT )
+        SUT.disable( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS )
+        SUT.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false )
+        SUT.setVisibility( PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE )
     }
 
     @Unroll( 'verify JSON serialization where #description' )
     def 'exercise serializing various degrees of completeness'() {
 
         when: 'media type is serialized into JSON'
-        String json = sut.writeValueAsString( mediaType )
+        String json = SUT.writeValueAsString( mediaType )
 
         then: 'JSON contains the expected properties'
-        println json
+//      println json
         contains.every {
             json.contains( it )
         }

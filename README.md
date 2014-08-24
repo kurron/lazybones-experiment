@@ -25,4 +25,5 @@ To experiment with a locally installed template, try something like this:
 
 You can find out more about creating templates on [the GitHub wiki][1].
 
+To publish an updated version, update the VERSION file and issue `./gradlew publishTemplateJvmGuyAmqpMicroService`.
 [1]: https://github.com/pledbrook/lazybones/wiki/Template-developers-guide

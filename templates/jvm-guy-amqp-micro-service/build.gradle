@@ -54,6 +54,8 @@ subprojects {
     apply from: "$rootDir/gradle/checkstyle.gradle"
 //  TODO: Not sure why but FindBugs never completes.  Must revisit.
 //  apply from: "$rootDir/gradle/findbugs.gradle"
+//  TODO: No JDK 8 support yet and not sure which rule sets to use
+//  apply from: "$rootDir/gradle/pmd.gradle"
 
     dependencies {
         compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"

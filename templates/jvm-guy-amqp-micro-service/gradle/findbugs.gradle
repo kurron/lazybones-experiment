@@ -7,6 +7,6 @@ findbugs {
     toolVersion = findBugsVersion
 
     findbugsMain.enabled = true
-    findbugsMain.enabled = true
+    findbugsTest.enabled = true
 }
 

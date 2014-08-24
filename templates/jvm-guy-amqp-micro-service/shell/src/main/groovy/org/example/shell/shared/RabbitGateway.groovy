@@ -2,12 +2,12 @@ package org.example.shell.shared
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.netflix.hystrix.HystrixCommand
-import org.example.shell.shared.resilience.HystrixSettingsBuilder
+import org.example.shared.resilience.HystrixSettingsBuilder
 import org.springframework.amqp.core.Message
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 
 /**
- * Guards the interaction with RabbitMQ via ciruit-breaker..
+ * Guards the interaction with RabbitMQ via circuit-breaker..
  */
 class RabbitGateway extends HystrixCommand<String> {
 

@@ -1,2 +1,2 @@
-include 'service', 'shell'
+include 'shared', 'service', 'shell'
 

@@ -1,5 +1,10 @@
 package org.example.configuration
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.PropertyAccessor
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import org.example.ApplicationProperties
 import org.example.echo.BytesToEchoRequestTransformer
 import org.example.echo.DocumentWriter
@@ -105,7 +110,21 @@ class PrimaryConfiguration {
 
     @Bean
     Jackson2JsonObjectMapper jackson2JsonObjectMapper() {
-        new Jackson2JsonObjectMapper()
+        new Jackson2JsonObjectMapper( objectMapper() )
+    }
+
+    /**
+     * Construct an instance that requires explicit direction on what needs to be serialized, ignores unknown
+     * properties and pretty prints the JSON.
+     * @return properly configured mapper.
+     */
+    @Bean
+    ObjectMapper objectMapper() {
+        def bean = new ObjectMapper()
+        bean.enable( SerializationFeature.INDENT_OUTPUT )
+        bean.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false )
+        bean.setVisibility( PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE )
+        bean
     }
 
     @Bean

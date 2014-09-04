@@ -50,9 +50,9 @@ Issuing `curl http://localhost:42402/info` should get you something similar to
 ```
 {
   "app" : {
-    "description" : "An example micro-service",
+    "description" : "An example REST API",
     "version" : "0.0.1",
-    "name" : "Example Micro-Service"
+    "name" : "Example REST API"
   }
 }
 ```

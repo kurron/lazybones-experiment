@@ -15,14 +15,14 @@ class ExampleMediaType {
     String stringType
 
     @JsonProperty( 'integer-type' )
-    Integer integerType
+    String integerType
 
     @JsonProperty( 'boolean-type' )
-    Boolean booleanType
+    String booleanType
 
     @JsonProperty( 'array-type' )
     List<String> arrayType
 
     @JsonProperty( 'object-type' )
-    Map<String,Integer> objectType
+    Map<String,String> objectType
 }

@@ -33,7 +33,7 @@ class ExampleMediaTypeUnitTest extends BaseUnitTest {
         String json = SUT.writeValueAsString( mediaType )
 
         then: 'JSON contains the expected properties'
-//      println json
+      println json
         contains.every {
             json.contains( it )
         }
@@ -56,9 +56,9 @@ class ExampleMediaTypeUnitTest extends BaseUnitTest {
     ExampleMediaType fullyPopulated() {
         def instance = new ExampleMediaType()
         instance.arrayType = ['foo']
-        instance.booleanType = true
-        instance.integerType = 21
-        instance.objectType = ['year': 1964]
+        instance.booleanType = 'true'
+        instance.integerType = '21'
+        instance.objectType = ['year': '1964']
         instance.stringType = 'bar'
         instance
     }
@@ -71,13 +71,13 @@ class ExampleMediaTypeUnitTest extends BaseUnitTest {
 
     ExampleMediaType integerOnly() {
         def instance = new ExampleMediaType()
-        instance.integerType = 21
+        instance.integerType = '21'
         instance
     }
 
     ExampleMediaType booleanOnly() {
         def instance = new ExampleMediaType()
-        instance.booleanType = true
+        instance.booleanType = 'true'
         instance
     }
 
@@ -89,7 +89,7 @@ class ExampleMediaTypeUnitTest extends BaseUnitTest {
 
     ExampleMediaType objectOnly() {
         def instance = new ExampleMediaType()
-        instance.objectType = ['year': 1964]
+        instance.objectType = ['year': '1964']
         instance
     }
 }

@@ -31,12 +31,12 @@ class OperationsSupportStepDefinitions extends BaseStepDefinition {
     void setup() {
         builder = UriComponentsBuilder.newInstance().scheme( 'http' )
                                                     .host( 'localhost' )
-                                                    .port( properties.httpListeningPort )
+                                                    .port( configuration.httpListeningPort )
     }
 
     @Given('^a standing server$')
     void a_standing_server() throws Throwable {
-        assert properties.httpListeningPort
+        assert configuration.httpListeningPort
     }
 
     @When('^I call the health check endpoint$')

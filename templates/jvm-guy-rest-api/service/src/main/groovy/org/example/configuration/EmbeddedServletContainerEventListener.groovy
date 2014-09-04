@@ -16,11 +16,11 @@ class EmbeddedServletContainerEventListener implements ApplicationListener<Embed
      * Application-specific properties.
      */
     @Autowired
-    ApplicationProperties properties
+    ApplicationProperties configuration
 
     @Override
     void onApplicationEvent( EmbeddedServletContainerInitializedEvent event ) {
-        properties.httpListeningPort = event.embeddedServletContainer.port
-        log.info( 'Micro-Service is listening on port {}', properties.httpListeningPort )
+        configuration.httpListeningPort = event.embeddedServletContainer.port
+        log.info( 'Micro-Service is listening on port {}', configuration.httpListeningPort )
     }
 }

@@ -44,7 +44,7 @@ class EchoServiceStepDefinitions extends BaseStepDefinition {
                                     .setCorrelationId( UUID.randomUUID().toString().bytes )
                                     .build()
         // use the default exchange and the routing key is the queue name
-        def responseMessage = rabbitOperations.sendAndReceive( properties.queue, message )
+        def responseMessage = rabbitOperations.sendAndReceive( configuration.queue, message )
         response = objectMapper.fromJson( responseMessage.body, EchoResponse )
     }
 

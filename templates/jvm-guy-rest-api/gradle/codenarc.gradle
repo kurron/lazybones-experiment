@@ -5,6 +5,6 @@ codenarc {
     toolVersion = codenarcVersion
     ignoreFailures = false
     codenarcMain.enabled = true
-    codenarcTest.enabled = true
+    codenarcTest.enabled = false
 }
 

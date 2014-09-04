@@ -24,7 +24,7 @@ class EchoServiceComponentTest extends BaseComponentTest {
                                     .setCorrelationId( UUID.randomUUID().toString().bytes )
                                     .build()
         // use the default exchange and the routing key is the queue name
-        def response = rabbitOperations.sendAndReceive( applicationProperties.queue, message )
+        def response = rabbitOperations.sendAndReceive( configuration.queue, message )
         EchoResponse echoResponse = objectMapper.fromJson( response.body, EchoResponse )
 
         then: 'the document can be found in the database'

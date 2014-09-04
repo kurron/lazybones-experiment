@@ -22,7 +22,7 @@ class BaseComponentTest extends BaseSpecification {
      * Application-specific properties.
      */
     @Autowired
-    protected ApplicationProperties applicationProperties
+    protected ApplicationProperties configuration
 
     /**
      * Manages interactions with RabbitMQ.

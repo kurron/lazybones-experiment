@@ -24,7 +24,6 @@ import org.springframework.integration.handler.ServiceActivatingHandler
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper
 import org.springframework.integration.transformer.MessageTransformingHandler
 import org.springframework.messaging.MessageHandler
-import org.springframework.web.client.RestTemplate
 
 /**
  * Spring context configuration that contains the definitions of application's beans.  Be aware
@@ -125,10 +124,5 @@ class PrimaryConfiguration {
         bean.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false )
         bean.setVisibility( PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE )
         bean
-    }
-
-    @Bean
-    RestTemplate restTemplate() {
-        new RestTemplate()
     }
 }

@@ -12,5 +12,5 @@ interface EchoRepository {
      * @param id which item to load.
      * @return loaded item.
      */
-    Item findOne( String id );
+    Item findOne( String id )
 }

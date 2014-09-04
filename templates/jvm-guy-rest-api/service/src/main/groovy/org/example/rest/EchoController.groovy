@@ -1,5 +1,7 @@
 package org.example.rest
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+
 import groovy.transform.Canonical
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.rest.ResourceNotFoundError
@@ -10,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 
 /**
  * An example of a hypermedia driven REST endpoint.
@@ -35,13 +35,11 @@ class EchoController {
     ResponseEntity<SimpleMediaType> fetchSpecificItem( @PathVariable String instance ) {
         // production would be more sophisticated -- this is just to make testing a bit easier to understand
         def found = theRepository.findOne( instance )
-        if ( found ) {
-            return new ResponseEntity<SimpleMediaType>( new SimpleMediaType( item: found ), HttpStatus.OK )
-        }
-        else {
+        if ( !found ) {
             throw new ResourceNotFoundError( instance,
                                              "The echo resource ${instance} is not in the system.",
                                              'The resource is not in the system.  Perhaps the identifier is incorrect?' )
         }
+        new ResponseEntity<SimpleMediaType>( new SimpleMediaType( item: found ), HttpStatus.OK )
     }
 }

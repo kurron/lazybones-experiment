@@ -1,23 +1,17 @@
 package org.example.rest
 
-import org.example.echo.BytesToEchoRequestTransformer
-import org.example.echo.EchoRequest
+import static org.springframework.http.MediaType.APPLICATION_JSON
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+
 import org.example.rest.model.Item
 import org.example.shared.BaseUnitTest
 import org.example.shared.feedback.CustomFeedbackContext
 import org.example.shared.rest.ResourceNotFoundError
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
-import org.springframework.integration.support.json.Jackson2JsonObjectMapper
-import org.springframework.messaging.support.MessageBuilder
-import org.springframework.test.web.servlet.DefaultMvcResult
 import org.springframework.test.web.servlet.MvcResult
-import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.util.NestedServletException
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 /**
  * Unit level test of the EchoController object.
  */
@@ -26,12 +20,14 @@ class EchoControllerUnitTest extends BaseUnitTest {
     /**
      * Test double for durable storage.
      */
-    def stub = Stub( EchoRepository )
+    private final stub = Stub( EchoRepository )
 
     /**
      * Subject Under Test.
      */
-    def sut = MockMvcBuilders.standaloneSetup( new EchoController( stub ) ).defaultRequest( get( '/' ).accept( MediaType.APPLICATION_JSON ).contentType( MediaType.APPLICATION_JSON ) ).build()
+    private final  sut = MockMvcBuilders.standaloneSetup( new EchoController( stub ) )
+                                        .defaultRequest( get( '/' ).accept( APPLICATION_JSON ).contentType( APPLICATION_JSON ) )
+                                        .build()
 
     def 'verify unknown resource handling'() {
 

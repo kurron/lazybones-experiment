@@ -3,6 +3,8 @@ package org.example.rest
 import groovy.transform.Canonical
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.rest.ResourceNotFoundError
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,11 +21,27 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 @Canonical
 class EchoController {
 
+    /**
+     * Manages interaction with durable storage.
+     */
+    private final EchoRepository theRepository
+
+    @Autowired
+    EchoController( EchoRepository aRepository ) {
+        theRepository = aRepository
+    }
+
     @RequestMapping( value = '/{instance}', method = RequestMethod.GET )
     ResponseEntity<SimpleMediaType> fetchSpecificItem( @PathVariable String instance ) {
-        // TODO: fetch the resource via its instance identifier
-        throw new ResourceNotFoundError( instance,
-                                         "The echo resource ${instance} is not in the system.",
-                                         'The resource is not in the system.  Perhaps the identifier is incorrect?' )
+        // production would be more sophisticated -- this is just to make testing a bit easier to understand
+        def found = theRepository.findOne( instance )
+        if ( found ) {
+            return new ResponseEntity<SimpleMediaType>( new SimpleMediaType( item: found ), HttpStatus.OK )
+        }
+        else {
+            throw new ResourceNotFoundError( instance,
+                                             "The echo resource ${instance} is not in the system.",
+                                             'The resource is not in the system.  Perhaps the identifier is incorrect?' )
+        }
     }
 }

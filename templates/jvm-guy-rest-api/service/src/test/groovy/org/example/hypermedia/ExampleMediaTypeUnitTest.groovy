@@ -33,7 +33,7 @@ class ExampleMediaTypeUnitTest extends BaseUnitTest {
         String json = SUT.writeValueAsString( mediaType )
 
         then: 'JSON contains the expected properties'
-      println json
+//      println json
         contains.every {
             json.contains( it )
         }

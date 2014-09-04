@@ -8,12 +8,17 @@ import groovy.transform.Canonical
 @Canonical
 class Item {
     /**
+     * Constant that signals that the property has not been properly set.
+     */
+    public static final String UNSET = 'unset'
+
+    /**
      * The unique identifier of this instance.
      */
-    String instance = 'unset'
+    String instance = UNSET
 
     /**
      * Data element of the object..
      */
-    String text = 'unset'
+    String text = UNSET
 }

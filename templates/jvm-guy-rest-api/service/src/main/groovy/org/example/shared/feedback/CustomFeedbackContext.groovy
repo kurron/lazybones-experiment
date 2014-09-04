@@ -8,9 +8,10 @@ package org.example.shared.feedback
 @SuppressWarnings( 'LineLength' )
 enum CustomFeedbackContext implements FeedbackContext {
 
-    PAYLOAD_TRANSFORMATION( 1000, 'Transforming byte payload into request', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
-    DOCUMENT_STORAGE( 1001, 'Storing document with message {}', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
-    SYNTHETIC_TRANSACTION_FAILURE( 1002, 'Problem executing synthetic transaction', FeedbackLevel.ERROR, Audience.OPERATIONS ),
+    PAYLOAD_TRANSFORMATION( 2000, 'Transforming byte payload into request', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
+    DOCUMENT_STORAGE( 2001, 'Storing document with message {}', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
+    SYNTHETIC_TRANSACTION_FAILURE( 2002, 'Problem executing synthetic transaction', FeedbackLevel.ERROR, Audience.OPERATIONS ),
+    RESOURCE_NOT_FOUND( 2003, 'Problem locating resource {}', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
 
     /**
      * Unique context code for this instance.

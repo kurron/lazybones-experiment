@@ -1,9 +1,8 @@
 package org.example.rest
 
 import groovy.transform.Canonical
-import org.example.rest.model.Item
 import org.example.rest.model.SimpleMediaType
-import org.springframework.http.HttpStatus
+import org.example.shared.rest.ResourceNotFoundError
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,7 +20,8 @@ class EchoController {
     @RequestMapping( value = '/{instance}', method = RequestMethod.GET )
     ResponseEntity<SimpleMediaType> fetchSpecificItem( @PathVariable String instance ) {
         // TODO: fetch the resource via its instance identifier
-        def data = new SimpleMediaType( item: new Item( instance: '1', text: 'some data' ) )
-        new ResponseEntity<SimpleMediaType>( data, HttpStatus.OK )
+        throw new ResourceNotFoundError( instance,
+                                             "The echo resource ${instance} is not in the system.",
+                                             'The resource is not in the system.  Perhaps the identifier is incorrect?' )
     }
 }

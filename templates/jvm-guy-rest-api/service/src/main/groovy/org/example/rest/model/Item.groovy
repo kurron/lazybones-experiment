@@ -1,11 +1,11 @@
 package org.example.rest.model
 
-import groovy.transform.Canonical
+import groovy.transform.ToString
 
 /**
  * A singular instance of our example data.
  */
-@Canonical
+@ToString( includePackage = false, includeNames = true )
 class Item {
     /**
      * Constant that signals that the property has not been properly set.

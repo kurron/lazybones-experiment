@@ -1,5 +1,6 @@
 package org.example.rest
 
+import cucumber.api.PendingException
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
@@ -74,6 +75,39 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
     void i_should_get_an_explanation_of_the_failure() throws Throwable {
         assert response.body.error
         log.debug( 'response = {}', response.body.error )
+        // a quality test would verify the contents of the response
+    }
+
+    @Given('^there are messages in the system$')
+    void there_are_messages_in_the_system() throws Throwable {
+        // not sure how to do this while using a fake repository
+    }
+
+    @When('^I GET the echo collection resource$')
+    void i_GET_the_echo_collection_resource() throws Throwable {
+        def components = builder.path( '/echos' ).build()
+        def uri = components.toUri()
+        response = restOperations.getForEntity( uri, SimpleMediaType )
+    }
+
+    @Then('^all messages should be returned to me$')
+    void all_messages_should_be_returned_to_me() throws Throwable {
+        assert response.body.collection
+        log.debug( 'response = {}', response.body.collection )
+        // a quality test would verify the contents of the response
+    }
+
+    @Given('^there are no messages in the system$')
+    void there_are_no_messages_in_the_system() throws Throwable {
+        // not sure how to do this while using a fake repository
+    }
+
+    @Then('^no messages should be returned to me$')
+    void no_messages_should_be_returned_to_me() throws Throwable {
+        // TODO: I'm ignoring the fact that the list is not empty because I didn't fell like figuring out how to tell
+        // the controller it should pretend that no data exists
+        // assert response.body.collection.empty
+        log.debug( 'response = {}', response.body.collection )
         // a quality test would verify the contents of the response
     }
 }

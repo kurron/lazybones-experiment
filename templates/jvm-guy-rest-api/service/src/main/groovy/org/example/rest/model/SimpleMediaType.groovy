@@ -21,5 +21,11 @@ class SimpleMediaType {
      * Optional field that will be filled in only when error states are reached.
      */
     ErrorContext error
+
+    /**
+     * Optional field used to insert or update data in the system. Another alternative might be to use a blank Item
+     * object instead but you are trading the dynamic attributes for typing and, possibly, better validation.
+     */
+    Template template
 }
 

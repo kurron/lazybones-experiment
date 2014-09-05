@@ -2,8 +2,10 @@ package org.example.rest
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 
+import org.example.rest.model.Data
 import org.example.rest.model.Item
 import org.example.rest.model.SimpleMediaType
+import org.example.rest.model.Template
 import org.example.shared.rest.ResourceNotFoundError
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -49,6 +51,14 @@ class EchoController {
             new Item( instance: 'Bob', text: 'was here.' )
         }
         def hyperMediaControl = new SimpleMediaType( collection: collection )
+        new ResponseEntity<SimpleMediaType>( hyperMediaControl, HttpStatus.OK )
+    }
+
+    @RequestMapping( value = '/echo/template/insert', method = RequestMethod.GET )
+    ResponseEntity<SimpleMediaType> fetchInsertTemplate() {
+        def template = new Template()
+        template.data = [new Data( name: 'text', value: 'default value', prompt: 'Enter the text that should be saved.' )]
+        def hyperMediaControl = new SimpleMediaType( template: template )
         new ResponseEntity<SimpleMediaType>( hyperMediaControl, HttpStatus.OK )
     }
 }

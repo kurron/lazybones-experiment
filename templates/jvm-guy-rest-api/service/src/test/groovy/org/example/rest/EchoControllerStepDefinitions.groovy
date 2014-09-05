@@ -1,5 +1,6 @@
 package org.example.rest
 
+import cucumber.api.PendingException
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
@@ -105,6 +106,25 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
         // the controller it should pretend that no data exists
         // assert response.body.collection.empty
         log.debug( 'response = {}', response.body.collection )
+        // a quality test would verify the contents of the response
+    }
+
+    @Given('^my desire to insert a new message into the system$')
+    void my_desire_to_insert_a_new_message_into_the_system() throws Throwable {
+        // nothing to do here
+    }
+
+    @When('^I GET the insert template resource$')
+    void i_GET_the_insert_template_resource() throws Throwable {
+        def components = builder.path( '/echo/template/insert' ).build()
+        def uri = components.toUri()
+        response = restOperations.getForEntity( uri, SimpleMediaType )
+    }
+
+    @Then('^the template should be returned to me$')
+    void the_template_should_be_returned_to_me() throws Throwable {
+        assert response.body.template
+        log.debug( 'response = {}', response.body.template )
         // a quality test would verify the contents of the response
     }
 }

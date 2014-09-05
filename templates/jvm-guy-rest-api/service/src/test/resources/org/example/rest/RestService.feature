@@ -28,3 +28,8 @@ Feature: REST Service
     Then I should get a status code of 200
     And no messages should be returned to me
 
+  Scenario: Obtaining The Insertion Template
+    Given my desire to insert a new message into the system
+    When I GET the insert template resource
+    Then I should get a status code of 200
+    And the template should be returned to me

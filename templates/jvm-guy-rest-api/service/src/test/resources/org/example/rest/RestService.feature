@@ -49,3 +49,9 @@ Feature: REST Service
     And I PUT the template resource
     Then I should get a status code of 200
     And the message should be returned to me
+
+  Scenario: Deleting An Existing Message
+    Given a reference to a valid message
+    When I DELETE the echo resource
+    Then I should get a status code of 200
+    And the message should be returned to me

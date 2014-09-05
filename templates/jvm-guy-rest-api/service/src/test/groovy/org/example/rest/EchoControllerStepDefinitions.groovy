@@ -158,6 +158,14 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
         response = restOperations.exchange( uri, HttpMethod.PUT, request, SimpleMediaType )
     }
 
+    @When('^I DELETE the echo resource$')
+    void i_DELETE_the_echo_resource() throws Throwable {
+        def components = builder().path( '/echo/{instance}' ).build()
+        def uri = components.expand( instance ).toUri()
+        HttpEntity<Void> request = new HttpEntity<>( null )
+        response = restOperations.exchange( uri, HttpMethod.DELETE, request, SimpleMediaType )
+    }
+
     private static HttpEntity<SimpleMediaType> createRequest( SimpleMediaType body ) {
         def headers = new HttpHeaders()
         headers.add( 'Content-Type', SimpleMediaType.MEDIA_TYPE)

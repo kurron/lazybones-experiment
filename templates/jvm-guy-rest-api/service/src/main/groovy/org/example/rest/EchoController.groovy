@@ -3,6 +3,7 @@ package org.example.rest
 import static org.example.rest.model.SimpleMediaType.MEDIA_TYPE
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.POST
 import static org.springframework.web.bind.annotation.RequestMethod.PUT
@@ -75,7 +76,7 @@ class EchoController {
     }
 
     @RequestMapping( value = '/echo', method = POST, consumes = MEDIA_TYPE )
-    ResponseEntity<SimpleMediaType> insertNewMessage( @RequestBody( required = false ) SimpleMediaType request ) {
+    ResponseEntity<SimpleMediaType> insertNewMessage( @RequestBody SimpleMediaType request ) {
         // pretend we inserted the item and have a resource identifier of 42
         def uriComponents = MvcUriComponentsBuilder.fromMethodName( EchoController, 'fetchSpecificItem', 'instance' ).buildAndExpand( '42' )
         def uri = uriComponents.encode().toUriString()
@@ -85,8 +86,16 @@ class EchoController {
     }
 
     @RequestMapping( value = '/echo/{instance}', method = PUT, consumes = MEDIA_TYPE )
-    ResponseEntity<SimpleMediaType> updateExistingMessage( @RequestBody( required = false ) SimpleMediaType request, @PathVariable String instance ) {
+    ResponseEntity<SimpleMediaType> updateExistingMessage( @RequestBody SimpleMediaType request, @PathVariable String instance ) {
         // pretend we've successfully updated the resource using the data provided in the update template
         new ResponseEntity<SimpleMediaType>( new SimpleMediaType( item: new Item( text: request.template.text ) ), OK )
     }
+
+    @RequestMapping( value = '/echo/{instance}', method = DELETE )
+    ResponseEntity<SimpleMediaType> deleteExistingMessage( @PathVariable String instance ) {
+        // pretend we've successfully deleted the resource and hand back the deleted resource. We could also return a NO CONTENT
+        // status and no body as well.
+        new ResponseEntity<SimpleMediaType>( new SimpleMediaType( item: new Item( text: 'Pulled from durable storage.' ) ), OK )
+    }
+
 }

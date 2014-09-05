@@ -65,10 +65,10 @@ class EchoController {
     @RequestMapping( value = '/echo', method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE )
     ResponseEntity<SimpleMediaType> insertNewMessage( SimpleMediaType request ) {
         // pretend we inserted the item and have a resource identifier of 42
-//        def uriComponents = MvcUriComponentsBuilder.fromMethodName( EchoController, 'fetchSpecificItem', 0 ).buildAndExpand( 42 )
-//        def uri = uriComponents.encode().toUriString()
+        def uriComponents = MvcUriComponentsBuilder.fromMethodName( EchoController, 'fetchSpecificItem', 'instance' ).buildAndExpand( '42' )
+        def uri = uriComponents.encode().toUriString()
         def headers = new HttpHeaders()
-        headers.add( 'Location', 'bob' )
+        headers.add( 'Location', uri )
         new ResponseEntity<SimpleMediaType>( request, headers, HttpStatus.CREATED )
     }
 }

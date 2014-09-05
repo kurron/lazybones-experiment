@@ -1,11 +1,11 @@
 package org.example.rest.model
 
-import groovy.transform.Canonical
+import groovy.transform.ToString
 
 /**
  * Contains details when failures occur.
  */
-@Canonical
+@ToString( includePackage = false, includeNames = true )
 class ErrorContext {
     /**
      * Constant that signals that the property has not been properly set.

@@ -1,11 +1,8 @@
 package org.example.rest.model
 
-import groovy.transform.Canonical
-
 /**
  * A hypermedia control that supports all the states of the sample resource.
  */
-@Canonical
 class SimpleMediaType {
 
     /**
@@ -18,3 +15,4 @@ class SimpleMediaType {
      */
     ErrorContext error
 }
+

@@ -9,11 +9,13 @@ import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.TestRestTemplate
 import org.springframework.integration.support.json.JsonObjectMapper
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.web.client.RestOperations
 
 /**
  * Convenience class for step definitions.
  */
+@WebAppConfiguration
 @IntegrationTest( 'server.port = 0' )
 @ContextConfiguration( classes = Application, loader = SpringApplicationContextLoader )
 class BaseStepDefinition {

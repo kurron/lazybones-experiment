@@ -1,6 +1,5 @@
 package org.example.rest
 
-import cucumber.api.PendingException
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
@@ -9,13 +8,11 @@ import groovy.util.logging.Slf4j
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.BaseStepDefinition
 import org.springframework.http.ResponseEntity
-import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.web.util.UriComponentsBuilder
 
 /**
  * Implementation of the REST Service feature steps.
  */
-@WebAppConfiguration
 @Slf4j
 class EchoControllerStepDefinitions extends BaseStepDefinition {
 

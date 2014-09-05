@@ -7,13 +7,11 @@ import cucumber.api.java.en.When
 import groovy.util.logging.Slf4j
 import org.example.shared.BaseStepDefinition
 import org.springframework.http.ResponseEntity
-import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.web.util.UriComponentsBuilder
 
 /**
  * Implementation of the Operations Support feature steps.
  */
-@WebAppConfiguration
 @Slf4j
 class OperationsSupportStepDefinitions extends BaseStepDefinition {
 

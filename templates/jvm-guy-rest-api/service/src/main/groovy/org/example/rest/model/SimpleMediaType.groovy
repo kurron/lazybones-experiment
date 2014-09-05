@@ -1,9 +1,17 @@
 package org.example.rest.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 /**
  * A hypermedia control that supports all the states of the sample resource.
  */
 class SimpleMediaType {
+
+    /**
+     * The MIME Type to use when referring to this structure.
+     */
+    @JsonIgnore
+    public static final MEDIA_TYPE = 'application/json;type=simple-media-type;version=0.0.0'
 
     /**
      * Option field that will be filled when a singular instance is requested.

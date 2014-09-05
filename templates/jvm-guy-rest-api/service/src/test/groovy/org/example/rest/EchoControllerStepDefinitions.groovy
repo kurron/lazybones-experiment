@@ -136,7 +136,7 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
         def components = builder().path( '/echo' ).build()
         def uri = components.toUri()
         def headers = new HttpHeaders()
-        headers.add( 'Content-Type', MediaType.APPLICATION_JSON_VALUE )
+        headers.add( 'Content-Type', SimpleMediaType.MEDIA_TYPE )
         HttpEntity<SimpleMediaType> request = new HttpEntity<>( response.body, headers )
         response = restOperations.exchange( uri, HttpMethod.POST, request, SimpleMediaType )
     }

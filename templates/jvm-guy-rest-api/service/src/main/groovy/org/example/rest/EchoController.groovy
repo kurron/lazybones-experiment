@@ -87,11 +87,11 @@ class EchoController extends BaseFeedbackAware {
     @RequestMapping( value = '/echo', method = POST, consumes = MEDIA_TYPE )
     ResponseEntity<SimpleMediaType> insertNewMessage( @RequestBody SimpleMediaType request ) {
         // pretend we inserted the item and have a resource identifier of 42
-        feedbackProvider.sendFeedback( INSERTING_RESOURCE, MAGIC_NUMBER)
-        def uriComponents = MvcUriComponentsBuilder.fromMethodName( EchoController, 'fetchSpecificItem', 'instance' ).buildAndExpand(MAGIC_NUMBER)
-        def uri = uriComponents.encode().toUriString()
+        feedbackProvider.sendFeedback( INSERTING_RESOURCE, MAGIC_NUMBER )
+        def uriComponents = MvcUriComponentsBuilder.fromMethodName( EchoController, 'fetchSpecificItem', 'instance' ).buildAndExpand( MAGIC_NUMBER )
+        def uri = uriComponents.encode().toUri()
         def headers = new HttpHeaders()
-        headers.add( 'Location', uri )
+        headers.setLocation( uri )
         new ResponseEntity<SimpleMediaType>( request, headers, CREATED )
     }
 

@@ -99,9 +99,9 @@ class LoggingFeedbackProvider implements FeedbackProvider {
         try {
             switch ( context.feedbackLevel )
             {
-                case FeedbackLevel.TRACE: throw new IllegalArgumentException( 'Level may not be TRACE.' )
-                case FeedbackLevel.DEBUG: throw new IllegalArgumentException( 'Level may not be DEBUG.' )
-                case FeedbackLevel.INFO: throw new IllegalArgumentException( 'Level may not be INFO.' )
+                case FeedbackLevel.TRACE:
+                case FeedbackLevel.DEBUG:
+                case FeedbackLevel.INFO:
                 case FeedbackLevel.WARN:
                     if ( theLogger.isWarnEnabled() ) {
                         theLogger.warn( MarkerFactory.getMarker( context.audience.name() ),

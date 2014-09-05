@@ -23,9 +23,10 @@ class SimpleMediaType {
     ErrorContext error
 
     /**
-     * Optional field used to insert or update data in the system. Another alternative might be to use a blank Item
-     * object instead but you are trading the dynamic attributes for typing and, possibly, better validation.
+     * Optional field used to insert or update data in the system. Another alternative might be to use some sort of
+     * dynamic system where individual fields are described, perhaps suggesting prompt strings that the UI can
+     * present to the user when building out a form.
      */
-    Template template
+    Item template
 }
 

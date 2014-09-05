@@ -8,6 +8,10 @@ import cucumber.api.java.en.When
 import groovy.util.logging.Slf4j
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.BaseStepDefinition
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.util.UriComponentsBuilder
 
@@ -22,16 +26,10 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
      */
     ResponseEntity<SimpleMediaType> response
 
-    /**
-     * Simplifies the creation of URIs.
-     */
-    UriComponentsBuilder builder
-
-    @Before
-    void setup() {
-        builder = UriComponentsBuilder.newInstance().scheme( 'http' )
-                                                    .host( 'localhost' )
-                                                    .port( configuration.httpListeningPort )
+    UriComponentsBuilder builder() {
+        UriComponentsBuilder.newInstance().scheme( 'http' )
+                                          .host( 'localhost' )
+                                          .port( configuration.httpListeningPort )
     }
 
     /**
@@ -46,9 +44,8 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
 
     @When('^I GET the echo resource$')
     void i_GET_the_echo_resource() throws Throwable {
-        def components = builder.path( '/echo/{instance}' ).build()
+        def components = builder().path( '/echo/{instance}' ).build()
         def uri = components.expand( instance ).toUri()
-        //response = restOperations.exchange( uri, HttpMethod.GET,  )
         response = restOperations.getForEntity( uri, SimpleMediaType )
     }
 
@@ -83,7 +80,7 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
 
     @When('^I GET the echo collection resource$')
     void i_GET_the_echo_collection_resource() throws Throwable {
-        def components = builder.path( '/echos' ).build()
+        def components = builder().path( '/echos' ).build()
         def uri = components.toUri()
         response = restOperations.getForEntity( uri, SimpleMediaType )
     }
@@ -116,7 +113,7 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
 
     @When('^I GET the insert template resource$')
     void i_GET_the_insert_template_resource() throws Throwable {
-        def components = builder.path( '/echo/template/insert' ).build()
+        def components = builder().path( '/echo/template/insert' ).build()
         def uri = components.toUri()
         response = restOperations.getForEntity( uri, SimpleMediaType )
     }
@@ -126,5 +123,26 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
         assert response.body.template
         log.debug( 'response = {}', response.body.template )
         // a quality test would verify the contents of the response
+    }
+
+    @When('^I fill in the insert template resource$')
+    void i_fill_in_the_insert_template_resource() throws Throwable {
+        assert response.body.template
+        response.body.template.text = 'Filled in by acceptance testing.'
+    }
+
+    @When('^I POST the insert template resource$')
+    void i_POST_the_insert_template_resource() throws Throwable {
+        def components = builder().path( '/echo' ).build()
+        def uri = components.toUri()
+        def headers = new HttpHeaders()
+        headers.add( 'Content-Type', MediaType.APPLICATION_JSON_VALUE )
+        HttpEntity<SimpleMediaType> request = new HttpEntity<>( response.body, headers )
+        response = restOperations.exchange( uri, HttpMethod.POST, request, SimpleMediaType )
+    }
+
+    @Then('^the Location header should contain the URI of the resource$')
+    void the_Location_header_should_contain_the_URI_of_the_resource() throws Throwable {
+        assert response.headers.containsKey( 'Location' )
     }
 }

@@ -11,7 +11,7 @@ class DummyEchoRepository implements EchoRepository {
 
     @Override
     Item findOne( String id ) {
-        def item = new Item( instance: id, text: 'some random text' )
+        def item = new Item( text: 'some random text' )
         id == 'invalid' ? null : item
     }
 }

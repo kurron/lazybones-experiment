@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
  */
 @Cucumber.Options( tags = ['@api'],
                    format = ['pretty', 'html:target/cucumber'],
-                   features = ['src/test/resources'] )
+                   features = ['service/src/test/resources'] )
 @RunWith( Cucumber )
 class ApiAcceptanceTest {
 }

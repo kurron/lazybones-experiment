@@ -3,6 +3,7 @@ package org.example.shared.rest
 import org.example.rest.model.ErrorContext
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.feedback.BaseFeedbackAware
+import org.example.shared.feedback.CustomFeedbackContext
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -21,5 +22,13 @@ class GlobalExceptionHandler extends BaseFeedbackAware {
         def error = new ErrorContext( title: context.title, code: context.code, message: context.message )
         def hypermediaControl = new SimpleMediaType( error: error )
         new ResponseEntity<SimpleMediaType>( hypermediaControl, HttpStatus.NOT_FOUND )
+    }
+
+    @ExceptionHandler
+    ResponseEntity<SimpleMediaType> handleUnexpectedErrors( Exception context ) {
+        feedbackProvider.sendFeedback( CustomFeedbackContext.UNEXPECTED_FAILURE, context )
+        def error = new ErrorContext( title: 'Unexpected Failure', code: CustomFeedbackContext.UNEXPECTED_FAILURE.code, message: context.message )
+        def hypermediaControl = new SimpleMediaType( error: error )
+        new ResponseEntity<SimpleMediaType>( hypermediaControl, HttpStatus.INTERNAL_SERVER_ERROR )
     }
 }

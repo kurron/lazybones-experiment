@@ -13,12 +13,7 @@ class Item {
     public static final String UNSET = 'unset'
 
     /**
-     * The unique identifier of this instance.
-     */
-    String instance = UNSET
-
-    /**
-     * Data element of the object..
+     * Data element of the object. A real system would have a much richer set of properties.
      */
     String text = UNSET
 }

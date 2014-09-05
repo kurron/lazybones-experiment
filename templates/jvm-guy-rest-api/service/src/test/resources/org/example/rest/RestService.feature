@@ -33,3 +33,11 @@ Feature: REST Service
     When I GET the insert template resource
     Then I should get a status code of 200
     And the template should be returned to me
+
+  Scenario: Inserting A New Message
+    Given my desire to insert a new message into the system
+    When I GET the insert template resource
+    And I fill in the insert template resource
+    And I POST the insert template resource
+    Then I should get a status code of 201
+    And the Location header should contain the URI of the resource

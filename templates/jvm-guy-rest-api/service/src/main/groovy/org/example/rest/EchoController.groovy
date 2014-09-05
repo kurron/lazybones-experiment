@@ -1,6 +1,9 @@
 package org.example.rest
 
 import static org.example.rest.model.SimpleMediaType.MEDIA_TYPE
+import static org.example.shared.feedback.CustomFeedbackContext.DELETING_RESOURCE
+import static org.example.shared.feedback.CustomFeedbackContext.INSERTING_RESOURCE
+import static org.example.shared.feedback.CustomFeedbackContext.UPDATING_RESOURCE
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE
@@ -10,6 +13,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT
 
 import org.example.rest.model.Item
 import org.example.rest.model.SimpleMediaType
+import org.example.shared.feedback.BaseFeedbackAware
 import org.example.shared.rest.ResourceNotFoundError
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -25,7 +29,12 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
  */
 @RestController
 @RequestMapping( produces = MEDIA_TYPE )
-class EchoController {
+class EchoController extends BaseFeedbackAware {
+
+    /**
+     * Hard coded resource ID mostly here to shut CodeNarc up.
+     */
+    private static final String MAGIC_NUMBER = '42'
 
     /**
      * Manages interaction with durable storage.
@@ -78,7 +87,8 @@ class EchoController {
     @RequestMapping( value = '/echo', method = POST, consumes = MEDIA_TYPE )
     ResponseEntity<SimpleMediaType> insertNewMessage( @RequestBody SimpleMediaType request ) {
         // pretend we inserted the item and have a resource identifier of 42
-        def uriComponents = MvcUriComponentsBuilder.fromMethodName( EchoController, 'fetchSpecificItem', 'instance' ).buildAndExpand( '42' )
+        feedbackProvider.sendFeedback( INSERTING_RESOURCE, MAGIC_NUMBER)
+        def uriComponents = MvcUriComponentsBuilder.fromMethodName( EchoController, 'fetchSpecificItem', 'instance' ).buildAndExpand(MAGIC_NUMBER)
         def uri = uriComponents.encode().toUriString()
         def headers = new HttpHeaders()
         headers.add( 'Location', uri )
@@ -88,6 +98,7 @@ class EchoController {
     @RequestMapping( value = '/echo/{instance}', method = PUT, consumes = MEDIA_TYPE )
     ResponseEntity<SimpleMediaType> updateExistingMessage( @RequestBody SimpleMediaType request, @PathVariable String instance ) {
         // pretend we've successfully updated the resource using the data provided in the update template
+        feedbackProvider.sendFeedback( UPDATING_RESOURCE, instance )
         new ResponseEntity<SimpleMediaType>( new SimpleMediaType( item: new Item( text: request.template.text ) ), OK )
     }
 
@@ -95,6 +106,7 @@ class EchoController {
     ResponseEntity<SimpleMediaType> deleteExistingMessage( @PathVariable String instance ) {
         // pretend we've successfully deleted the resource and hand back the deleted resource. We could also return a NO CONTENT
         // status and no body as well.
+        feedbackProvider.sendFeedback( DELETING_RESOURCE, instance )
         new ResponseEntity<SimpleMediaType>( new SimpleMediaType( item: new Item( text: 'Pulled from durable storage.' ) ), OK )
     }
 

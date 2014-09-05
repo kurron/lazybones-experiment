@@ -13,6 +13,9 @@ enum CustomFeedbackContext implements FeedbackContext {
     SYNTHETIC_TRANSACTION_FAILURE( 2002, 'Problem executing synthetic transaction', FeedbackLevel.ERROR, Audience.OPERATIONS ),
     RESOURCE_NOT_FOUND( 2003, 'Problem locating resource {}', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
     UNEXPECTED_FAILURE( 2004, 'An unexpected failure has occurred: {}', FeedbackLevel.ERROR, Audience.DEVELOPMENT ),
+    INSERTING_RESOURCE( 2005, 'Inserting resource {} into the system.', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
+    UPDATING_RESOURCE( 2006, 'Updating resource {} into the system.', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
+    DELETING_RESOURCE( 2007, 'Deleting resource {} into the system.', FeedbackLevel.DEBUG, Audience.DEVELOPMENT ),
 
     /**
      * Unique context code for this instance.

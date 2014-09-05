@@ -122,7 +122,7 @@ class PrimaryConfiguration {
         def bean = new ObjectMapper()
         bean.enable( SerializationFeature.INDENT_OUTPUT )
         bean.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false )
-        bean.setVisibility( PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE )
+        bean.setVisibility( PropertyAccessor.FIELD, JsonAutoDetect.Visibility.NONE )
         bean
     }
 }

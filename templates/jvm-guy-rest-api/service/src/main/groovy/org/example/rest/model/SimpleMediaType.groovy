@@ -3,12 +3,13 @@ package org.example.rest.model
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.springframework.hateoas.ResourceSupport
 
 /**
  * A hypermedia control that supports all the states of the sample resource.
  */
 @JsonInclude( JsonInclude.Include.NON_NULL )
-class SimpleMediaType {
+class SimpleMediaType extends ResourceSupport {
 
     /**
      * The MIME Type to use when referring to this structure.

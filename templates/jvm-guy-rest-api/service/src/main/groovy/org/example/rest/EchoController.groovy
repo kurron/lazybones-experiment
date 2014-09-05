@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
  * An example of a hypermedia driven REST endpoint.
  */
 @RestController
-@RequestMapping( value = '/echo', consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE )
+@RequestMapping( value = '/echo', produces = APPLICATION_JSON_VALUE )
 @Canonical
 class EchoController {
 

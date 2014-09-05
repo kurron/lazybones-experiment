@@ -1,11 +1,11 @@
 package org.example.rest
 
-import cucumber.api.PendingException
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import groovy.util.logging.Slf4j
+import org.example.rest.model.SimpleMediaType
 import org.example.shared.BaseStepDefinition
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.web.WebAppConfiguration
@@ -21,7 +21,7 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
     /**
      * HTTP response from the REST call.
      */
-    ResponseEntity<String> response
+    ResponseEntity<SimpleMediaType> response
 
     /**
      * Simplifies the creation of URIs.
@@ -48,7 +48,9 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
     @When('^I GET the echo resource$')
     void i_GET_the_echo_resource() throws Throwable {
         def components = builder.path( '/echo/{instance}' ).build()
-        response = restOperations.getForEntity( components.expand( instance ).toUri(), String )
+        def uri = components.expand( instance ).toUri()
+        //response = restOperations.exchange( uri, HttpMethod.GET,  )
+        response = restOperations.getForEntity( uri, SimpleMediaType )
     }
 
     @Then('^I should get a status code of (\\d+)$')
@@ -58,8 +60,9 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
 
     @Then('^the message should be returned to me$')
     void the_message_should_be_returned_to_me() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assert response.body.item
+        log.debug( 'response = {}', response.body.item )
+        // a quality test would verify the contents of the response
     }
 
     @Given('^a reference to an invalid message$')
@@ -69,7 +72,8 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
 
     @Then('^I should get an explanation of the failure$')
     void i_should_get_an_explanation_of_the_failure() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assert response.body.error
+        log.debug( 'response = {}', response.body.error )
+        // a quality test would verify the contents of the response
     }
 }

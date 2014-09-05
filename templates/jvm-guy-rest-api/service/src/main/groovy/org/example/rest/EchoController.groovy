@@ -2,7 +2,6 @@ package org.example.rest
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 
-import groovy.transform.Canonical
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.rest.ResourceNotFoundError
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping( value = '/echo', produces = APPLICATION_JSON_VALUE )
-@Canonical
 class EchoController {
 
     /**

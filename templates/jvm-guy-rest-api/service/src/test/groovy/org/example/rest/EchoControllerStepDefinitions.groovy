@@ -1,7 +1,5 @@
 package org.example.rest
 
-import cucumber.api.PendingException
-import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -11,7 +9,6 @@ import org.example.shared.BaseStepDefinition
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.util.UriComponentsBuilder
 
@@ -125,19 +122,18 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
         // a quality test would verify the contents of the response
     }
 
-    @When('^I fill in the insert template resource$')
-    void i_fill_in_the_insert_template_resource() throws Throwable {
+    @When('^I fill in the template resource$')
+    void i_fill_in_the_template_resource() throws Throwable {
         assert response.body.template
         response.body.template.text = 'Filled in by acceptance testing.'
     }
 
-    @When('^I POST the insert template resource$')
-    void i_POST_the_insert_template_resource() throws Throwable {
+    @When('^I POST the template resource$')
+    void i_POST_the_insert_resource() throws Throwable {
         def components = builder().path( '/echo' ).build()
         def uri = components.toUri()
-        def headers = new HttpHeaders()
-        headers.add( 'Content-Type', SimpleMediaType.MEDIA_TYPE )
-        HttpEntity<SimpleMediaType> request = new HttpEntity<>( response.body, headers )
+
+        def request = createRequest(response.body)
         response = restOperations.exchange( uri, HttpMethod.POST, request, SimpleMediaType )
     }
 
@@ -145,4 +141,28 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
     void the_Location_header_should_contain_the_URI_of_the_resource() throws Throwable {
         assert response.headers.containsKey( 'Location' )
     }
+
+    @When('^I GET the update template resource$')
+    void i_GET_the_update_template_resource() throws Throwable {
+        def components = builder().path( '/echo/template/update/{instance}' ).build()
+        def uri = components.expand( instance ).toUri()
+        response = restOperations.getForEntity( uri, SimpleMediaType )
+    }
+
+    @When('^I PUT the template resource$')
+    void i_PUT_the_template_resource() throws Throwable {
+        def components = builder().path( '/echo/{instance}' ).build()
+        def uri = components.expand( instance ).toUri()
+
+        def request = createRequest( response.body )
+        response = restOperations.exchange( uri, HttpMethod.PUT, request, SimpleMediaType )
+    }
+
+    private static HttpEntity<SimpleMediaType> createRequest( SimpleMediaType body ) {
+        def headers = new HttpHeaders()
+        headers.add( 'Content-Type', SimpleMediaType.MEDIA_TYPE)
+        HttpEntity<SimpleMediaType> request = new HttpEntity<>( body, headers )
+        request
+    }
+
 }

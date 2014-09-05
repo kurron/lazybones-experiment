@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.POST
+import static org.springframework.web.bind.annotation.RequestMethod.PUT
 
 import org.example.rest.model.Item
 import org.example.rest.model.SimpleMediaType
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder
@@ -64,13 +66,27 @@ class EchoController {
         new ResponseEntity<SimpleMediaType>( hyperMediaControl, OK )
     }
 
+    @RequestMapping( value = '/echo/template/update/{instance}', method = GET )
+    ResponseEntity<SimpleMediaType> fetchUpdateTemplate() {
+        // pretend that we loaded the resource from durable storage
+        def template = new Item( text: 'Already in the system' )
+        def hyperMediaControl = new SimpleMediaType( template: template )
+        new ResponseEntity<SimpleMediaType>( hyperMediaControl, OK )
+    }
+
     @RequestMapping( value = '/echo', method = POST, consumes = MEDIA_TYPE )
-    ResponseEntity<SimpleMediaType> insertNewMessage( SimpleMediaType request ) {
+    ResponseEntity<SimpleMediaType> insertNewMessage( @RequestBody( required = false ) SimpleMediaType request ) {
         // pretend we inserted the item and have a resource identifier of 42
         def uriComponents = MvcUriComponentsBuilder.fromMethodName( EchoController, 'fetchSpecificItem', 'instance' ).buildAndExpand( '42' )
         def uri = uriComponents.encode().toUriString()
         def headers = new HttpHeaders()
         headers.add( 'Location', uri )
         new ResponseEntity<SimpleMediaType>( request, headers, CREATED )
+    }
+
+    @RequestMapping( value = '/echo/{instance}', method = PUT, consumes = MEDIA_TYPE )
+    ResponseEntity<SimpleMediaType> updateExistingMessage( @RequestBody( required = false ) SimpleMediaType request, @PathVariable String instance ) {
+        // pretend we've successfully updated the resource using the data provided in the update template
+        new ResponseEntity<SimpleMediaType>( new SimpleMediaType( item: new Item( text: request.template.text ) ), OK )
     }
 }

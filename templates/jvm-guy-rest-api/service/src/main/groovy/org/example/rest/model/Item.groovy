@@ -1,5 +1,6 @@
 package org.example.rest.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.ToString
 
 /**
@@ -15,5 +16,6 @@ class Item {
     /**
      * Data element of the object. A real system would have a much richer set of properties.
      */
+    @JsonProperty( 'text' )
     String text = UNSET
 }

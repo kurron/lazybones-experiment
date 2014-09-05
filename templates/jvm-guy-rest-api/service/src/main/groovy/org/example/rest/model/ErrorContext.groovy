@@ -1,5 +1,6 @@
 package org.example.rest.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.ToString
 
 /**
@@ -15,16 +16,19 @@ class ErrorContext {
     /**
      * Short name of the error context.
      */
+    @JsonProperty( 'title' )
     String title = UNSET
 
     /**
      * A code that uniquely identifies the error context.  Useful in operations
      * manuals.
      */
+    @JsonProperty( 'code' )
     String code = UNSET
 
     /**
      * A detailed description of the failure and possible solutions.
      */
+    @JsonProperty( 'message' )
     String message = UNSET
 }

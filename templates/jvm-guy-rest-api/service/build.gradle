@@ -8,6 +8,8 @@ apply from: "$rootDir/gradle/boot.gradle"
 dependencies {
     compile project( ':shared' )
     compile "org.springframework.hateoas:spring-hateoas:${springHateoasVersion}"
+    compile "org.springframework.plugin:spring-plugin-core:${springPluginVersion}"
+    compile "com.jayway.jsonpath:json-path:${jasonPathVersion}"
 }
 
 // excludes classes from code coverage check, can specify a directory or individual files

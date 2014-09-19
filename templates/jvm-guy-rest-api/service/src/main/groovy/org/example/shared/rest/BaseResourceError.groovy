@@ -44,7 +44,7 @@ class BaseResourceError extends UnrecoverableError {
                        List<Object> someArguments,
                        String aTitle,
                        String aMessage ) {
-        super( aContext, someArguments )
+        super( aContext, someArguments.toArray() )
         title = aTitle
         code = aContext.code.toString()
         message = aMessage

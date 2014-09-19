@@ -1,7 +1,5 @@
 apply plugin: 'groovy'
 
-// $rootDir/gradle/groovy.gradle
-
 compileGroovy {
     groovyOptions.configurationScript = file( "$rootDir/gradle/groovyCompilerConfiguration.groovy" )
 }

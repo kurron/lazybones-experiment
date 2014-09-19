@@ -91,8 +91,9 @@ class PrimaryConfiguration {
     @Bean
     MessageHandlerChain uploadMessageHandlerChain() {
         def bean = new MessageHandlerChain()
-        List<MessageHandler> handlers = [new MessageTransformingHandler( bytesToEchoRequestTransformer() ),
-                                         new ServiceActivatingHandler( documentWriter() )]
+        List<MessageHandler> handlers = []
+        handlers << new MessageTransformingHandler( bytesToEchoRequestTransformer() )
+        handlers << new ServiceActivatingHandler( documentWriter() )
         bean.handlers = handlers
         bean
     }

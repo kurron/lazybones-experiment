@@ -1,8 +1,10 @@
 package org.example.shared.rest
 
+import static org.example.shared.feedback.CustomFeedbackContext.UNEXPECTED_FAILURE
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import static org.springframework.http.HttpStatus.NOT_FOUND
 import org.example.rest.model.ErrorContext
 import org.example.rest.model.SimpleMediaType
-import org.example.shared.feedback.CustomFeedbackContext
 import org.example.shared.feedback.FeedbackAware
 import org.example.shared.feedback.FeedbackProvider
 import org.springframework.http.HttpHeaders
@@ -40,15 +42,15 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
         theProvider.sendFeedback( context.context, context.arguments )
         def error = new ErrorContext( title: context.title, code: context.code, message: context.message )
         def hypermediaControl = new SimpleMediaType( error: error )
-        new ResponseEntity<SimpleMediaType>( hypermediaControl, HttpStatus.NOT_FOUND )
+        new ResponseEntity<SimpleMediaType>( hypermediaControl, NOT_FOUND )
     }
 
     @ExceptionHandler
     ResponseEntity<SimpleMediaType> handleUnexpectedErrors( Exception context ) {
-        theProvider.sendFeedback( CustomFeedbackContext.UNEXPECTED_FAILURE, context )
-        def error = new ErrorContext( title: 'Unexpected Failure', code: CustomFeedbackContext.UNEXPECTED_FAILURE.code, message: context.message )
+        theProvider.sendFeedback( UNEXPECTED_FAILURE, context )
+        def error = new ErrorContext( title: 'Unexpected Failure', code: UNEXPECTED_FAILURE.code.toString(), message: context.message )
         def hypermediaControl = new SimpleMediaType( error: error )
-        new ResponseEntity<SimpleMediaType>( hypermediaControl, HttpStatus.INTERNAL_SERVER_ERROR )
+        new ResponseEntity<SimpleMediaType>( hypermediaControl, INTERNAL_SERVER_ERROR )
     }
 
     @Override

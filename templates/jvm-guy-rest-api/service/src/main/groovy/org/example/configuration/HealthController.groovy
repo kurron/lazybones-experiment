@@ -54,7 +54,7 @@ class HealthController extends BaseFeedbackAware implements HealthIndicator {
 
         def status = Health.up()
         Map<String,String> breakerStatus = [:]
-        Gateways.values().each {
+        Gateways.values().each { Gateways it ->
             def breaker = HystrixCircuitBreaker.Factory.getInstance( HystrixCommandKey.Factory.asKey( it.name() ) )
             breakerStatus[it.toString()] = breaker?.open ? 'DOWN' : 'UP'
         }

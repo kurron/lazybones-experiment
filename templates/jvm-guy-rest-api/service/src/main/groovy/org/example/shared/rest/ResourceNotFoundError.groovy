@@ -6,6 +6,7 @@ import org.example.shared.feedback.FeedbackContext
 /**
  * Signals that the specified resource was not located.
  */
+@SuppressWarnings( 'UnnecessaryCast' )
 class ResourceNotFoundError extends BaseResourceError {
 
     /**

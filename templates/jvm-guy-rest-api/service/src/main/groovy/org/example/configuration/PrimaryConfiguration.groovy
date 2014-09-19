@@ -29,6 +29,7 @@ import org.springframework.messaging.MessageHandler
  * Spring context configuration that contains the definitions of application's beans.  Be aware
  * that Spring Boot will automatically create bean in addition to those that we define.
  */
+@SuppressWarnings( ['GrMethodMayBeStatic', 'GroovyUnusedDeclaration'] )
 @Configuration
 @EnableConfigurationProperties( ApplicationProperties )
 class PrimaryConfiguration {

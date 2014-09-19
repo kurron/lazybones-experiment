@@ -1,6 +1,5 @@
 package org.example.shared.feedback
 
-import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.MDC
 import org.slf4j.MarkerFactory
@@ -40,7 +39,6 @@ class LoggingFeedbackProvider implements FeedbackProvider {
         theApplicationType = anApplicationType
     }
 
-    @CompileStatic
     void sendFeedback( FeedbackContext context, Object[] arguments ) {
         verifyParameters( context )
         storeMessageCode( context )
@@ -91,7 +89,6 @@ class LoggingFeedbackProvider implements FeedbackProvider {
         }
     }
 
-    @CompileStatic
     void sendFeedback(  FeedbackContext context, Throwable error ) {
         verifyParameters( context )
         storeMessageCode( context )
@@ -123,22 +120,18 @@ class LoggingFeedbackProvider implements FeedbackProvider {
         }
     }
 
-    @CompileStatic
     private static void clearMessageCode() {
         MDC.remove( MESSAGE_CODE )
     }
 
-    @CompileStatic
     private static void storeMessageCode(FeedbackContext context) {
         MDC.put( MESSAGE_CODE, Integer.toString( context.code ) )
     }
 
-    @CompileStatic
     private void storeApplicationType() {
         MDC.put( APP_TYPE, theApplicationType )
     }
 
-    @CompileStatic
     private static void verifyParameters( FeedbackContext context ) {
         if ( null == context ) {
             throw new IllegalArgumentException( 'Context may not be null!' )

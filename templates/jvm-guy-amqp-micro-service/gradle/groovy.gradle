@@ -24,6 +24,8 @@ test {
         excludes = ['**/BaseUnitTest.class']
     }
 
+    systemProperty'spring.profiles.active', activeSpringProfile
+
     maxParallelForks = Runtime.runtime.availableProcessors()
     testLogging {
         showStandardStreams = false

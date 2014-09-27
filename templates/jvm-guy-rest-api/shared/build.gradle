@@ -1,6 +1,4 @@
 description = 'Code shared between micro-service and the shell'
-ext.implementationName = 'shared-code'
-archivesBaseName = implementationName
 
 dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"

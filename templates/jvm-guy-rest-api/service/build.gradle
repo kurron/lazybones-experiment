@@ -1,6 +1,4 @@
 description = 'Example REST API implementation'
-ext.implementationName = 'rest-service'
-archivesBaseName = implementationName
 
 apply from: "$rootDir/gradle/war.gradle"
 apply from: "$rootDir/gradle/boot.gradle"

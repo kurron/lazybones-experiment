@@ -1,0 +1,19 @@
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenPublish( MavenPublication ) {
+            if ( project.plugins.hasPlugin( WarPlugin ) ) {
+                from components.web
+            }
+            else {
+                from components.java
+            }
+            artifact sourcesJar
+            artifact testSourcesJar
+            artifact testBinariesJar
+            artifact groovydocJar
+        }
+    }
+}
+

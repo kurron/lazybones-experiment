@@ -92,5 +92,12 @@ allprojects {
     defaultTasks << 'build'
     defaultTasks << 'buildDashboard'
     defaultTasks << 'collectJars'
+
+    if ( 'true' == onBuildServer ) {
+        defaultTasks << 'publish'
+    }
+    else {
+        defaultTasks << 'publishToMavenLocal'
+    }
 }
 

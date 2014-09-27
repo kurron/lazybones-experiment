@@ -15,5 +15,12 @@ publishing {
             artifact groovydocJar
         }
     }
+
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/maven-repository"
+        }
+    }
 }
 

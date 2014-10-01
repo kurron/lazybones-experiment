@@ -1,5 +1,6 @@
 package org.example.shared.concurrency
 
+import groovy.util.logging.Slf4j
 import groovyx.gpars.actor.Actors
 import org.example.shared.BaseUnitTest
 
@@ -9,6 +10,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Unit test of actor-based concurrency object.
  */
+@Slf4j
 class ExampleActorUnitTest extends BaseUnitTest {
 
     def 'exercise one-way message passing'() {
@@ -17,7 +19,7 @@ class ExampleActorUnitTest extends BaseUnitTest {
         def hanks = new HollywoodActor( name: 'Tom Hanks' )
 
         and: 'the subjects are activated'
-        [depp,hanks]*.start()
+        [depp, hanks]*.start()
 
         when: 'messages are sent'
         depp.send( 'Sparrow')
@@ -28,7 +30,7 @@ class ExampleActorUnitTest extends BaseUnitTest {
         hanks.send( 'Lovell' )
 
         and: 'we wait for a second'
-        [depp,hanks]*.join( 1, TimeUnit.SECONDS )
+        [depp, hanks]*.join( 1, TimeUnit.SECONDS )
 
         then: 'messages are printed to the screen'
         true
@@ -47,15 +49,15 @@ class ExampleActorUnitTest extends BaseUnitTest {
 
         when: 'multiple non-blocking messages are sent'
         def latch = new CountDownLatch( 2 )
-        fortuneTeller.sendAndContinue( 'Bob' ) { println it; latch.countDown() }
-        fortuneTeller.sendAndContinue( 'Fred' ) { println it; latch.countDown() }
+        fortuneTeller.sendAndContinue( 'Bob' ) { log.debug it ; latch.countDown() }
+        fortuneTeller.sendAndContinue( 'Fred' ) { log.debug it; latch.countDown() }
 
         then: 'messages are printed to the screen'
-        if ( !latch.await( 1, TimeUnit.SECONDS ) ) {
-            println 'Fortune teller did not response in time'
+        if ( latch.await( 1, TimeUnit.SECONDS ) ) {
+            log.debug 'Bob and Fred are happy campers.'
         }
         else {
-            println 'Bob and Fred are happy campers.'
+            log.debug 'Fortune teller did not response in time'
         }
     }
 
@@ -66,7 +68,7 @@ class ExampleActorUnitTest extends BaseUnitTest {
 
         when: 'a symbol lookup message is sent in the background'
         trader.sendAndContinue( new Lookup( 'XYZ' ) ) {
-            println "The price of XYZ stock is ${it}"
+            log.debug "The price of XYZ stock is ${it}"
         }
 
         and: 'a buy message is sent'

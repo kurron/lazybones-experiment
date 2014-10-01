@@ -27,3 +27,15 @@ You can find out more about creating templates on [the GitHub wiki][1].
 
 To publish an updated version, update the VERSION file and issue `./gradlew publishTemplateJvmGuyAmqpMicroService`.
 [1]: https://github.com/pledbrook/lazybones/wiki/Template-developers-guide
+
+To publish to Bintray create `~/.lazybones/config.groovy` so it looks like this:
+
+bintrayRepositories = [
+      "kurron/lazybones",
+      "kyleboon/lazybones",
+      "pledbrook/lazybones-templates"
+]
+
+options.logLevel = "INFO"
+
+and then `./gradlew publishAllTemplates`.  You can use the templates by issuing something similar to `lazybones create jvm-guy-amqp-micro-service  amqp` or `lazybones create jvm-guy-rest-api rest`

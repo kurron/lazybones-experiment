@@ -58,4 +58,21 @@ class ExampleActorUnitTest extends BaseUnitTest {
             println 'Bob and Fred are happy campers.'
         }
     }
+
+    def 'exercise discreet message handling'() {
+
+        given: 'a subject subject under test'
+        def trader = new Trader().start()
+
+        when: 'a symbol lookup message is sent in the background'
+        trader.sendAndContinue( new Lookup( 'XYZ' ) ) {
+            println "The price of XYZ stock is ${it}"
+        }
+
+        and: 'a buy message is sent'
+        trader << new Buy( 'XYZ', 200 )
+
+        then: 'messages are printed to the screen'
+        trader.join( 1, TimeUnit.SECONDS )
+    }
 }

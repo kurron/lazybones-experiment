@@ -18,7 +18,11 @@ class ExampleActorUnitTest extends BaseUnitTest {
         [depp,hanks]*.start()
 
         when: 'messages are sent'
+        depp.send( 'Sparrow')
         depp.send( 'Wonka')
+        depp.send( 'Scissorhands')
+        depp.send( 'Ceaser')
+
         hanks.send( 'Lovell' )
 
         and: 'we wait for a second'

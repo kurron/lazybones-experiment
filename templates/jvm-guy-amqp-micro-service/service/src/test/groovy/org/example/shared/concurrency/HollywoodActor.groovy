@@ -12,7 +12,11 @@ class HollywoodActor extends DefaultActor {
 
     @Override
     protected void act() {
-        loop {
+        def terminationLogic = {
+            println "${name} is done acting"
+        }
+
+        loop( 3, terminationLogic ) {
             react { role ->
                 println "${name} playing the ${role}"
                 println "${name} runs in ${Thread.currentThread()}"

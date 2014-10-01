@@ -1,7 +1,9 @@
 package org.example.shared.concurrency
 
+import groovyx.gpars.actor.Actors
 import org.example.shared.BaseUnitTest
 
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 /**
@@ -9,7 +11,7 @@ import java.util.concurrent.TimeUnit
  */
 class ExampleActorUnitTest extends BaseUnitTest {
 
-    def 'exercise message passing'() {
+    def 'exercise one-way message passing'() {
         given: 'a couple of subjects under test'
         def depp = new HollywoodActor( name: 'Johnny Depp' )
         def hanks = new HollywoodActor( name: 'Tom Hanks' )
@@ -32,4 +34,28 @@ class ExampleActorUnitTest extends BaseUnitTest {
         true
     }
 
+    def 'exercise non-blocking multi-party message passing'() {
+
+        given: 'a subject subject under test'
+        def fortuneTeller = Actors.actor {
+            loop {
+                react { name ->
+                    sender.send( "${name}, you have a very bright future!" )
+                }
+            }
+        }
+
+        when: 'multiple non-blocking messages are sent'
+        def latch = new CountDownLatch( 2 )
+        fortuneTeller.sendAndContinue( 'Bob' ) { println it; latch.countDown() }
+        fortuneTeller.sendAndContinue( 'Fred' ) { println it; latch.countDown() }
+
+        then: 'messages are printed to the screen'
+        if ( !latch.await( 1, TimeUnit.SECONDS ) ) {
+            println 'Fortune teller did not response in time'
+        }
+        else {
+            println 'Bob and Fred are happy campers.'
+        }
+    }
 }

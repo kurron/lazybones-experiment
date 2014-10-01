@@ -65,6 +65,7 @@ subprojects {
         compile "com.netflix.hystrix:hystrix-core:${hystrixVersion}"
         compile "com.netflix.rxjava:rxjava-core:${rxjavaVersion}"
         compile "com.netflix.archaius:archaius-core:${archaiusVersion}"
+        compile "org.codehaus.gpars:gpars:${gparsVersion}"
 
         testCompile( "org.spockframework:spock-core:${spockVersion}" ) {
             exclude module: 'groovy-all'

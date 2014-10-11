@@ -1,5 +1,13 @@
 package org.example.rest
 
+import org.junit.Before
+import org.springframework.http.HttpEntity
+import org.springframework.mock.web.MockHttpServletRequest
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.util.logging.Slf4j
@@ -20,13 +28,18 @@ import spock.lang.Ignore
 @Slf4j
 @WebAppConfiguration
 @IntegrationTest( 'server.port = 0' )
-@Ignore( 'The HATEOAS links are not working yet' )
+//@Ignore( 'The HATEOAS links are not working yet' )
 class SimpleMediaTypeComponentTest extends BaseComponentTest {
 
     def 'learn about HATEOAS'() {
 
         given: 'valid JSON mapper'
         assert objectMapper
+
+        and: 'valid mock servlet environment'
+        def request = new MockHttpServletRequest();
+        def requestAttributes = new ServletRequestAttributes( request );
+        RequestContextHolder.setRequestAttributes( requestAttributes );
 
         when: 'I serialize a resource into JSON'
         def item = new Item( text: 'Hello' )
@@ -39,7 +52,9 @@ class SimpleMediaTypeComponentTest extends BaseComponentTest {
         resource.add( new Link( 'http://api.example.com/resource', Link.REL_PREVIOUS ) )
         resource.add( new Link( 'http://api.example.com/resource', Link.REL_NEXT ) )
         resource.add( new Link( 'http://api.example.com/resource', Link.REL_LAST ) )
-        resource.add( linkTo( methodOn( EchoController ).fetchSpecificItem( 'valid' ) ).withRel( 'valid' ) )
+        resource.add( linkTo( EchoController ).withRel( 'to-echo-controller' ) )
+// Bad news: the look up code does NOT work with Groovy.  You get a stack overflow error.  Java works fine.
+//        resource.add( linkTo( methodOn( EchoController ).fetchSpecificItem( 'valid' ) ).withRel( 'valid' ) )
 
 /*
         Method method = EchoController.getMethod( 'fetchSpecificItem', String )
@@ -47,11 +62,10 @@ class SimpleMediaTypeComponentTest extends BaseComponentTest {
         resource.add( link )
 */
 
-        def json = objectMapper.writeValueAsString( resource )
+        def json = objectMapper.toJson( resource )
 
         then: 'it looks as I expect'
         json
         log.debug( 'JSON = {}', json )
     }
-
 }

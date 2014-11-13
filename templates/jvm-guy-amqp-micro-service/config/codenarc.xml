@@ -8,8 +8,17 @@
     <ruleset-ref path='rulesets/basic.xml'/>
     <ruleset-ref path='rulesets/braces.xml'/>
     <ruleset-ref path='rulesets/concurrency.xml'/>
-    <ruleset-ref path='rulesets/convention.xml'/>
-    <ruleset-ref path='rulesets/design.xml'/>
+    <ruleset-ref path='rulesets/convention.xml'>
+        <rule-config name='NoDef'>
+            <!-- I disagree that def is a bad thing  -->
+            <property name='enabled' value='false'/>
+        </rule-config>
+    </ruleset-ref>
+    <ruleset-ref path='rulesets/design.xml'>
+        <rule-config name='Instanceof'>
+            <property name='ignoreTypeNames' value='FeedbackAware'/>
+        </rule-config>
+    </ruleset-ref>
     <ruleset-ref path='rulesets/dry.xml'/>
     <ruleset-ref path='rulesets/exceptions.xml'/>
     <ruleset-ref path='rulesets/formatting.xml'>

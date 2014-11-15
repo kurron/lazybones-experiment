@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--groups", "/Packer"]
+  end
+
+  config.vm.define "server" do |server|
+      server.vm.box = "packer/trusty-x64-server"
+      server.vm.hostname = "server"
+      server.vm.provider "virtualbox" do |v|
+          v.name = "p.server"
+      end
+  end
+
+  config.vm.define "desktop" do |desktop|
+      desktop.vm.box = "packer/trusty-x64-desktop"
+      desktop.vm.hostname = "desktop"
+      desktop.vm.provider "virtualbox" do |v|
+          v.gui = true
+          v.name = "p.desktop"
+      end
+  end
+end

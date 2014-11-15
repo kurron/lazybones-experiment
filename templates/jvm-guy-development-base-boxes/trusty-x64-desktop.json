@@ -1,0 +1,82 @@
+{
+    "description": "Builds a bare bones, Ansible enabled Ubuntu 14.04 Desktop x64 box",
+    "min_packer_version": "0.7.2",
+
+    "variables": {
+        "ssh_name": "vagrant",
+        "ssh_pass": "vagrant",
+        "hostname": "trusty-desktop"
+    },
+
+    "builders": [{
+        "boot_command" : [
+            "<esc><esc><enter><wait>",
+            "/install/vmlinuz noapic ",
+            "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-vanilla.cfg ",
+            "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+            "hostname={{user `hostname`}} ",
+            "fb=false debconf/frontend=noninteractive ",
+            "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+            "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+            "initrd=/install/initrd.gz -- <enter>"
+        ],
+        "boot_wait": "10s",
+        "disk_size" : 40000,
+        "floppy_files": [],
+        "format": "ovf",
+        "guest_additions_mode": "upload",
+        "guest_additions_path" : "VBoxGuestAdditions_{{.Version}}.iso",
+        "guest_os_type": "Ubuntu_64",
+        "hard_drive_interface": "sata",
+        "headless": false,
+        "http_directory" : "web-server",
+        "http_port_max" : 9000,
+        "http_port_min" : 8000,
+        "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
+        "iso_checksum_type": "md5",
+        "iso_url": "http://releases.ubuntu.com/trusty/ubuntu-14.04-server-amd64.iso",
+        "output_directory": "output-virtualbox-iso",
+        "shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
+        "ssh_password": "{{user `ssh_pass`}}",
+        "ssh_port": 22,
+        "ssh_username": "{{user `ssh_name`}}",
+        "ssh_wait_timeout": "20m",
+        "type": "virtualbox-iso",
+	"vboxmanage": [ 
+		    ["modifyvm", "{{.Name}}", "--vram", "32"],
+		    ["modifyvm", "{{.Name}}", "--memory", "4096"],
+		    ["modifyvm", "{{.Name}}", "--cpus", "2"],
+		    ["modifyvm", "{{.Name}}", "--audio", "none"],
+		    ["modifyvm", "{{.Name}}", "--clipboard", "bidirectional"]
+	],
+	"vboxmanage_post": [],
+	"vm_name": "trusty-x64-desktop"
+    }],	
+    "provisioners": [
+        {
+            "execute_command": "echo '{{user `ssh_pass`}}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+            "type": "shell",
+            "scripts": ["ansible/scripts/passwordless-sudo.sh", 
+                        "ansible/scripts/install-ansible.sh"]
+        },
+        {
+            "playbook_dir"  : "ansible",
+            "playbook_file" : "ansible/ansible-desktop.yml",
+            "type"          : "ansible-local"
+        },
+        {
+            "execute_command": "echo '{{user `ssh_pass`}}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+            "type": "shell",
+            "scripts": ["ansible/scripts/install-virtualbox.sh"]
+        }
+    ],
+    "post-processors": [
+        {
+             "compression_level": 9,
+             "include": [],
+             "keep_input_artifact": false,
+             "output": "vagrant/trusty-x64-desktop.box",
+             "type": "vagrant"
+        }
+    ]
+}

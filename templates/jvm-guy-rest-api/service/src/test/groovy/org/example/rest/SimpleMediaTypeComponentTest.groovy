@@ -58,7 +58,7 @@ class SimpleMediaTypeComponentTest extends BaseComponentTest {
 
 /*
         Method method = EchoController.getMethod( 'fetchSpecificItem', String )
-        Link link = linkTo( method, 'instance' ).withRel( 'bob' )
+        Link link = linkTo( method, 'instance' ).withRel( 'buildInstanceURI' )
         resource.add( link )
 */
 

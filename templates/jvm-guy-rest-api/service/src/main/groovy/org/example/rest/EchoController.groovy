@@ -10,7 +10,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.DELETE
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.POST
 import static org.springframework.web.bind.annotation.RequestMethod.PUT
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on
 
 import org.example.rest.model.Item
 import org.example.rest.model.SimpleMediaType
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder
 
 /**
  * An example of a hypermedia driven REST endpoint.
@@ -89,8 +87,7 @@ class EchoController extends BaseFeedbackAware {
     ResponseEntity<SimpleMediaType> insertNewMessage( @RequestBody SimpleMediaType request ) {
         // pretend we inserted the item and have a resource identifier of 42
         feedbackProvider.sendFeedback( INSERTING_RESOURCE, MAGIC_NUMBER )
-        def uriComponents = MvcUriComponentsBuilder.fromMethodCall( on( EchoController ).fetchSpecificItem( 'instance' ) )
-                                                   .buildAndExpand( MAGIC_NUMBER )
+        def uriComponents = EchoControllerLinkBuilder.buildInstanceURI( MAGIC_NUMBER )
         def uri = uriComponents.encode().toUri()
         def headers = new HttpHeaders()
         headers.setLocation( uri )

@@ -223,14 +223,13 @@
         service: name=docker state=restarted 
 
 - name: Desktop bits and tweaks 
-  hosts: desktops
+  hosts: desktop-user
   sudo: yes
   gather_facts: no
   tasks:
       - name: Install desktop packages
         apt: "name={{ item }} state=present update_cache=true cache_valid_time=600"
         with_items:
-           - wireshark
            - chromium-browser
       - name: Copy login icon  
         copy: src=files/brock.png dest=/home/vagrant/.face owner=vagrant group=vagrant backup=no mode=644
@@ -252,6 +251,24 @@
         file: path=/home/vagrant/Stash owner=vagrant group=vagrant state=directory mode=755
       - name: Set permissions on the home directory
         file: path=/home/vagrant owner=vagrant group=vagrant recurse=true state=directory
+
+- name: Wireshark 
+  hosts: wireshark-user
+  sudo: yes
+  gather_facts: no
+  tasks:
+      - name: Install desktop packages
+        apt: "name={{ item }} state=present"
+        with_items:
+           - wireshark
+      - name: Copy answer file to safe place  
+        copy: src=files/wireshark-preseed.txt dest=/tmp/wireshark-preseed.txt owner=root group=root backup=no mode=744
+      - name: Load in Wireshark answers 
+        command: debconf-set-selections /tmp/wireshark-preseed.txt
+      - name: Reconfigure Wireshark to allow non-root captures
+        command: dpkg-reconfigure -f noninteractive wireshark-common
+      - name: Add vagrant user to wireshark group
+        command: adduser vagrant wireshark 
 
 - name: MySQL server 
   hosts: mysql-boxes 

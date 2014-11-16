@@ -133,7 +133,7 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
         def components = builder().path( '/echo' ).build()
         def uri = components.toUri()
 
-        def request = createRequest(response.body)
+        def request = createRequest( response.body )
         response = restOperations.exchange( uri, HttpMethod.POST, request, SimpleMediaType )
     }
 

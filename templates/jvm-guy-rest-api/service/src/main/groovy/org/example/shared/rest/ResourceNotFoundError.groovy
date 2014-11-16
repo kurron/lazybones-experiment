@@ -2,11 +2,14 @@ package org.example.shared.rest
 
 import static org.example.shared.feedback.CustomFeedbackContext.RESOURCE_NOT_FOUND
 import org.example.shared.feedback.FeedbackContext
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
 
 /**
  * Signals that the specified resource was not located.
  */
 @SuppressWarnings( 'UnnecessaryCast' )
+@ResponseStatus( value = HttpStatus.NOT_FOUND, reason = 'unknown' ) // mostly for insurance
 class ResourceNotFoundError extends BaseResourceError {
 
     /**

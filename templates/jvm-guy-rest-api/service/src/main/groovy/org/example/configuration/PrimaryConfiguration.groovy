@@ -9,6 +9,7 @@ import org.example.ApplicationProperties
 import org.example.echo.BytesToEchoRequestTransformer
 import org.example.echo.DocumentWriter
 import org.example.echo.EchoDocumentRepositoryImpl
+import org.example.rest.ErrorHandler
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer
@@ -126,5 +127,10 @@ class PrimaryConfiguration {
         bean.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false )
         bean.setVisibility( PropertyAccessor.FIELD, JsonAutoDetect.Visibility.NONE )
         bean
+    }
+
+    @Bean
+    ErrorHandler errorHandler() {
+        new ErrorHandler()
     }
 }

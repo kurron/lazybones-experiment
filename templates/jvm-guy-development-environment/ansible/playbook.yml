@@ -338,7 +338,7 @@
       - name: Install PostgreSQL 
         apt: name=postgresql state=latest
 
-- name: Nginx server 
+- name: nginx server 
   hosts: nginx-boxes 
   sudo: yes
   gather_facts: no

@@ -40,6 +40,26 @@
       - name: Install Webmin software
         apt: name=webmin state=latest
 
+- name: emacs  
+  hosts: emacs-user 
+  sudo: no
+  gather_facts: yes
+  tasks:
+      - name: Install signing keys
+        apt_key: state=present keyserver=keyserver.ubuntu.com id=0D7BAE435ADBC6C3E4918A74062D648FD62FCE72
+      - name: Install emacs repository
+        apt_repository: repo='deb http://ppa.launchpad.net/ubuntu-elisp/ppa/ubuntu trusty main' state=present 
+      - name: Install emacs software
+        apt: name=emacs24 state=latest
+      - name: Install emacs list files
+        apt: name=emacs24-el state=latest
+      - name: Install emacs documentation 
+        apt: name=emacs24-common-non-dfsg state=latest
+      - name: Create Desktop directory 
+        file: path=/home/vagrant/Desktop owner=vagrant group=vagrant state=directory mode=755
+      - name: Copy desktop emacs file  
+        copy: src=files/emacs.desktop dest=/home/vagrant/Desktop/emacs.desktop owner=vagrant group=vagrant backup=no mode=755
+
 - name: Oracle JDK 8 bits 
   hosts: java-8-box
   sudo: yes

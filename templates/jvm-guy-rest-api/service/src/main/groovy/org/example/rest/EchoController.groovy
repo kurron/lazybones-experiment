@@ -5,8 +5,6 @@ import static org.example.shared.feedback.CustomFeedbackContext.DELETING_RESOURC
 import static org.example.shared.feedback.CustomFeedbackContext.INSERTING_RESOURCE
 import static org.example.shared.feedback.CustomFeedbackContext.UPDATING_RESOURCE
 import static org.springframework.http.HttpStatus.CREATED
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
-import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.OK
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE
 import static org.springframework.web.bind.annotation.RequestMethod.GET
@@ -14,17 +12,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST
 import static org.springframework.web.bind.annotation.RequestMethod.PUT
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodCall
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on
-import org.example.rest.model.ErrorContext
+import groovy.transform.CompileStatic
 import org.example.rest.model.Item
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.feedback.BaseFeedbackAware
-import org.example.shared.rest.BaseResourceError
 import org.example.shared.rest.ResourceNotFoundError
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -35,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping( produces = MEDIA_TYPE )
+@CompileStatic // we need to do this to work around the mismatch between Groovy and Spring HATEOAS
 class EchoController extends BaseFeedbackAware {
 
     /**
@@ -94,7 +90,6 @@ class EchoController extends BaseFeedbackAware {
     ResponseEntity<SimpleMediaType> insertNewMessage( @RequestBody SimpleMediaType request ) {
         // pretend we inserted the item and have a resource identifier of 42
         feedbackProvider.sendFeedback( INSERTING_RESOURCE, MAGIC_NUMBER )
-        throw new UnsupportedOperationException( 'forced to fail' )
         def uriComponents = fromMethodCall( on( EchoController ).fetchSpecificItem( 'instance' ) ).buildAndExpand( MAGIC_NUMBER )
         def uri = uriComponents.encode().toUri()
         def headers = new HttpHeaders()

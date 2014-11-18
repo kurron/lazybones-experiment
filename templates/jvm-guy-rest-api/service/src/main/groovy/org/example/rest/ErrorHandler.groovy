@@ -5,12 +5,9 @@ import static org.springframework.http.HttpStatus.NOT_FOUND
 import org.example.rest.model.ErrorContext
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.rest.ResourceNotFoundError
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 /**
@@ -35,10 +32,5 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
         errorContext.code = errorContext.getClass().name
         errorContext.message = exception.message
         new ResponseEntity<SimpleMediaType>( new SimpleMediaType( error: errorContext ), INTERNAL_SERVER_ERROR )
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return super.handleExceptionInternal( ex, body, headers, status, request )
     }
 }

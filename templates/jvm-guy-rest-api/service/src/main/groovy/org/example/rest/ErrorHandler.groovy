@@ -2,6 +2,7 @@ package org.example.rest
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import static org.springframework.http.HttpStatus.NOT_FOUND
+import groovy.util.logging.Slf4j
 import org.example.rest.model.ErrorContext
 import org.example.rest.model.SimpleMediaType
 import org.example.shared.rest.ResourceNotFoundError
@@ -14,10 +15,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * Global error handler.
  */
 @ControllerAdvice
+@Slf4j
 class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<SimpleMediaType> handleResourceNotFound( ResourceNotFoundError resourceError ) {
+        log.error( 'Handling ResourceNotFoundError', resourceError )
         def errorContext = new ErrorContext()
         errorContext.title = resourceError.title
         errorContext.code = resourceError.code
@@ -27,6 +30,7 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<SimpleMediaType> handleUnexpectedFailure( Throwable exception ) {
+        log.error( 'Handling unexpected failure', exception )
         def errorContext = new ErrorContext()
         errorContext.title = 'Unexpected failure'
         errorContext.code = errorContext.getClass().name

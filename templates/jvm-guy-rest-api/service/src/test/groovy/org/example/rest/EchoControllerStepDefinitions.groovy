@@ -96,7 +96,7 @@ class EchoControllerStepDefinitions extends BaseStepDefinition {
 
     @Then('^no messages should be returned to me$')
     void no_messages_should_be_returned_to_me() throws Throwable {
-        // TODO: I'm ignoring the fact that the list is not empty because I didn't fell like figuring out how to tell
+        // TODO: I'm ignoring the fact that the list is not empty because I didn't feel like figuring out how to tell
         // the controller it should pretend that no data exists
         // assert response.body.collection.empty
         log.debug( 'response = {}', response.body.collection )

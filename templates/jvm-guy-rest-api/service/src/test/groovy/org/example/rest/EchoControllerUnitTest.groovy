@@ -35,12 +35,10 @@ class EchoControllerUnitTest extends BaseUnitTest {
         stub.findOne( 'invalid' ) >> null
 
         when: 'a GET for an invalid instance is made'
-        sut.perform( get( '/echo/invalid' ) ).andReturn()
+        MvcResult result = sut.perform( get( '/echo/invalid' ) ).andReturn()
 
-        then: 'a resource not found error is thrown'
-        def error = thrown( NestedServletException )
-        error.cause instanceof ResourceNotFoundError
-        error.cause.code == CustomFeedbackContext.RESOURCE_NOT_FOUND.code
+        then: 'the error is reflected in the hyper-media control'
+        result.response.status == HttpStatus.NOT_FOUND.value()
     }
 
     def 'verify located resource handling'() {

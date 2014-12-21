@@ -1,0 +1,18 @@
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/groovy.gradle' 
+
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/checkstyle.gradle' 
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/codenarc.gradle' 
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/jacoco.gradle' 
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/maven-publish.gradle' 
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/pipeline.gradle' 
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/repositories.gradle' 
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/spock-core.gradle' 
+apply from: 'https://raw.githubusercontent.com/kurron/distributed-gradle/master/version.gradle'
+
+apply plugin: 'idea'
+
+project.group = 'org.example'
+project.version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
+
+ext.coverageExcludes = [ 'example/TooLazyToTest']
+

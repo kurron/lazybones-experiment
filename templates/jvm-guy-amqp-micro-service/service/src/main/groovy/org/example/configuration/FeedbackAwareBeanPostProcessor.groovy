@@ -19,6 +19,7 @@ class FeedbackAwareBeanPostProcessor implements BeanPostProcessor {
         theApplicationType = applicationType
     }
 
+    @SuppressWarnings( 'Instanceof' )
     @Override
     Object postProcessBeforeInitialization( Object bean, String beanName) throws BeansException {
         if ( bean instanceof FeedbackAware ) {

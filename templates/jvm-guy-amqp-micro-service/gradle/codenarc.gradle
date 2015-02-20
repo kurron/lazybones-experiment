@@ -1,10 +1,14 @@
 apply plugin: 'codenarc'
 
 codenarc {
-    configFile = file( "${rootDir}/config/codenarc.xml" )
     toolVersion = codenarcVersion
     ignoreFailures = false
-    codenarcMain.enabled = true
-    codenarcTest.enabled = true
+    codenarcMain {
+        enabled = true
+        configFile = file( "${rootDir}/gradle/codenarc-rules.groovy" )
+    }
+    codenarcTest {
+        enabled = true
+        configFile = file( "${rootDir}/gradle/codenarc-rules-test.groovy" )
+    }
 }
-

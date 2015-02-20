@@ -44,6 +44,7 @@ subprojects {
 
     apply from: "$rootDir/gradle/version.gradle"
     apply from: "$rootDir/gradle/groovy.gradle"
+    apply from: "$rootDir/gradle/spock.gradle"
     apply from: "$rootDir/gradle/cucumber-jvm.gradle"
     apply from: "$rootDir/gradle/jacoco.gradle"
     apply from: "$rootDir/gradle/codenarc.gradle"
@@ -62,26 +63,6 @@ subprojects {
         compile "com.netflix.rxjava:rxjava-core:${rxjavaVersion}"
         compile "com.netflix.archaius:archaius-core:${archaiusVersion}"
         compile "org.codehaus.gpars:gpars:${gparsVersion}"
-
-/*
-        compile "org.springframework.cloud:spring-cloud-starter-bus-amqp:${springCloudVersion}"
-        compile "org.springframework.cloud:spring-cloud-starter-eureka:${springCloudVersion}"
-        compile "org.springframework.cloud:spring-cloud-starter-eureka-server:${springCloudVersion}"
-        compile "org.springframework.cloud:spring-cloud-starter-hystrix:${springCloudVersion}"
-        compile "org.springframework.cloud:spring-cloud-starter-hystrix-dashboard:${springCloudVersion}"
-        compile "org.springframework.cloud:spring-cloud-starter-security:${springCloudVersion}"
-        compile "org.springframework.cloud:spring-cloud-starter-turbine:${springCloudVersion}"
-        compile "org.springframework.cloud:spring-cloud-starter-zuul:${springCloudVersion}"
-*/
-
-        testCompile( "org.spockframework:spock-core:${spockVersion}" ) {
-            exclude module: 'groovy-all'
-            exclude module: 'junit-dep'
-        }
-        testCompile( "org.spockframework:spock-spring:${spockVersion}" ) {
-            exclude module: 'groovy-all'
-            exclude module: 'junit-dep'
-        }
     }
 
     task collectJars(type: Copy) {

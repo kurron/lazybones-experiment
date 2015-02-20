@@ -2,3 +2,6 @@
 .gradle
 */.gradle
 */target
+*.iml
+*.ipr
+*.iws

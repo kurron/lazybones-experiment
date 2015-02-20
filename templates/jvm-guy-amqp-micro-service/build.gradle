@@ -7,6 +7,8 @@ buildscript {
     }
 }
 
+apply plugin: 'idea'
+
 subprojects {
 
     group = 'org.example'
@@ -47,7 +49,6 @@ subprojects {
     }
     */
 
-    apply plugin: 'idea'
     apply plugin: 'build-announcements'
 
     apply from: "$rootDir/gradle/groovy.gradle"

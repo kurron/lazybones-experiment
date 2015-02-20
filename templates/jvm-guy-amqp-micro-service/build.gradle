@@ -44,6 +44,7 @@ subprojects {
 
     apply from: "$rootDir/gradle/version.gradle"
     apply from: "$rootDir/gradle/groovy.gradle"
+    apply from: "$rootDir/gradle/cucumber-jvm.gradle"
     apply from: "$rootDir/gradle/jacoco.gradle"
     apply from: "$rootDir/gradle/codenarc.gradle"
     apply from: "$rootDir/gradle/checkstyle.gradle"
@@ -81,9 +82,6 @@ subprojects {
             exclude module: 'groovy-all'
             exclude module: 'junit-dep'
         }
-        testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
-        testCompile "info.cukes:cucumber-groovy:${cucumberVersion}"
-        testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
     }
 
     task collectJars(type: Copy) {

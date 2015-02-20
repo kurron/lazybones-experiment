@@ -12,7 +12,6 @@ apply plugin: 'idea'
 subprojects {
 
     group = 'org.example'
-    version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
 
     repositories {
         jcenter()
@@ -24,14 +23,6 @@ subprojects {
     configurations.all {
         exclude group: 'commons-logging'
         exclude module: 'junit-dep'
-    }
-
-    task printVersion() {
-        group = 'Help'
-        description = 'Prints project version'
-        doLast {
-            logger.quiet "Version: ${version}"
-        }
     }
 
     task printStage() {
@@ -51,6 +42,7 @@ subprojects {
 
     apply plugin: 'build-announcements'
 
+    apply from: "$rootDir/gradle/version.gradle"
     apply from: "$rootDir/gradle/groovy.gradle"
     apply from: "$rootDir/gradle/jacoco.gradle"
     apply from: "$rootDir/gradle/codenarc.gradle"
@@ -111,26 +103,5 @@ allprojects {
     }
     else {
         defaultTasks << 'publishToMavenLocal'
-    }
-}
-
-// formerly in buildSrc but causes problem when mixed with indy compilation
-
-class ProjectVersion {
-    Integer major
-    Integer minor
-    Integer patch
-    Boolean release
-
-    ProjectVersion( Integer major, Integer minor, Integer patch, Boolean release ) {
-        this.major = major
-        this.minor = minor
-        this.patch = patch
-        this.release = release
-    }
-
-    @Override
-    String toString() {
-        "${major}.${minor}.${patch}${release ? '.RELEASE' : '-SNAPSHOT'}"
     }
 }

@@ -18,10 +18,18 @@ publishing {
 
     repositories {
         maven {
-            url=publishURL
+            if ( 'master' == branch ) {
+                url=releaseURL
+            }
+            else if ( 'development' == branch ) {
+                url=milestoneURL
+            }
+            else {
+                url='Not set - only master and development branches should be published!'
+            }
             credentials {
-                username=publishUsername 
-                password=publishPassword 
+                username=publishUsername
+                password=publishPassword
             }
         }
     }

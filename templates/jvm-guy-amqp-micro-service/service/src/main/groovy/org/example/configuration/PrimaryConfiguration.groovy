@@ -72,7 +72,7 @@ class PrimaryConfiguration {
     @Bean
     SimpleMessageListenerContainer uploadListenerContainer() {
         def bean = new SimpleMessageListenerContainer( connectionFactory )
-        bean.queueNames = [properties.queue]
+        bean.queueNames = [properties.queue] as String[]
         bean
     }
 

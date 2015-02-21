@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2015 Transparent Language.  All rights reserved.
+  -->
+
+<!-- This Logback configuration file is intended for testing environments. -->
+<configuration debug="false">
+    <contextName>LIVE</contextName>
+    <property name="MESSAGE_FORMAT"
+              value="%contextName %1(%.-1level) %10.10mdc{realm} %5.5mdc{service-code} %5.5mdc{service-instance} %10.10mdc{correlation-id} %4.4mdc{message-code} %35.35logger{0} %message %throwable{short}%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${MESSAGE_FORMAT}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <logger name="com.transparent" level="ALL"/>
+
+    <appender name="LFS" class="com.moonlit.logfaces.appenders.logback.LogfacesAppender">
+        <remoteHost>192.168.100.124</remoteHost>
+        <application>Magni</application>
+        <appender-ref ref="CONSOLE"/>
+        <delegateMarker>true</delegateMarker>
+    </appender>
+
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LFS"/>
+    </root>
+</configuration>

@@ -1,0 +1,107 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+plugins {
+    id "org.asciidoctor.convert" version "1.5.2"
+}
+
+group = 'com.transparent.asgard'
+
+repositories {
+    jcenter()
+    maven { // we need this to pull down the self hosted LFS appender jar
+        url = extReleaseLocalUrl
+    }
+    maven {
+        url = releaseURL
+    }
+}
+
+configurations.all {
+    exclude group: 'commons-logging'
+    exclude module: 'junit-dep'
+}
+
+ext.coverageExcludes = ['com/transparent/asgard/magni/Application',
+                        'com/transparent/asgard/magni/ApplicationProperties',
+                        'com/transparent/asgard/magni/WebMvcConfiguration',
+                        'com/transparent/asgard/magni/outbound/RedisResource',
+                        'com/transparent/asgard/magni/inbound/MetaDataBlock',
+                        'com/transparent/asgard/magni/inbound/ErrorBlock',
+                        'com/transparent/asgard/magni/inbound/MagniControl',
+                        'com/transparent/asgard/magni/inbound/CustomHttpHeaders',
+                        'com/transparent/asgard/magni/inbound/HeaderBlock',
+                        'com/transparent/asgard/magni/exception/CustomErrorController',
+                        'com/transparent/asgard/magni/inbound/RestInboundGateway$_home_closure1'
+]
+
+// comment out if you want to have version conflicts detected
+/*
+configurations*.resolutionStrategy {
+    failOnVersionConflict()
+}
+*/
+
+
+
+apply plugin: 'build-announcements'
+
+apply from: "$rootDir/gradle/version.gradle"
+apply from: "$rootDir/gradle/groovy.gradle"
+apply from: "$rootDir/gradle/boot.gradle"
+apply from: "$rootDir/gradle/cloud.gradle"
+apply from: "$rootDir/gradle/docker.gradle"
+apply from: "$rootDir/gradle/jacoco.gradle"
+apply from: "$rootDir/gradle/codenarc.gradle"
+apply from: "$rootDir/gradle/maven-publish.gradle"
+apply from: "$rootDir/gradle/spock.gradle"
+apply from: "$rootDir/gradle/cucumber-jvm.gradle"
+apply from: "$rootDir/gradle/rest-documentation.gradle"
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
+    compile "org.springframework.hateoas:spring-hateoas:$springHateoasVersion"
+    compile "com.transparent.asgard:common-feedback:$commonFeedbackVersion"
+
+    runtime "lfsappenders:lfsappenders:$logfacesAppenderVersion"
+}
+
+task collectJars(type: Copy) {
+    description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
+    from configurations.testRuntime.asFileTree
+    into "$buildDir/dependencies"
+}
+
+defaultTasks << 'clean'
+defaultTasks << 'build'
+defaultTasks << 'collectJars'
+
+if ( 'true' == runIntegrationTests ) {
+    defaultTasks += ['componentTests', 'integrationTests', 'acceptanceTests','updateJarWithApiDocumentation']
+    // make sure we deploy the docker container before running integration/acceptance tests
+    [integrationTests, acceptanceTests]*.dependsOn runDockerContainer
+    // make sure the docker image is cleaned up
+    [integrationTests, acceptanceTests]*.finalizedBy deleteDockerImage
+}
+
+// TODO: Take out maven tasks once Push-E is updated to rely on docker container
+// only publish artifacts if publishArtifacts is true, and the branch is either master or development
+if ( 'true' == publishArtifacts && branch in ['master', 'development'] ) {
+    defaultTasks << 'publish'
+    defaultTasks << 'publishDockerImage'
+    // ensures that deleteDockerImage will not be executed until we publish, unless a failure occurs prior to publishing
+    publishDockerImage.finalizedBy deleteDockerImage
+}
+else {
+    defaultTasks << 'publishToMavenLocal'
+}
+

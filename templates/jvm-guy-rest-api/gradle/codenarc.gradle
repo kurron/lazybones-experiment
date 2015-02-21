@@ -1,0 +1,18 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+apply plugin: 'codenarc'
+
+codenarc {
+    toolVersion = codenarcVersion
+    ignoreFailures = false
+    codenarcMain {
+        enabled = true
+        configFile = file( "${rootDir}/gradle/codenarc-rules.groovy" )
+    }
+    codenarcTest {
+        enabled = true
+        configFile = file( "${rootDir}/gradle/codenarc-rules-test.groovy" )
+    }
+}
+

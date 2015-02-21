@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenPublish( MavenPublication ) {
+            if ( project.plugins.hasPlugin( WarPlugin ) ) {
+                from components.web
+            }
+            else {
+                from components.java
+            }
+            artifact sourcesJar
+            artifact testSourcesJar
+            artifact testBinariesJar
+            artifact groovydocJar
+        }
+    }
+
+    repositories {
+        maven {
+            if ( 'master' == branch ) {
+                url=releaseURL
+            }
+            else if ( 'development' == branch ) {
+                url=milestoneURL
+            }
+            else {
+                url='Not set - only master and development branches should be published!'
+            }
+            credentials {
+                username=publishUsername 
+                password=publishPassword 
+            }
+        }
+    }
+}
+

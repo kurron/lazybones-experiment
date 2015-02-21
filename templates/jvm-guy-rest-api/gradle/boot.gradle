@@ -1,0 +1,23 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+apply plugin: 'spring-boot'
+
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    compile "com.codahale.metrics:metrics-core:${codahaleVersion}"
+    compile "com.codahale.metrics:metrics-servlets:${codahaleVersion}"
+
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-redis:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+
+    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
+
+    testCompile "org.springframework:spring-test:${springFrameworkVersion}"
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+}

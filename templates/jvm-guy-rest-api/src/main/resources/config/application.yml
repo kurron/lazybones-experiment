@@ -1,0 +1,103 @@
+# Override the default values of the info endpoint
+info:
+    app:
+        name: Magni
+        description: Stores temporary binary assets
+        version: 1.0.0
+
+# enable shutdown of application via a POST
+endpoints:
+    shutdown:
+        enabled: true
+    health:
+        sensitive: false    # display full details for non-authenticated requests
+
+# show the banner file during startup
+spring:
+    main:
+        show_banner: true
+    # Redis configuration (see RedisProperties for details)
+    redis:
+        database: 0 # redis relies on 0-based index database names
+        host: redis
+        port: 6379
+
+    rabbitmq:
+        host: rabbitmq
+        port: 5672
+        username: guest
+        password: guest
+        virtualHost: /
+
+    groovy:
+        template:
+            check-template-location: false
+    jackson:
+        serialization:
+            indent_output: true
+
+# specify the port the service should bind to when using the embedded container, a value of 0 will bind to a randomly selected available port
+server:
+    port: 0
+
+# which logback configuration file to use
+logging:
+    config: classpath:logback.xml
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:8761/eureka/
+    instance:
+        preferIpAddress: true
+
+magni:
+    maxPayloadSize: 10
+    requireCorrelationId: true
+
+#---------e Profile specific overrides ----------#
+
+# stagetwo
+---
+spring:
+    profiles: stagetwo
+    redis:
+        host: 192.168.255.12
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://192.168.254.90:8761/eureka/
+
+# test
+---
+spring:
+    profiles: test
+    redis:
+        host: 192.168.255.12
+    rabbitmq:
+        host: 192.168.254.121
+        virtualHost: /test
+
+server:
+    port: 8070
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://192.168.254.90:8761/eureka/
+
+magni:
+    requireCorrelationId: false
+
+# live
+---
+spring:
+    profiles: live
+    redis:
+        host: ????
+server:
+    port: ????
+logging:
+    config: classpath:logback-live.xml
+magni:
+    requireCorrelationId: false

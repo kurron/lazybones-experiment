@@ -1,0 +1,20 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+
+repositories {
+    maven {
+        url = 'http://repo.spring.io/libs-milestone-local/'
+    }
+}
+
+// the docs says we do this to avoid issues with Jersey
+springBoot {
+    requiresUnpack = ['com.netflix.eureka:eureka-core','com.netflix.eureka:eureka-client']
+}
+
+dependencies {
+    compile "org.springframework.cloud:spring-cloud-starter:${springCloudVersion}"
+    compile "org.springframework.cloud:spring-cloud-starter-bus-amqp:${springCloudVersion}"
+    compile "org.springframework.cloud:spring-cloud-starter-eureka:${springCloudVersion}"
+}

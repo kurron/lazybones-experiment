@@ -1,0 +1,7 @@
+spring:
+    application:
+        name: magni
+    cloud:
+        config:
+            enabled: false
+            failFast: true

@@ -1,0 +1,46 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+
+repositories {
+    maven {
+        url = 'https://repo.spring.io/snapshot/'
+    }
+}
+
+ext {
+    generatedDocumentation = file('build/generated-snippets')
+}
+
+dependencies {
+    testCompile 'org.springframework.restdocs:spring-restdocs-core:0.1.0.BUILD-SNAPSHOT'
+}
+
+test {
+    systemProperty 'org.springframework.restdocs.outputDir', generatedDocumentation
+    outputs.dir generatedDocumentation
+}
+
+asciidoctor {
+    attributes 'generated': generatedDocumentation
+    inputs.dir generatedDocumentation
+    dependsOn componentTests
+}
+
+task copyApiDocs( type: Copy, dependsOn: asciidoctor ) {
+    from "${buildDir}/asciidoc/html5"
+    into "${buildDir}/api-docs/static/api-docs/"
+}
+
+task updateJarWithApiDocumentation( dependsOn: copyApiDocs ) {
+    group = 'Documentation'
+    description = 'Add the API documentation to the JAR file'
+    doLast {
+        ant.jar( update: 'true',
+                 duplicate: 'fail',
+                 compress: 'false',
+                 destfile: "${libsDir}/${archivesBaseName}-${version}.jar") {
+            fileset( dir: "${buildDir}/api-docs" )
+        }
+    }
+}

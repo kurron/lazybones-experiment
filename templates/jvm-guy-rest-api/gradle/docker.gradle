@@ -1,0 +1,96 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+def dockerDirectory = 'docker'
+def dockerRegistry = 'registry.transparent.com'
+def buildArtifactName = "${project.name}-${version.toString()}"
+def fullImageName = "$dockerRegistry/asgard-${project.name}:${version.toString()}"
+
+task copyBuildArtifact( type: Copy ) {
+    from( 'build/libs/' ) {
+        include "${buildArtifactName}.jar"
+        rename "${buildArtifactName}.jar", "${project.name}.jar"   // always use the same artifact name to keep the dockerfile simple
+    }
+    into "$dockerDirectory/artifacts"
+}
+
+task buildDockerImage( type: Exec, dependsOn: copyBuildArtifact ) {
+    group 'Docker'
+    description = 'Builds a docker image'
+    workingDir dockerDirectory
+    commandLine 'sudo', 'docker', 'build', '--tag', fullImageName, '.'
+    doFirst {
+        logger.quiet "Building docker image $fullImageName based on the Dockerfile in $dockerDirectory/"
+    }
+}
+
+/**
+ * Deploys a docker container to a random port. Once deployed, docker is queried to retrieve the port number associated
+ * with the new container. The port is then saved as a system property so it can be used later.
+ */
+task runDockerContainer( type: Exec, dependsOn: buildDockerImage ) {
+    group 'Docker'
+    description = 'Deploys a docker container based on a previously built image'
+    commandLine 'sudo', 'docker', 'run', '--detach', '--publish', '8080', '--name', buildArtifactName, fullImageName, "--spring.profiles.active=stagetwo"
+    doFirst {
+        logger.quiet "Running a docker container with name $buildArtifactName based on image $fullImageName"
+    }
+    doLast {
+        def process = "sudo docker port $buildArtifactName".execute()
+        def port = process.text.split( ':' ).last() as int
+        logger.quiet "The container was deployed to port $port! Adding to system properties..."
+        System.setProperty( 'integration.test.port', port.toString() )
+        waitForServerToStart( port )
+    }
+}
+
+private void waitForServerToStart( int port ) {
+    def urlToPoll = "http://localhost:$port/info".toURL()
+    def serverUp = false
+    def remainingAttempts = 40
+    def secondsBetweenAttempts = 2
+    while( !serverUp && remainingAttempts ) {
+        logger.quiet "Waiting ${secondsBetweenAttempts} seconds before polling the server via $urlToPoll"
+        remainingAttempts--
+        sleep secondsBetweenAttempts * 1000
+        try {
+            def result = urlToPoll.text
+            serverUp = true
+            logger.quiet "The server is up! Response: $result"
+        }
+        catch( IOException e ) {
+            logger.warn "The server is still not up. $remainingAttempts attempts remaining. Response details: ${e.message}"
+        }
+    }
+    if ( !serverUp ) { throw new IllegalStateException( 'The server took too long to start' ) }
+}
+
+task publishDockerImage( type: Exec, dependsOn: buildDockerImage ) {
+    group 'Docker'
+    description = 'Publishes a previously built docker image to the private docker registry'
+    workingDir dockerDirectory
+    commandLine 'sudo', 'docker', 'push', fullImageName
+    doFirst {
+        logger.quiet "Publishing docker image $fullImageName to $dockerRegistry"
+    }
+}
+
+task deleteDockerContainer( type: Exec ) {
+    group 'Docker'
+    description = 'Deletes a docker container, even if it is running'
+    commandLine 'sudo', 'docker', 'rm', '-f', buildArtifactName
+    doFirst {
+        logger.quiet "Deleting docker container $buildArtifactName from the host"
+    }
+}
+
+task deleteDockerImage( type: Exec, dependsOn: deleteDockerContainer ) {
+    group 'Docker'
+    description = 'Deletes a docker image'
+    commandLine 'sudo', 'docker', 'rmi', fullImageName
+    doFirst {
+        logger.quiet "Deleting docker image $fullImageName from the host"
+    }
+}
+// ensure that we cleanup, especially if a failure occurs during server polling
+runDockerContainer.finalizedBy deleteDockerImage

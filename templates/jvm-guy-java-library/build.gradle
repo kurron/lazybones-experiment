@@ -1,10 +1,3 @@
-group = 'org.kurron.example'
-
-repositories {
-    jcenter()
-}
-
-
 /*
  * Copyright (c) 2015 Ronald D. Kurr kurr@jvmguy.com
  *
@@ -21,6 +14,8 @@ repositories {
  * limitations under the License.
  */
 
+group = 'org.kurron.example'
+
 // comment out if you want to have version conflicts detected
 /*
 configurations*.resolutionStrategy {
@@ -30,6 +25,7 @@ configurations*.resolutionStrategy {
 
 apply plugin: 'build-announcements'
 
+apply from: "$rootDir/gradle/repositories.gradle"
 apply from: "$rootDir/gradle/version.gradle"
 apply from: "$rootDir/gradle/java.gradle"
 apply from: "$rootDir/gradle/boot.gradle"

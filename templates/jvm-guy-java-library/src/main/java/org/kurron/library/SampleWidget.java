@@ -13,31 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.library.feedback;
+
+package org.kurron.library;
 
 /**
- * Convenience base class for objects that wish to have a feedback provider injected into them.
+ * Silly little class just to exercise the compiler.
  */
-public class AbstractFeedbackAware implements FeedbackAware
-{
+public class SampleWidget {
+
     /**
-     * The provider to use.
+     * Say hello.
+     * @return Hello, every time.
      */
-    private FeedbackProvider theFeedbackProvider;
-
-    protected AbstractFeedbackAware() {
-        theFeedbackProvider = new NullFeedbackProvider();
-    }
-
-    @Override
-    public FeedbackProvider getFeedbackProvider()
-    {
-        return theFeedbackProvider;
-    }
-
-    @Override
-    public void setFeedbackProvider( final FeedbackProvider aProvider )
-    {
-        theFeedbackProvider = aProvider;
+    public String hello() {
+        return "Hello";
     }
 }

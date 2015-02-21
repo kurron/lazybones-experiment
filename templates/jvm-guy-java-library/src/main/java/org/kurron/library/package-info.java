@@ -13,22 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.library.feedback;
 
 /**
- * Interface Injection: any bean implementing this interface is indicating that it wants a feedback provider injected into it.
+ * Just a sample package used a place holder for the template.
  */
-public interface FeedbackAware
-{
-    /**
-     * The provider the instance should use.
-     * @return the provider instance.
-     */
-    FeedbackProvider getFeedbackProvider();
-
-    /**
-     * Specifies the provider this instance should use.
-     * @param aProvider the provider to use.
-     */
-    void setFeedbackProvider( FeedbackProvider aProvider );
-}
+package org.kurron.library;

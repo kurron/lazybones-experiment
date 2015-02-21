@@ -1,15 +1,27 @@
 /*
- * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ * Copyright (c) 2015. Ronald D. Kurr kurr@jvmguy.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.transparent.asgard.magni.feedback
 
-import static com.transparent.asgard.feedback.Audience.DEVELOPMENT
-import static com.transparent.asgard.feedback.Audience.QA
-import static com.transparent.asgard.feedback.FeedbackLevel.ERROR
-import static com.transparent.asgard.feedback.FeedbackLevel.INFO
-import com.transparent.asgard.feedback.Audience
-import com.transparent.asgard.feedback.FeedbackContext
-import com.transparent.asgard.feedback.FeedbackLevel
+import static org.kurron.feedback.Audience.DEVELOPMENT
+import static org.kurron.feedback.Audience.QA
+import static org.kurron.feedback.FeedbackLevel.ERROR
+import static org.kurron.feedback.FeedbackLevel.INFO
+import org.kurron.feedback.Audience
+import org.kurron.feedback.FeedbackContext
+import org.kurron.feedback.FeedbackLevel
 
 /**
  * Message codes specific to Magni.

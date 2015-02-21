@@ -1,13 +1,25 @@
 /*
- * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ * Copyright (c) 2015. Ronald D. Kurr kurr@jvmguy.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.transparent.asgard.magni.outbound
 
 import static com.transparent.asgard.magni.feedback.MagniFeedbackContext.REDIS_RESOURCE_NOT_FOUND
 import static com.transparent.asgard.magni.feedback.MagniFeedbackContext.REDIS_RETRIEVE_INFO
 import static com.transparent.asgard.magni.feedback.MagniFeedbackContext.REDIS_STORE_INFO
-import com.transparent.asgard.feedback.AbstractFeedbackAware
-import com.transparent.asgard.feedback.exceptions.NotFoundError
+import org.kurron.feedback.AbstractFeedbackAware
+import org.kurron.feedback.exceptions.NotFoundError
 import com.transparent.asgard.stereotype.OutboundGateway
 import java.util.concurrent.TimeUnit
 import org.springframework.beans.factory.annotation.Autowired

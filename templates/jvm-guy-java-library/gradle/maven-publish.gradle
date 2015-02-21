@@ -1,0 +1,34 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenPublish( MavenPublication ) {
+            if ( project.plugins.hasPlugin( WarPlugin ) ) {
+                from components.web
+            }
+            else {
+                from components.java
+            }
+            artifact sourcesJar
+        }
+    }
+
+    repositories {
+        maven {
+            if ( 'master' == branch ) {
+                url=releaseURL
+            }
+            else {
+                url='Not set - only the master branch should be published!'
+            }
+            credentials {
+                username=publishUsername 
+                password=publishPassword 
+            }
+        }
+    }
+}
+

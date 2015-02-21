@@ -1,0 +1,9 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+apply plugin: 'checkstyle'
+
+project.properties['checkstyle'].ignoreFailures = false
+project.checkstyleMain.enabled = true
+project.checkstyleTest.enabled = true
+project.checkstyle.configFile = file( "$rootDir/gradle/checkstyle-rules.xml" )

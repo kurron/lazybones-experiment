@@ -1,0 +1,63 @@
+/*
+ * Copyright (c) 2015 Transparent Language.  All rights reserved.
+ */
+
+group = 'com.transparent.asgard'
+version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), branch.toString() )
+
+repositories {
+    jcenter()
+}
+
+configurations.all {
+    exclude group: 'commons-logging'
+    exclude module: 'junit-dep'
+}
+
+// comment out if you want to have version conflicts detected
+/*
+configurations*.resolutionStrategy {
+    failOnVersionConflict()
+}
+*/
+
+apply plugin: 'build-announcements'
+
+apply from: "$rootDir/gradle/java.gradle"
+apply from: "$rootDir/gradle/boot.gradle"
+apply from: "$rootDir/gradle/checkstyle.gradle"
+apply from: "$rootDir/gradle/maven-publish.gradle"
+
+defaultTasks += ['clean', 'build']
+
+if ( 'true' == publishArtifacts ) {
+    defaultTasks << 'publish'
+}
+else {
+    defaultTasks << 'publishToMavenLocal'
+}
+
+// formerly in buildSrc but causes problem when mixed with indy compilation
+
+class ProjectVersion {
+    Integer major
+    Integer minor
+    Integer patch
+    String  branch
+
+    ProjectVersion( Integer major, Integer minor, Integer patch, String branch ) {
+        this.major = major
+        this.minor = minor
+        this.patch = patch
+        this.branch = branch
+    }
+
+    @Override
+    String toString() {
+        String release = '-SNAPSHOT'
+        if ( branch == 'master' ) {
+            release = '.RELEASE'
+        }
+        "${major}.${minor}.${patch}${release}"
+    }
+}

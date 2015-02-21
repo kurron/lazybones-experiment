@@ -13,10 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.kurron.library.feedback;
 
 /**
- * This package contains objects useful in providing feedback to API clients as well as operations.  The idea is
- * provide a general contract for sending feedback to interested parties and let service providers handle the
- * details of transporting the feedback.
+ * Intended primarily for logging feedback, this enumerates the various levels that feedback can be provided.
  */
-package org.kurron.feedback.feedback;
+public enum FeedbackLevel
+{
+    TRACE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR
+}

@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.feedback.feedback.exceptions;
+package org.kurron.library.feedback.exceptions;
 
-import org.kurron.feedback.feedback.FeedbackContext;
+import org.kurron.library.feedback.FeedbackContext;
 import org.springframework.http.HttpStatus;
 
 /**
- * Signals that a resource was not found, and a 404 (not found) HTTP code should be returned to the client.
+ * Signals that a required Content-Length header was not set and a status code of 411 (length required) should be
+ * returned to the client.
  */
-public class NotFoundError extends AbstractError
+public class LengthRequiredError extends AbstractError
 {
-    public NotFoundError( final FeedbackContext context, final Object... arguments )
+    public LengthRequiredError( final FeedbackContext context, final Object... arguments )
     {
         super( context, arguments );
     }
@@ -31,12 +32,12 @@ public class NotFoundError extends AbstractError
     @Override
     public HttpStatus getHttpStatus()
     {
-        return HttpStatus.NOT_FOUND;
+        return HttpStatus.LENGTH_REQUIRED;
     }
 
     @Override
     public String getDeveloperMessage()
     {
-        return "The resource does not exist in the system";
+        return "It looks like you forgot to set the Content-Length header";
     }
 }

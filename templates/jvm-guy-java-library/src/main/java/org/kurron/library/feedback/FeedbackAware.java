@@ -13,31 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.feedback.feedback;
+package org.kurron.library.feedback;
 
 /**
- * Convenience base class for objects that wish to have a feedback provider injected into them.
+ * Interface Injection: any bean implementing this interface is indicating that it wants a feedback provider injected into it.
  */
-public class AbstractFeedbackAware implements FeedbackAware
+public interface FeedbackAware
 {
     /**
-     * The provider to use.
+     * The provider the instance should use.
+     * @return the provider instance.
      */
-    private FeedbackProvider theFeedbackProvider;
+    FeedbackProvider getFeedbackProvider();
 
-    protected AbstractFeedbackAware() {
-        theFeedbackProvider = new NullFeedbackProvider();
-    }
-
-    @Override
-    public FeedbackProvider getFeedbackProvider()
-    {
-        return theFeedbackProvider;
-    }
-
-    @Override
-    public void setFeedbackProvider( final FeedbackProvider aProvider )
-    {
-        theFeedbackProvider = aProvider;
-    }
+    /**
+     * Specifies the provider this instance should use.
+     * @param aProvider the provider to use.
+     */
+    void setFeedbackProvider( FeedbackProvider aProvider );
 }

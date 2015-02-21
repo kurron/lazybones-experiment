@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.feedback.feedback;
+package org.kurron.library.feedback;
 
 /**
- * Describes the intended set of "eye balls" that a feedback message is intended for. Adds another filtering dimension.
+ * Null Object Pattern: a no-op implementation of the feedback provider interface. Typically used only in testing
+ * environments where real providers are not desired or a fallback is needed.
  */
-public enum Audience
+public class NullFeedbackProvider implements FeedbackProvider
 {
-    OPERATIONS,
-    SUPPORT,
-    QA,
-    DEVELOPMENT
+    @Override
+    public void sendFeedback( final FeedbackContext context, final Object... arguments )
+    {
+        // do nothing
+    }
+
+    @Override
+    public void sendFeedback( final FeedbackContext context, final Throwable error )
+    {
+        // do nothing
+    }
 }

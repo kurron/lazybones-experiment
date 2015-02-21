@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.feedback.feedback;
 
 /**
- * Intended primarily for logging feedback, this enumerates the various levels that feedback can be provided.
+ * Contains basic error classes based on HTTP status codes, which can be extended and customized as needed.
  */
-public enum FeedbackLevel
-{
-    TRACE,
-    DEBUG,
-    INFO,
-    WARN,
-    ERROR
-}
+package org.kurron.library.feedback.exceptions;

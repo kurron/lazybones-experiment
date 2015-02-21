@@ -13,23 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.feedback.feedback;
+package org.kurron.library.feedback.exceptions;
+
+import org.kurron.library.feedback.FeedbackContext;
+import org.springframework.http.HttpStatus;
 
 /**
- * Null Object Pattern: a no-op implementation of the feedback provider interface. Typically used only in testing
- * environments where real providers are not desired or a fallback is needed.
+ * Signals that a resource was not found, and a 404 (not found) HTTP code should be returned to the client.
  */
-public class NullFeedbackProvider implements FeedbackProvider
+public class NotFoundError extends AbstractError
 {
-    @Override
-    public void sendFeedback( final FeedbackContext context, final Object... arguments )
+    public NotFoundError( final FeedbackContext context, final Object... arguments )
     {
-        // do nothing
+        super( context, arguments );
     }
 
     @Override
-    public void sendFeedback( final FeedbackContext context, final Throwable error )
+    public HttpStatus getHttpStatus()
     {
-        // do nothing
+        return HttpStatus.NOT_FOUND;
+    }
+
+    @Override
+    public String getDeveloperMessage()
+    {
+        return "The resource does not exist in the system";
     }
 }

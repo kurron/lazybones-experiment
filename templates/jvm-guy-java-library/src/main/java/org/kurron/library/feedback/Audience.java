@@ -13,8 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.kurron.library.feedback;
 
 /**
- * Contains basic error classes based on HTTP status codes, which can be extended and customized as needed.
+ * Describes the intended set of "eye balls" that a feedback message is intended for. Adds another filtering dimension.
  */
-package org.kurron.feedback.feedback.exceptions;
+public enum Audience
+{
+    OPERATIONS,
+    SUPPORT,
+    QA,
+    DEVELOPMENT
+}

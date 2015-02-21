@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.feedback.feedback.exceptions;
+package org.kurron.library.feedback.exceptions;
 
-import org.kurron.feedback.feedback.FeedbackContext;
+import org.kurron.library.feedback.FeedbackContext;
 import org.springframework.http.HttpStatus;
 
 /**
- * Signals that a required Content-Length header was not set and a status code of 411 (length required) should be
- * returned to the client.
+ * Signals that a invalid request was processed, and a 400 (bad request) should be returned to the client.
  */
-public class LengthRequiredError extends AbstractError
+public class BadRequestError extends AbstractError
 {
-    public LengthRequiredError( final FeedbackContext context, final Object... arguments )
+    public BadRequestError( final FeedbackContext context, final Object... arguments )
     {
         super( context, arguments );
     }
@@ -32,12 +31,12 @@ public class LengthRequiredError extends AbstractError
     @Override
     public HttpStatus getHttpStatus()
     {
-        return HttpStatus.LENGTH_REQUIRED;
+        return HttpStatus.BAD_REQUEST;
     }
 
     @Override
     public String getDeveloperMessage()
     {
-        return "It looks like you forgot to set the Content-Length header";
+        return "The server cannot or will not process the request due to something that is perceived to be a client error";
     }
 }

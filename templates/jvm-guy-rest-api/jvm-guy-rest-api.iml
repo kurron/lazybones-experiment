@@ -187,5 +187,6 @@
     <orderEntry type="library" scope="TEST" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: info.cukes:cucumber-html:0.2.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-test:4.1.4.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.kurron:tools-java:1.0.0" level="project" />
   </component>
 </module>

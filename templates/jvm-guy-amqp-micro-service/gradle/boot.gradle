@@ -11,13 +11,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     compile "org.springframework.integration:spring-integration-amqp:${springIntegrationVersion}"
 
-    compile "org.springframework:spring-messaging:${springFrameworkVersion}"
-    compile "org.springframework:spring-tx:${springFrameworkVersion}"
-    compile "org.springframework:spring-web:${springFrameworkVersion}"
-    compile "org.springframework:spring-webmvc:${springFrameworkVersion}"
-
     providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
 
-    testCompile "org.springframework:spring-test:${springFrameworkVersion}"
     testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 }

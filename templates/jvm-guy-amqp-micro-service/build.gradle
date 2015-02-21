@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath 'io.spring.gradle:dependency-management-plugin:0.3.0.RELEASE'
+//      classpath 'io.spring.gradle:dependency-management-plugin:0.3.0.RELEASE'
     }
 }
 
@@ -40,8 +40,7 @@ subprojects {
     */
 
     apply plugin: 'build-announcements'
-
-    apply from: "$rootDir/gradle/platform.gradle"
+//  apply from: "$rootDir/gradle/platform.gradle"
     apply from: "$rootDir/gradle/version.gradle"
     apply from: "$rootDir/gradle/groovy.gradle"
     apply from: "$rootDir/gradle/spock.gradle"

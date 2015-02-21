@@ -3,7 +3,7 @@ apply plugin: 'pmd'
 pmd {
     ignoreFailures = false
     ruleSets = ['basic', 'braces']
-    targetJdk = 1.7
+    targetJdk = 1.8
     toolVersion = pmdVersion
 
     pmdMain.enabled = true

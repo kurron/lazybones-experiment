@@ -2,8 +2,7 @@
  * Copyright (c) 2015 Transparent Language.  All rights reserved.
  */
 
-group = 'com.transparent.asgard'
-version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), branch.toString() )
+group = 'org.kurron.example'
 
 repositories {
     jcenter()
@@ -23,6 +22,7 @@ configurations*.resolutionStrategy {
 
 apply plugin: 'build-announcements'
 
+apply from: "$rootDir/gradle/version.gradle"
 apply from: "$rootDir/gradle/java.gradle"
 apply from: "$rootDir/gradle/boot.gradle"
 apply from: "$rootDir/gradle/checkstyle.gradle"
@@ -37,27 +37,4 @@ else {
     defaultTasks << 'publishToMavenLocal'
 }
 
-// formerly in buildSrc but causes problem when mixed with indy compilation
 
-class ProjectVersion {
-    Integer major
-    Integer minor
-    Integer patch
-    String  branch
-
-    ProjectVersion( Integer major, Integer minor, Integer patch, String branch ) {
-        this.major = major
-        this.minor = minor
-        this.patch = patch
-        this.branch = branch
-    }
-
-    @Override
-    String toString() {
-        String release = '-SNAPSHOT'
-        if ( branch == 'master' ) {
-            release = '.RELEASE'
-        }
-        "${major}.${minor}.${patch}${release}"
-    }
-}

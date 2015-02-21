@@ -1,8 +1,6 @@
 .gradle
 build/
 target/
-.idea/
-*.iml
-*.ipr
+out/
+.idea/workspace.xml
 *.iws
-*.log

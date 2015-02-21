@@ -30,10 +30,6 @@ group = 'com.transparent.asgard'
 
 
 
-configurations.all {
-    exclude group: 'commons-logging'
-    exclude module: 'junit-dep'
-}
 
 ext.coverageExcludes = ['com/transparent/asgard/magni/Application',
                         'com/transparent/asgard/magni/ApplicationProperties',
@@ -71,6 +67,7 @@ apply from: "$rootDir/gradle/maven-publish.gradle"
 apply from: "$rootDir/gradle/spock.gradle"
 apply from: "$rootDir/gradle/cucumber-jvm.gradle"
 apply from: "$rootDir/gradle/rest-documentation.gradle"
+apply from: "$rootDir/gradle/dependency-exclusions.gradle"
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"

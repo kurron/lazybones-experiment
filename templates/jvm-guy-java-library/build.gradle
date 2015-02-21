@@ -16,12 +16,6 @@
 
 group = 'org.kurron.example'
 
-// comment out if you want to have version conflicts detected
-/*
-configurations*.resolutionStrategy {
-    failOnVersionConflict()
-}
-*/
 
 apply plugin: 'build-announcements'
 
@@ -32,6 +26,7 @@ apply from: "$rootDir/gradle/boot.gradle"
 apply from: "$rootDir/gradle/checkstyle.gradle"
 apply from: "$rootDir/gradle/maven-publish.gradle"
 apply from: "$rootDir/gradle/dependency-exclusions.gradle"
+apply from: "$rootDir/gradle/version-conflict-detection.gradle"
 
 defaultTasks += ['clean', 'build']
 

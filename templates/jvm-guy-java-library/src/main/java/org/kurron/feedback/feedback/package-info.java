@@ -15,6 +15,8 @@
  */
 
 /**
- * The root package of the project, containing all feedback and error related classes.
+ * This package contains objects useful in providing feedback to API clients as well as operations.  The idea is
+ * provide a general contract for sending feedback to interested parties and let service providers handle the
+ * details of transporting the feedback.
  */
 package org.kurron.feedback.feedback;

@@ -16,7 +16,7 @@
 package org.kurron.feedback.feedback;
 
 /**
- * Interface Injection: any bean implementing this interface is indicating that it was a feedback provider injected into it.
+ * Interface Injection: any bean implementing this interface is indicating that it wants a feedback provider injected into it.
  */
 public interface FeedbackAware
 {

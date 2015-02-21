@@ -1,7 +1,0 @@
-apply plugin: 'application'
-
-run {
-    standardInput = System.in
-}
-
-assemble.dependsOn( 'distTar', 'installApp' )

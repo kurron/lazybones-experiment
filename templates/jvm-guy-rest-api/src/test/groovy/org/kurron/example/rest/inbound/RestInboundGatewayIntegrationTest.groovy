@@ -23,14 +23,14 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.RequestEntity
-import org.kurron.example.rest.BaseIntegrationTest
+import org.kurron.example.rest.BaseInboundIntegrationTest
 
 /**
  * Integration-level testing of the RestInboundGateway object.
  */
 @SuppressWarnings( 'UnnecessaryGetter' )
 @Slf4j
-class RestInboundGatewayIntegrationTest extends BaseIntegrationTest {
+class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
 
     def 'exercise asset storage and retrieval'() {
 

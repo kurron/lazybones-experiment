@@ -31,17 +31,17 @@ group = 'org.kurron.example'
 
 
 
-ext.coverageExcludes = ['com/transparent/asgard/magni/Application',
-                        'com/transparent/asgard/magni/ApplicationProperties',
-                        'com/transparent/asgard/magni/WebMvcConfiguration',
-                        'com/transparent/asgard/magni/outbound/RedisResource',
-                        'com/transparent/asgard/magni/inbound/MetaDataBlock',
-                        'com/transparent/asgard/magni/inbound/ErrorBlock',
-                        'com/transparent/asgard/magni/inbound/MagniControl',
-                        'com/transparent/asgard/magni/inbound/CustomHttpHeaders',
-                        'com/transparent/asgard/magni/inbound/HeaderBlock',
-                        'com/transparent/asgard/magni/exception/CustomErrorController',
-                        'com/transparent/asgard/magni/inbound/RestInboundGateway$_home_closure1'
+ext.coverageExcludes = ['org/kurron/example/rest/Application',
+                        'org/kurron/example/rest/ApplicationProperties',
+                        'org/kurron/example/rest/WebMvcConfiguration',
+                        'org/kurron/example/rest/outbound/RedisResource',
+                        'org/kurron/example/rest/inbound/MetaDataBlock',
+                        'org/kurron/example/rest/inbound/ErrorBlock',
+                        'org/kurron/example/rest/inbound/MagniControl',
+                        'org/kurron/example/rest/inbound/CustomHttpHeaders',
+                        'org/kurron/example/rest/inbound/HeaderBlock',
+                        'org/kurron/example/rest/exception/CustomErrorController',
+                        'org/kurron/example/rest/inbound/RestInboundGateway$_home_closure1'
 ]
 
 

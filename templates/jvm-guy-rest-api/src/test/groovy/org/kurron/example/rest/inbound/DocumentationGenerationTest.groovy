@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
-import org.kurron.example.rest.BaseComponentTest
+import org.kurron.example.rest.BaseOutboundIntegrationTest
 
 /**
  * This 'test' generates code snippets used in the REST documentation.  We need to leverage the
@@ -31,7 +31,7 @@ import org.kurron.example.rest.BaseComponentTest
  * actual traffic.
  */
 @SuppressWarnings( 'UnnecessaryGetter' )
-class DocumentationGenerationTest extends BaseComponentTest {
+class DocumentationGenerationTest extends BaseOutboundIntegrationTest {
 
     @Autowired
     private WebApplicationContext context

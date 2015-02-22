@@ -16,12 +16,12 @@
 package org.kurron.example.rest
 
 import org.junit.experimental.categories.Category
-import org.kurron.example.rest.categories.UnitTests
+import org.kurron.categories.UnitTest
 
 /**
  * Base class for unit-level tests.
  */
-@Category( UnitTests )
+@Category( UnitTest )
 abstract class BaseUnitTest extends BaseTest {
 
     def setup() { 0 * _._ }

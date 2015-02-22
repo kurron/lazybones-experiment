@@ -16,19 +16,19 @@
 package org.kurron.example.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.kurron.example.rest.categories.IntegrationTests
 import org.junit.experimental.categories.Category
+import org.kurron.categories.InboundIntegrationTest
 import org.springframework.boot.test.TestRestTemplate
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.web.client.RestOperations
 import org.springframework.web.util.UriComponentsBuilder
 
 /**
- * Base class for integration-level tests.
+ * Base class for tests of the inbound gateways.
  */
 @SuppressWarnings( ['GStringExpressionWithinString'] )
-@Category( IntegrationTests )
-abstract class BaseIntegrationTest extends BaseTest {
+@Category( InboundIntegrationTest )
+abstract class BaseInboundIntegrationTest extends BaseTest {
 
     protected int getPort() {
         System.properties['integration.test.port'] as int

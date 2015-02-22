@@ -16,12 +16,12 @@
 package org.kurron.example.rest.outbound
 
 import java.util.concurrent.TimeUnit
-import org.kurron.example.rest.BaseComponentTest
+import org.kurron.example.rest.BaseOutboundIntegrationTest
 
 /**
  * A simple learning test to exercise Spring Data Redis.
  */
-class LearningRedisComponentTest extends BaseComponentTest {
+class LearningRedisComponentTest extends BaseOutboundIntegrationTest {
 
     def 'work with redis'() {
 

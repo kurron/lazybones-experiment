@@ -18,12 +18,12 @@ package org.kurron.example.rest.outbound
 import org.kurron.feedback.exceptions.NotFoundError
 import org.kurron.example.rest.feedback.MagniFeedbackContext
 import org.springframework.beans.factory.annotation.Autowired
-import org.kurron.example.rest.BaseComponentTest
+import org.kurron.example.rest.BaseOutboundIntegrationTest
 
 /**
  * Integration-level testing of the RedisOutboundGateway object.
  */
-class RedisOutboundGatewayComponentTest extends BaseComponentTest {
+class RedisOutboundGatewayComponentTest extends BaseOutboundIntegrationTest {
 
     @Autowired
     PersistenceOutboundGateway sut

@@ -15,8 +15,8 @@
  */
 package org.kurron.example.rest
 
-import org.kurron.example.rest.categories.ComponentTests
 import org.junit.experimental.categories.Category
+import org.kurron.categories.OutboundIntegrationTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
@@ -24,13 +24,13 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.test.context.ContextConfiguration
 
 /**
- * Base class for component-level tests.
+ * Base class for tests of the outbound gateways.
  */
 @ContextConfiguration( loader = SpringApplicationContextLoader, classes = Application )
 @SuppressWarnings( 'AbstractClassWithoutAbstractMethod' )
 @WebIntegrationTest( randomPort = true ) // needed because the CustomErrorController will cause the context to not load
-@Category( ComponentTests )
-abstract class BaseComponentTest extends BaseTest {
+@Category( OutboundIntegrationTest )
+abstract class BaseOutboundIntegrationTest extends BaseTest {
 
     @Autowired
     protected RedisTemplate redisTemplate

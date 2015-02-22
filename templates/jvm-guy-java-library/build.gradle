@@ -21,7 +21,8 @@ apply plugin: 'build-announcements'
 
 apply from: "$rootDir/gradle/repositories.gradle"
 apply from: "$rootDir/gradle/version.gradle"
-apply from: "$rootDir/gradle/java.gradle"
+apply from: "$rootDir/gradle/groovy.gradle"
+apply from: "$rootDir/gradle/spock.gradle"
 apply from: "$rootDir/gradle/boot.gradle"
 apply from: "$rootDir/gradle/checkstyle.gradle"
 apply from: "$rootDir/gradle/maven-publish.gradle"

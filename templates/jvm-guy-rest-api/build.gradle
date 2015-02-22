@@ -81,11 +81,11 @@ defaultTasks << 'build'
 defaultTasks << 'collectJars'
 
 if ( 'true' == runIntegrationTests ) {
-    defaultTasks += ['componentTests', 'integrationTests', 'acceptanceTests','updateJarWithApiDocumentation']
+    defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests','updateJarWithApiDocumentation']
     // make sure we deploy the docker container before running integration/acceptance tests
-    [integrationTests, acceptanceTests]*.dependsOn runDockerContainer
+    [inboundIntegrationTests, acceptanceTests]*.dependsOn runDockerContainer
     // make sure the docker image is cleaned up
-    [integrationTests, acceptanceTests]*.finalizedBy deleteDockerImage
+    [inboundIntegrationTests, acceptanceTests]*.finalizedBy deleteDockerImage
 }
 
 // TODO: Take out maven tasks once Push-E is updated to rely on docker container

@@ -6,15 +6,17 @@ buildscript {
     }
 
     dependencies {
-        classpath "uk.co.cacoethes:lazybones-gradle:1.0.2"
+//        classpath "uk.co.cacoethes:lazybones-gradle:1.1"
+        classpath "uk.co.cacoethes:lazybones-gradle:1.2.3"
     }
 }
 
-apply plugin: "lazybones-templates"
+//apply plugin: "lazybones-templates"
+apply plugin: "uk.co.cacoethes.lazybones-templates"
 
 lazybones {
+    packageExcludes = ['**/*.swp', '.gradle', 'build', '.idea', '*.iml', 'VERSION', '**/.retain']
     repositoryUrl = "https://api.bintray.com/content/kurron/lazybones"
-//  repositoryName = "kurron/lazybones"
     repositoryUsername = bintrayUsername 
     repositoryApiKey = bintrayApiKey 
 }

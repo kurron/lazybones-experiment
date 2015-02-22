@@ -16,6 +16,12 @@
 
 apply plugin: 'java'
 
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+compileJava.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
+compileTestJava.options*.compilerArgs = ['-Xlint:deprecation','-encoding', 'UTF-8']
+
 ext.sharedManifest = manifest {
     attributes( 'Implementation-Title': project.name, 'Implementation-Version': project.version )
 }
@@ -24,9 +30,15 @@ jar {
     manifest = project.manifest {
         from sharedManifest
     }
+
+    from( buildDir ) {
+        include 'build-info.properties'
+    }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
+jar.dependsOn 'createBuildInformationFile'
+
+task sourcesJar( type: Jar, dependsOn: classes ) {
     classifier = 'sources'
     from sourceSets.main.allSource
     manifest = project.manifest {

@@ -15,9 +15,8 @@
  */
 
 def dockerDirectory = 'docker'
-def dockerRegistry = 'registry.transparent.com'
 def buildArtifactName = "${project.name}-${version.toString()}"
-def fullImageName = "$dockerRegistry/asgard-${project.name}:${version.toString()}"
+def fullImageName = "jvm-guy/${project.name}:${version.toString()}"
 
 task copyBuildArtifact( type: Copy ) {
     from( 'build/libs/' ) {
@@ -76,16 +75,6 @@ private void waitForServerToStart( int port ) {
         }
     }
     if ( !serverUp ) { throw new IllegalStateException( 'The server took too long to start' ) }
-}
-
-task publishDockerImage( type: Exec, dependsOn: buildDockerImage ) {
-    group 'Docker'
-    description = 'Publishes a previously built docker image to the private docker registry'
-    workingDir dockerDirectory
-    commandLine 'sudo', 'docker', 'push', fullImageName
-    doFirst {
-        logger.quiet "Publishing docker image $fullImageName to $dockerRegistry"
-    }
 }
 
 task deleteDockerContainer( type: Exec ) {

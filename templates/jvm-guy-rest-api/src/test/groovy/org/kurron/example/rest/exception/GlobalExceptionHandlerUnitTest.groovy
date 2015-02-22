@@ -40,7 +40,7 @@ class GlobalExceptionHandlerUnitTest extends BaseUnitTest {
         def error = clazz.newInstance( feedback ) as AbstractError
 
         when: 'an exception is handled'
-        def result = sut.handleMagniException( error )
+        def result = sut.handleApplicationException( error )
 
         then: 'a valid http response is returned'
         result

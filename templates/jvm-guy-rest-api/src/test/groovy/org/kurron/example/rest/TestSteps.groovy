@@ -167,7 +167,7 @@ class TestSteps {
     @Given( '^an Accept header filled in with the desired media-type of the returned hypermedia control$' )
     void 'an Accept header filled in with the desired media-type of the returned hypermedia control'() {
         // there is a ticket to deal with versions so, presumably, we will also be required to send
-        // some options, eg type=magni-control;version=1.2.3
+        // some options, eg type=custom-control;version=1.2.3
         specifyAcceptType()
     }
 

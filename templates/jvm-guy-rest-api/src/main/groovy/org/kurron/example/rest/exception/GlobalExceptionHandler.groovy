@@ -67,12 +67,12 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
     }
 
     /**
-     * Handles errors thrown by Magni itself.
+     * Handles errors thrown by the application itself.
      * @param e the error.
      * @return the constructed response entity, containing details about the error.
      */
     @ExceptionHandler( AbstractError )
-    static ResponseEntity<HypermediaControl> handleMagniException( AbstractError e ) {
+    static ResponseEntity<HypermediaControl> handleApplicationException( AbstractError e ) {
         def control = new HypermediaControl( httpCode: e.httpStatus.value() ).with {
             errorBlock = new ErrorBlock( code: e.code, message: e.message, developerMessage: e.developerMessage )
             it
@@ -88,8 +88,8 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
      * @return the response entity.
      */
     private static ResponseEntity<HypermediaControl> wrapInResponseEntity( HypermediaControl control,
-                                                                      HttpStatus status,
-                                                                      HttpHeaders headers = new HttpHeaders() ) {
+                                                                           HttpStatus status,
+                                                                           HttpHeaders headers = new HttpHeaders() ) {
         headers.setContentType( HypermediaControl.MEDIA_TYPE )
         new ResponseEntity<>( control, headers, status )
     }

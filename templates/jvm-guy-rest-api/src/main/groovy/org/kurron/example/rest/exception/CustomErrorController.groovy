@@ -72,7 +72,7 @@ class CustomErrorController extends AbstractFeedbackAware implements ErrorContro
     }
 
     /**
-     * This is the default 'view' for unhandled failures.  It converts everything into a Magni control.
+     * This is the default 'view' for unhandled failures.  It converts everything into a hypermedia control.
      * @param request the HTTP request that triggered the failure.
      * @return the control containing the error details.
      */

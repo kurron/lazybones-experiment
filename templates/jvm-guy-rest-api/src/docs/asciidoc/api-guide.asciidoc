@@ -1,5 +1,5 @@
-= Magni API Guide
-Ron Kurr;
+= Example API Guide
+JVM Guy;
 :doctype: book
 :toc:
 :sectanchors:
@@ -13,7 +13,7 @@ Ron Kurr;
 [[overview-http-verbs]]
 == HTTP verbs
 
-Magni tries to adhere as closely as possible to standard HTTP and REST conventions in its
+The Application tries to adhere as closely as possible to standard HTTP and REST conventions in its
 use of HTTP verbs.
 
 |===
@@ -44,7 +44,7 @@ use of HTTP verbs.
 [[overview-http-status-codes]]
 == HTTP status codes
 
-Magni tries to adhere as closely as possible to standard HTTP and REST conventions in its
+The Application tries to adhere as closely as possible to standard HTTP and REST conventions in its
 use of HTTP status codes.
 
 |===
@@ -82,7 +82,7 @@ A small number of HTTP headers are required to be in all requests.
 | Header | Usage
 
 | X-Correlation-Id
-| Magni is part of a large network of cooperating services and publishes its log messages to a centralized server.  To facilitate the tracing of events and messages between systems, Magni requires that a correlation id be provided with each request. If the client is the initiator of an action, then a new id should be generated.  If the client, however, is reacting to an outside event or message, the client should propogate the correlation id it was handed.
+| The Application is part of a large network of cooperating services and publishes its log messages to a centralized server.  To facilitate the tracing of events and messages between systems, the application requires that a correlation id be provided with each request. If the client is the initiator of an action, then a new id should be generated.  If the client, however, is reacting to an outside event or message, the client should propogate the correlation id it was handed.
 |===
 
 [[overview-errors]]
@@ -115,7 +115,7 @@ include::{generated}/failure-scenario/response.asciidoc[]
 [[overview-hypermedia]]
 == Hypermedia
 
-Magni uses a simple hypermedia control that includes links to other resources that the client
+The application uses a simple hypermedia control that includes links to other resources that the client
 can use to navigate around the service. Links can be found beneath the `links` key.
 
 IMPORTANT:  Users of the API should not created URIs themselves, instead they should use
@@ -125,8 +125,8 @@ result in errors as services and URIs change.
 [[overview-miscellaneous]]
 == Miscellaneous
 
-Magni does not currently require any form of authentication, expecting that the service will not be
-exposed directly to the public internet.  Magni does not currently rate limit requests, expecting that
+The application does not currently require any form of authentication, expecting that the service will not be
+exposed directly to the public internet.  The application does not currently rate limit requests, expecting that
 API users will be prudent in their use of the service.
 
 [[resources]]
@@ -158,7 +158,7 @@ include::{generated}/api-discovery/request-response.asciidoc[]
 === Uploading the asset
 
 A `POST` request is used to upload the asset.  The `Content-Type` header is used to communicate
-both the asset's actual type and additional meta-data.  Magni adheres to the https://tools.ietf.org/html/rfc2045[RFC 2045]
+both the asset's actual type and additional meta-data.  The application adheres to the https://tools.ietf.org/html/rfc2045[RFC 2045]
 standard and makes use of MIME type parameters to communicate additional meta-data.  Example usages include
 specifying an image's height and width or an audio file's sample rate.  The response will contain the hypermedia control
 describing the successful operation as well as other resources that can be accessed.
@@ -166,7 +166,7 @@ describing the successful operation as well as other resources that can be acces
 |===
 | Notable Header | Usage
 | X-Expiration-Minutes
-| Required. The number of minutes that Magni should hold onto the asset before evicting it from the system.
+| Required. The number of minutes that the application should hold onto the asset before evicting it from the system.
 | Content-Type
 | Required. The MIME type of the asset.  The parameters portion of the MIME type can hold arbitrary key-value pairs which is useful for storing custom meta-data.
 |===
@@ -181,7 +181,7 @@ include::{generated}/asset-storage/request-response.asciidoc[]
 A `GET` request is used to fetch the asset.
 
 IMPORTANT: The `Accept` header must be configured to accept both the MIME type of the asset as
-well as the MIME type of the Magni control.  In event of a failure, the control will be
+well as the MIME type of the hypermedia control.  In event of a failure, the control will be
 returned instead of the asset.
 
 ==== Example Conversation

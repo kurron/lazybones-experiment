@@ -1,25 +1,34 @@
-##################################################
-# Builds a docker image with Magni pre-installed #
-##################################################
+# I realize that executing each step independently is supposed to increase image size but I want readability in this case
 
-# start with a Ubuntu base box with Java 8 pre-installed
-FROM dockerfile/java:oracle-java8
+# Trusty
+FROM ubuntu:14.04
 
-# set the author/maintainer
-MAINTAINER Matthew Salvatore "msalvatore@transparent.com"
+MAINTAINER Ron Kurr <kurr@jvmguy.com>
 
-# update sources
-RUN apt-get update
+# Install JDK 8
+RUN apt-get --quiet update
+RUN apt-get --quiet --yes install wget
+RUN apt-get clean
+RUN wget --quiet --output-document=/jdk-8.tar.gz --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u31-b13/jdk-8u31-linux-x64.tar.gz
+RUN mkdir -p /usr/lib/jvm
+RUN tar --gunzip --extract --verbose --file /jdk-8.tar.gz --directory /usr/lib/jvm
+RUN rm -f /jdk-8.tar.gz
+RUN chown -R root:root /usr/lib/jvm
 
-# copy the magni jar file from the build output directory into the image
-COPY artifacts/magni.jar /opt/magni/magni.jar
+# set the environment variables
+ENV JDK_HOME /usr/lib/jvm/jdk1.8.0_31
+ENV JAVA_HOME /usr/lib/jvm/jdk1.8.0_31
+ENV PATH $PATH:$JAVA_HOME/bin
 
-# expose the port that magni will be listening on
+# copy the application jar file from the build output directory into the image
+COPY artifacts/jvm-guy-rest-api.jar /opt/example/jvm-guy-rest-api.jar
+
+# expose the port that the application will be listening on
 EXPOSE 8080
 
-# set the working directory to where the magni jar file was copied
-WORKDIR /opt/magni
+# set the working directory to where the application jar file was copied
+WORKDIR /opt/example
 
-# start magni - Example usage: docker run --detach --publish 8090:8080 --name new-container-instance msal/magni --spring.profiles.active=test
-#             - ENTRYPOINT was used rather than CMD so additional properties can be specified, e.g. the profile name
-ENTRYPOINT ["java", "-Dserver.port=8080", "-jar", "magni.jar"]
+# start application - Example usage: docker run --detach --publish 8090:8080 --name new-container-instance msal/magni --spring.profiles.active=test
+#                   - ENTRYPOINT was used rather than CMD so additional properties can be specified, e.g. the profile name
+ENTRYPOINT ["java", "-Dserver.port=8080", "-jar", "jvm-guy-rest-api.jar"]

@@ -1,6 +1,6 @@
 spring:
     application:
-        name: magni
+        name: rest-example
     cloud:
         config:
             enabled: false

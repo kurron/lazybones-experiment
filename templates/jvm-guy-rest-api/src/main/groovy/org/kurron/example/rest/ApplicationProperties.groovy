@@ -20,7 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 /**
  * Application specific properties. This can be injected into beans to share values.
  */
-@ConfigurationProperties( value = 'magni', ignoreUnknownFields = false )
+@ConfigurationProperties( value = 'example', ignoreUnknownFields = false )
 class ApplicationProperties {
 
     /**

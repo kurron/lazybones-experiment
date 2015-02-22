@@ -16,7 +16,7 @@
 package org.kurron.example.rest
 
 import org.kurron.feedback.exceptions.PreconditionFailedError
-import org.kurron.example.rest.feedback.MagniFeedbackContext
+import org.kurron.example.rest.feedback.ExampleFeedbackContext
 import org.slf4j.MDC
 import org.springframework.mock.web.MockHttpServletRequest
 import org.kurron.example.rest.inbound.CustomHttpHeaders
@@ -61,7 +61,7 @@ class CorrelationIdHandlerInterceptorUnitTest extends BaseUnitTest {
 
         then: 'a missing header error is thrown'
         def error = thrown( PreconditionFailedError )
-        error.code == MagniFeedbackContext.PRECONDITION_FAILED.code
+        error.code == ExampleFeedbackContext.PRECONDITION_FAILED.code
     }
 
     def 'exercise missing header when it is not required'() {

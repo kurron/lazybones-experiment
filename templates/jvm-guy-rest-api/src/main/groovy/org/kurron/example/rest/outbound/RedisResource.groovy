@@ -18,7 +18,7 @@ package org.kurron.example.rest.outbound
 import groovy.transform.Canonical
 
 /**
- * Represents a resource that is saved to Redis as a hash datatype.
+ * Represents a resource that is saved to Redis as a hash data type.
  */
 @Canonical
 class RedisResource {

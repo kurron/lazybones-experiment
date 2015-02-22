@@ -16,7 +16,7 @@
 package org.kurron.example.rest.outbound
 
 import org.kurron.feedback.exceptions.NotFoundError
-import org.kurron.example.rest.feedback.MagniFeedbackContext
+import org.kurron.example.rest.feedback.ExampleFeedbackContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.kurron.example.rest.BaseOutboundIntegrationTest
 
@@ -55,6 +55,6 @@ class RedisOutboundGatewayComponentTest extends BaseOutboundIntegrationTest {
 
         then: 'the resource is no longer available'
         def error = thrown( NotFoundError )
-        error.code == MagniFeedbackContext.REDIS_RESOURCE_NOT_FOUND.code
+        error.code == ExampleFeedbackContext.REDIS_RESOURCE_NOT_FOUND.code
     }
 }

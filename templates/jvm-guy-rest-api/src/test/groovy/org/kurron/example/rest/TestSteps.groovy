@@ -16,8 +16,8 @@
 package org.kurron.example.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.kurron.example.rest.feedback.MagniFeedbackContext
-import org.kurron.example.rest.inbound.MagniControl
+import org.kurron.example.rest.feedback.ExampleFeedbackContext
+import org.kurron.example.rest.inbound.HypermediaControl
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
@@ -40,7 +40,7 @@ import org.springframework.web.util.UriComponentsBuilder
 import org.kurron.example.rest.inbound.CustomHttpHeaders
 
 /**
- * Step definitions geared towards Magni's acceptance test but remember, all steps are used
+ * Step definitions geared towards the application's acceptance test but remember, all steps are used
  * by Cucumber unless special care is taken. If you word your features in a consistent manner, then
  * steps will automatically get reused and you won't have to keep writing the same test code.
  **/
@@ -48,7 +48,7 @@ import org.kurron.example.rest.inbound.CustomHttpHeaders
 @WebIntegrationTest( randomPort = true )
 @Slf4j
 @SuppressWarnings( ['GrMethodMayBeStatic', 'GStringExpressionWithinString'] )
-class MagniSteps {
+class TestSteps {
     @Value( '${local.server.port}' )
     private int port
 
@@ -93,7 +93,7 @@ class MagniSteps {
      * This is state shared between steps and can be setup and torn down by the hooks.
      **/
     static class MyWorld {
-        ResponseEntity<MagniControl> uploadEntity
+        ResponseEntity<HypermediaControl> uploadEntity
         ResponseEntity<byte[]> downloadEntity
         byte[] bytes = new byte[0]
         def headers = new HttpHeaders()
@@ -173,7 +173,7 @@ class MagniSteps {
 
     private specifyAcceptType( MediaType mediaType = MediaType.APPLICATION_JSON ) {
         List<MediaType> acceptable = [mediaType]
-        acceptable.add( MagniControl.MEDIA_TYPE )
+        acceptable.add( HypermediaControl.MEDIA_TYPE )
         sharedState.headers.setAccept( acceptable )
     }
 
@@ -232,7 +232,7 @@ class MagniSteps {
     @When( '^a POST request is made with the asset in the body$' )
     void 'a POST request is made with the asset in the body'() {
         def requestEntity = new HttpEntity( sharedState.bytes, sharedState.headers )
-        sharedState.uploadEntity = internet.postForEntity( sharedState.uri, requestEntity, MagniControl )
+        sharedState.uploadEntity = internet.postForEntity( sharedState.uri, requestEntity, HypermediaControl )
         sharedState.statusCode = sharedState.uploadEntity.statusCode
     }
 
@@ -281,7 +281,7 @@ class MagniSteps {
     @Then( '^the hypermedia control describing the size problem is returned$' )
     void 'the hypermedia control describing the size problem is returned'() {
         assert sharedState.uploadEntity.body.httpCode == HttpStatus.PAYLOAD_TOO_LARGE.value()
-        assert sharedState.uploadEntity.body.errorBlock.code == MagniFeedbackContext.PAYLOAD_TOO_LARGE.code
+        assert sharedState.uploadEntity.body.errorBlock.code == ExampleFeedbackContext.PAYLOAD_TOO_LARGE.code
         assert sharedState.uploadEntity.body.errorBlock.message
         assert sharedState.uploadEntity.body.errorBlock.developerMessage
     }
@@ -289,9 +289,9 @@ class MagniSteps {
     @Then( '^the hypermedia control describing the unknown asset is returned$' )
     @SuppressWarnings( 'UnnecessaryGetter' )
     void 'the hypermedia control describing the unknown asset is returned'() {
-        assert sharedState.downloadEntity.headers.getContentType().isCompatibleWith( MagniControl.MEDIA_TYPE )
+        assert sharedState.downloadEntity.headers.getContentType().isCompatibleWith( HypermediaControl.MEDIA_TYPE )
         assert transformer
-        MagniControl control = transformer.readValue( sharedState.downloadEntity.body, MagniControl )
+        HypermediaControl control = transformer.readValue( sharedState.downloadEntity.body, HypermediaControl )
         assert control.errorBlock.code
         assert control.errorBlock.message
         assert control.errorBlock.developerMessage

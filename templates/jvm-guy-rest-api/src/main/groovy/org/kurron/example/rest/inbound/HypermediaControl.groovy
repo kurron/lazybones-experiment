@@ -22,17 +22,17 @@ import org.springframework.hateoas.ResourceSupport
 import org.springframework.http.MediaType
 
 /**
- * The hypermedia REST control for the Magni resource.  Can be serialized into
+ * The hypermedia REST control for the example resource.  Can be serialized into
  * both JSON and, potentially, XML.
  */
 @Canonical
 @JsonInclude( JsonInclude.Include.NON_NULL )
-class MagniControl extends ResourceSupport {
+class HypermediaControl extends ResourceSupport {
 
     /**
      * The expected MIME type for the control.
      */
-    public static final String MIME_TYPE = 'application/json;type=magni;version=1.0.0'
+    public static final String MIME_TYPE = 'application/json;type=example;version=1.0.0'
 
     /**
      * Convenience form of the MIME-TYPE for Spring MVC APIs.

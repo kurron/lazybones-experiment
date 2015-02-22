@@ -24,10 +24,10 @@ import org.kurron.feedback.FeedbackContext
 import org.kurron.feedback.FeedbackLevel
 
 /**
- * Message codes specific to Magni.
+ * Message codes specific to this application.
  */
 @SuppressWarnings( ['LineLength'] )
-enum MagniFeedbackContext implements FeedbackContext {
+enum ExampleFeedbackContext implements FeedbackContext {
 
     GENERIC_ERROR( 2000, 'The following error has occurred and was caught by the global error handler: {}', ERROR, QA ),
     REDIS_STORE_INFO( 2001, 'Storing a {} byte payload with a content type of {} in Redis for {} seconds with a key of {}', INFO, DEVELOPMENT ),
@@ -58,7 +58,7 @@ enum MagniFeedbackContext implements FeedbackContext {
      */
     private final Audience theAudience
 
-    MagniFeedbackContext( int aCode, String aFormatString, FeedbackLevel aFeedbackLevel, Audience anAudience ) {
+    ExampleFeedbackContext( int aCode, String aFormatString, FeedbackLevel aFeedbackLevel, Audience anAudience ) {
         theCode = aCode
         theFormatString = aFormatString
         theFeedbackLevel = aFeedbackLevel

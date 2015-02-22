@@ -18,7 +18,7 @@ package org.kurron.example.rest.inbound
 import org.kurron.feedback.exceptions.LengthRequiredError
 import org.kurron.feedback.exceptions.PayloadTooLargeError
 import org.kurron.feedback.exceptions.PreconditionFailedError
-import org.kurron.example.rest.feedback.MagniFeedbackContext
+import org.kurron.example.rest.feedback.ExampleFeedbackContext
 import org.springframework.boot.actuate.metrics.CounterService
 import org.springframework.boot.actuate.metrics.GaugeService
 import org.springframework.http.HttpStatus
@@ -75,10 +75,10 @@ class RestInboundGatewayUnitTest extends BaseUnitTest {
         result.response.status == HttpStatus.CREATED.value()
 
         and: 'the response content type is set'
-        result.response.contentType == MagniControl.MIME_TYPE
+        result.response.contentType == HypermediaControl.MIME_TYPE
 
         and: 'the expected response is set in the body of the response'
-        mapper.readValue( result.response.contentAsByteArray, MagniControl ).links.find { it.rel == 'self' }.href  == expected.toString()
+        mapper.readValue( result.response.contentAsByteArray, HypermediaControl ).links.find { it.rel == 'self' }.href  == expected.toString()
     }
 
     def 'exercise asset retrieval request mappings'() {
@@ -117,7 +117,7 @@ class RestInboundGatewayUnitTest extends BaseUnitTest {
         then: 'the expected error is thrown'
         def wrappedError = thrown( NestedServletException )
         def error = wrappedError.cause as LengthRequiredError
-        error.code == MagniFeedbackContext.CONTENT_LENGTH_REQUIRED.code
+        error.code == ExampleFeedbackContext.CONTENT_LENGTH_REQUIRED.code
     }
 
     def 'exercise max payload size exceeded'() {
@@ -139,7 +139,7 @@ class RestInboundGatewayUnitTest extends BaseUnitTest {
         then: 'the expected error is thrown'
         def wrappedError = thrown( NestedServletException )
         def error = wrappedError.cause as PayloadTooLargeError
-        error.code == MagniFeedbackContext.PAYLOAD_TOO_LARGE.code
+        error.code == ExampleFeedbackContext.PAYLOAD_TOO_LARGE.code
     }
 
     def 'exercise missing content type header'() {
@@ -155,7 +155,7 @@ class RestInboundGatewayUnitTest extends BaseUnitTest {
         then: 'the expected error is thrown'
         def wrappedError = thrown( NestedServletException )
         def error = wrappedError.cause as PreconditionFailedError
-        error.code == MagniFeedbackContext.PRECONDITION_FAILED.code
+        error.code == ExampleFeedbackContext.PRECONDITION_FAILED.code
         error.message.contains( 'Content-Type' )
     }
 
@@ -173,7 +173,7 @@ class RestInboundGatewayUnitTest extends BaseUnitTest {
         then: 'the expected error is thrown'
         def wrappedError = thrown( NestedServletException )
         def error = wrappedError.cause as PreconditionFailedError
-        error.code == MagniFeedbackContext.PRECONDITION_FAILED.code
+        error.code == ExampleFeedbackContext.PRECONDITION_FAILED.code
         error.message.contains( CustomHttpHeaders.X_EXPIRATION_MINUTES )
     }
 }

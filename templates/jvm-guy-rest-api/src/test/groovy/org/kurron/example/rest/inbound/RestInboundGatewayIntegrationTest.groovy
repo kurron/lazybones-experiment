@@ -15,7 +15,7 @@
  */
 package org.kurron.example.rest.inbound
 
-import org.kurron.example.rest.feedback.MagniFeedbackContext
+import org.kurron.example.rest.feedback.ExampleFeedbackContext
 import groovy.util.logging.Slf4j
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -44,7 +44,7 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
         def requestEntity = new HttpEntity( payload, headers )
 
         when: 'the payload is stored'
-        def responseEntity = restOperations.postForEntity( serverUri, requestEntity, MagniControl )
+        def responseEntity = restOperations.postForEntity( serverUri, requestEntity, HypermediaControl )
 
         then: 'a 201 (CREATED) status is returned'
         responseEntity.statusCode == HttpStatus.CREATED
@@ -82,9 +82,9 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
 
         and: 'a json fault document is returned in the body of the response'
         result.headers.getContentType().includes( MediaType.APPLICATION_JSON )
-        def control = mapper.readValue( result.body, MagniControl )
+        def control = mapper.readValue( result.body, HypermediaControl )
         control.httpCode == HttpStatus.NOT_FOUND.value()
-        control.errorBlock.code == MagniFeedbackContext.REDIS_RESOURCE_NOT_FOUND.code
+        control.errorBlock.code == ExampleFeedbackContext.REDIS_RESOURCE_NOT_FOUND.code
         log.info 'Fault message: {}', control.errorBlock.message
         log.info 'Developer message: {}', control.errorBlock.developerMessage
     }
@@ -104,9 +104,9 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
 
         and: 'a json fault document is returned in the body of the response'
         result.headers.getContentType().includes( MediaType.APPLICATION_JSON )
-        def control = mapper.readValue( result.body, MagniControl )
+        def control = mapper.readValue( result.body, HypermediaControl )
         control.httpCode == HttpStatus.PRECONDITION_FAILED.value()
-        control.errorBlock.code == MagniFeedbackContext.PRECONDITION_FAILED.code
+        control.errorBlock.code == ExampleFeedbackContext.PRECONDITION_FAILED.code
         log.info 'Fault message: {}', control.errorBlock.message
         log.info 'Developer message: {}', control.errorBlock.developerMessage
     }
@@ -115,18 +115,18 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
 
         given: 'a request entity with properly set headers'
         def headers = buildHeaders()
-        headers.setAccept( [MagniControl.MEDIA_TYPE] )
+        headers.setAccept( [HypermediaControl.MEDIA_TYPE] )
         def requestEntity = new RequestEntity( headers, HttpMethod.GET, serverUri )
 
         when: 'the  resource is retrieved'
-        def result = restOperations.exchange( requestEntity, MagniControl )
+        def result = restOperations.exchange( requestEntity, HypermediaControl )
 
         then: 'a 200 (OK) is returned'
         result.statusCode == HttpStatus.OK
 
         and: 'a control is returned in the body of the response'
-        result.headers.getContentType().includes( MagniControl.MEDIA_TYPE )
-        MagniControl control = result.body
+        result.headers.getContentType().includes( HypermediaControl.MEDIA_TYPE )
+        HypermediaControl control = result.body
         control.httpCode == HttpStatus.OK.value()
         control.links.find { it.rel == RestInboundGateway.API_DISCOVERY_RELATION }
         control.links.find { it.rel == RestInboundGateway.UPLOAD_RELATION }

@@ -51,7 +51,7 @@ eureka:
     instance:
         preferIpAddress: true
 
-magni:
+example:
     maxPayloadSize: 10
     requireCorrelationId: true
 
@@ -67,5 +67,3 @@ server:
     port: ????
 logging:
     config: classpath:logback-live.xml
-magni:
-    requireCorrelationId: false

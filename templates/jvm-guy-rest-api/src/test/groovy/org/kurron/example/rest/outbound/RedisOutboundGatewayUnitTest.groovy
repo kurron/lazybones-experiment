@@ -15,7 +15,7 @@
  */
 package org.kurron.example.rest.outbound
 
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.REDIS_RESOURCE_NOT_FOUND
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.REDIS_RESOURCE_NOT_FOUND
 import static RedisOutboundGateway.CONTENT_TYPE_KEY
 import static RedisOutboundGateway.PAYLOAD_KEY
 import org.kurron.feedback.exceptions.NotFoundError

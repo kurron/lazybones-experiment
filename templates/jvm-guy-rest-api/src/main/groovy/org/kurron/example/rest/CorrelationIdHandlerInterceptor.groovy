@@ -15,8 +15,8 @@
  */
 package org.kurron.example.rest
 
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.MISSING_CORRELATION_ID
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.PRECONDITION_FAILED
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.MISSING_CORRELATION_ID
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.PRECONDITION_FAILED
 import org.kurron.feedback.AbstractFeedbackAware
 import org.kurron.feedback.exceptions.PreconditionFailedError
 import javax.servlet.http.HttpServletRequest

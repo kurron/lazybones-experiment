@@ -30,7 +30,7 @@
         </filter>
     </appender>
 
-    <logger name="com.transparent" level="ALL"/>
+    <logger name="org.kurron" level="ALL"/>
 
     <root level="WARN">
         <appender-ref ref="CONSOLE"/>

@@ -15,9 +15,9 @@
  */
 package org.kurron.example.rest.exception
 
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.GENERIC_ERROR
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.GENERIC_ERROR
 import org.kurron.example.rest.inbound.ErrorBlock
-import org.kurron.example.rest.inbound.MagniControl
+import org.kurron.example.rest.inbound.HypermediaControl
 import org.kurron.feedback.FeedbackAware
 import org.kurron.feedback.FeedbackProvider
 import org.kurron.feedback.NullFeedbackProvider
@@ -53,13 +53,13 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
     }
 
     @Override
-    protected ResponseEntity<MagniControl> handleExceptionInternal( Exception e,
+    protected ResponseEntity<HypermediaControl> handleExceptionInternal( Exception e,
                                                                     Object body,
                                                                     HttpHeaders headers,
                                                                     HttpStatus status,
                                                                     WebRequest request ) {
         sendFeedback( GENERIC_ERROR, e.message )
-        def control = new MagniControl( httpCode: status.value() )
+        def control = new HypermediaControl( httpCode: status.value() )
         control.errorBlock = new ErrorBlock( code: GENERIC_ERROR.code,
                                              message: e.message,
                                              developerMessage: 'Indicates that the exception was not handled explicitly and is being handled as a generic error' )
@@ -72,8 +72,8 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
      * @return the constructed response entity, containing details about the error.
      */
     @ExceptionHandler( AbstractError )
-    static ResponseEntity<MagniControl> handleMagniException( AbstractError e ) {
-        def control = new MagniControl( httpCode: e.httpStatus.value() ).with {
+    static ResponseEntity<HypermediaControl> handleMagniException( AbstractError e ) {
+        def control = new HypermediaControl( httpCode: e.httpStatus.value() ).with {
             errorBlock = new ErrorBlock( code: e.code, message: e.message, developerMessage: e.developerMessage )
             it
         }
@@ -87,10 +87,10 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
      * @param headers the HTTP headers to return. If provided, the existing headers are used, otherwise new headers are created.
      * @return the response entity.
      */
-    private static ResponseEntity<MagniControl> wrapInResponseEntity( MagniControl control,
+    private static ResponseEntity<HypermediaControl> wrapInResponseEntity( HypermediaControl control,
                                                                       HttpStatus status,
                                                                       HttpHeaders headers = new HttpHeaders() ) {
-        headers.setContentType( MagniControl.MEDIA_TYPE )
+        headers.setContentType( HypermediaControl.MEDIA_TYPE )
         new ResponseEntity<>( control, headers, status )
     }
 }

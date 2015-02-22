@@ -23,17 +23,17 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 
 /**
- * Unit-level tests validating the various conversions of the MagniControl.
+ * Unit-level tests validating the various conversions of the Hypermedia Control.
  */
 @SuppressWarnings( 'UnnecessaryGetter' )
-class MagniControlConversionUnitTest extends BaseUnitTest {
+class HypermediaControlConversionUnitTest extends BaseUnitTest {
 
     ObjectMapper sut = new Jackson2ObjectMapperBuilder().featuresToEnable( SerializationFeature.INDENT_OUTPUT ).build()
 
     def 'exercise empty control'() {
 
         given: 'an empty control'
-        def control = new MagniControl()
+        def control = new HypermediaControl()
 
         when: 'the object is transformed into JSON'
         def json = sut.writeValueAsString( control )
@@ -45,7 +45,7 @@ class MagniControlConversionUnitTest extends BaseUnitTest {
     def 'exercise error block'() {
 
         given: 'a control with only error section in it'
-        def control = new MagniControl().with {
+        def control = new HypermediaControl().with {
             httpCode = HttpStatus.FORBIDDEN.value()
             errorBlock = new ErrorBlock( code: randomInteger(),
                                          message: randomHexString(),
@@ -65,7 +65,7 @@ class MagniControlConversionUnitTest extends BaseUnitTest {
     def 'exercise meta-data block'() {
 
         given: 'a control with only meta-data section in it'
-        def control = new MagniControl().with {
+        def control = new HypermediaControl().with {
             metaDataBlock = new MetaDataBlock( mimeType: 'type/subtype;parameter=one', contentLength: randomInteger() )
             it
         }
@@ -80,7 +80,7 @@ class MagniControlConversionUnitTest extends BaseUnitTest {
     def 'exercise HAL block'() {
 
         given: 'a control with only headers section in it'
-        def control = new MagniControl().with {
+        def control = new HypermediaControl().with {
             add( new Link( 'http://api.example.com/', 'create' ) )
             add( new Link( 'http://api.example.com/123', 'read' ) )
             add( new Link( 'http://api.example.com/123', 'self' ) )
@@ -101,7 +101,7 @@ class MagniControlConversionUnitTest extends BaseUnitTest {
     def 'printout entire structure'() {
 
         given: 'a control with everything in it'
-        def control = new MagniControl().with {
+        def control = new HypermediaControl().with {
             httpCode = HttpStatus.OK.value()
             errorBlock = new ErrorBlock( code: randomInteger(),
                                          message: randomHexString(),

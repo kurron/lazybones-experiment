@@ -15,10 +15,10 @@
  */
 package org.kurron.example.rest.exception
 
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.GENERIC_ERROR
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.GENERIC_ERROR
 import org.kurron.feedback.AbstractFeedbackAware
 import org.kurron.example.rest.inbound.ErrorBlock
-import org.kurron.example.rest.inbound.MagniControl
+import org.kurron.example.rest.inbound.HypermediaControl
 import javax.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -76,11 +76,11 @@ class CustomErrorController extends AbstractFeedbackAware implements ErrorContro
      * @param request the HTTP request that triggered the failure.
      * @return the control containing the error details.
      */
-    @RequestMapping( value = '${error.path:/error}', produces = [MagniControl.MIME_TYPE] )
-    ResponseEntity<MagniControl> handleException( HttpServletRequest request ) {
+    @RequestMapping( value = '${error.path:/error}', produces = [HypermediaControl.MIME_TYPE] )
+    ResponseEntity<HypermediaControl> handleException( HttpServletRequest request ) {
         Map<String, Object> attributes = errorAttributes.getErrorAttributes( new ServletRequestAttributes( request ), false )
         def status = getStatus( request )
-        def control = new MagniControl( status.value() )
+        def control = new HypermediaControl( status.value() )
         String path = attributes.getOrDefault( 'path', 'unknown' )
         String message = attributes.getOrDefault( 'message', 'unknown' )
         String error = attributes.getOrDefault( 'error', 'unknown' )
@@ -88,7 +88,7 @@ class CustomErrorController extends AbstractFeedbackAware implements ErrorContro
         control.errorBlock = new ErrorBlock( code: GENERIC_ERROR.code,
                                              message: error,
                                              developerMessage: "Failure for path ${path}. ${message}"  )
-        new ResponseEntity<MagniControl>( control, status )
+        new ResponseEntity<HypermediaControl>( control, status )
     }
 
     /**

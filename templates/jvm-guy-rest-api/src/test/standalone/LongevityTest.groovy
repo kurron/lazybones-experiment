@@ -24,7 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 @Grab( group='lfsappenders', module='lfsappenders', version='4.1.1' )
 
 import org.kurron.example.rest.inbound.CustomHttpHeaders
-import org.kurron.example.rest.inbound.MagniControl
+import org.kurron.example.rest.inbound.HypermediaControl
+import org.kurron.example.rest.inbound.HypermediaControl
 import java.security.SecureRandom
 import java.util.concurrent.ConcurrentLinkedQueue
 import org.slf4j.LoggerFactory
@@ -103,7 +104,7 @@ def downloadCallback = [
         }
         else
         {
-            def control = mapper.readValue( entity.body, MagniControl )
+            def control = mapper.readValue( entity.body, HypermediaControl )
             log.error "Download failure for Doh!"
             log.error control.toString()
         }
@@ -114,12 +115,12 @@ def downloadCallback = [
 ]
 
 def uploadCallback = [
-    onSuccess: { ResponseEntity<MagniControl> entity ->
+    onSuccess: { ResponseEntity<HypermediaControl> entity ->
         if ( entity.statusCode == HttpStatus.CREATED ){
             log.info( 'Upload successful' )
             def headers = new HttpHeaders()
             headers.set( CustomHttpHeaders.X_CORRELATION_ID, 'Doh!' )
-            headers.setAccept( [customType, MagniControl.MEDIA_TYPE] )
+            headers.setAccept( [customType, HypermediaControl.MEDIA_TYPE] )
             log.debug "Downloading ${entity.headers.getLocation()}"
             def downloadEntity = internet.exchange( entity.headers.getLocation(), HttpMethod.GET, new HttpEntity( headers ), byte[] )
             downloadEntity.addCallback( downloadCallback as ListenableFutureCallback<ResponseEntity<byte[]>> )
@@ -143,10 +144,10 @@ def workload = {
     headers.set( CustomHttpHeaders.X_CORRELATION_ID, 'Doh!' )
     headers.set( CustomHttpHeaders.X_EXPIRATION_MINUTES, '1' )
     headers.setContentType( customType )
-    headers.setAccept( [customType, MagniControl.MEDIA_TYPE] )
+    headers.setAccept( [customType, HypermediaControl.MEDIA_TYPE] )
     def requestEntity = new HttpEntity( binary, headers )
-    def uploadEntity = internet.postForEntity( uploadURI, requestEntity, MagniControl )
-    uploadEntity.addCallback( uploadCallback as ListenableFutureCallback<ResponseEntity<MagniControl>> )
+    def uploadEntity = internet.postForEntity( uploadURI, requestEntity, HypermediaControl )
+    uploadEntity.addCallback( uploadCallback as ListenableFutureCallback<ResponseEntity<HypermediaControl>> )
 }
 
 log.info "Test a ${TOTAL_WORKLOAD} transaction workload using ${CONCURRENT_USERS} concurrent users."

@@ -15,9 +15,9 @@
  */
 package org.kurron.example.rest.inbound
 
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.CONTENT_LENGTH_REQUIRED
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.PAYLOAD_TOO_LARGE
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.PRECONDITION_FAILED
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.CONTENT_LENGTH_REQUIRED
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.PAYLOAD_TOO_LARGE
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.PRECONDITION_FAILED
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.POST
@@ -117,8 +117,8 @@ class RestInboundGateway extends AbstractFeedbackAware {
      * @param request the servlet request being serviced.
      * @return the response entity.
      */
-    @RequestMapping( method = POST, produces = MagniControl.MIME_TYPE )
-    ResponseEntity<MagniControl> store( @RequestBody final byte[] payload,
+    @RequestMapping( method = POST, produces = HypermediaControl.MIME_TYPE )
+    ResponseEntity<HypermediaControl> store( @RequestBody final byte[] payload,
                                         @RequestHeader HttpHeaders requestHeaders,
                                         HttpServletRequest request ) {
         validateContentLengthHeader( requestHeaders )
@@ -126,9 +126,9 @@ class RestInboundGateway extends AbstractFeedbackAware {
         def contentType = extractContentType( requestHeaders )
         def expirationMinutes = extractExpirationMinutes( requestHeaders )
         def id = outboundGateway.store( new RedisResource( contentType: contentType.toString(), payload: payload ), minutesToSeconds( expirationMinutes ) )
-        counterService.increment( 'magni.upload' )
-        gaugeService.submit( 'magni.upload.payload.size', payload.length )
-        gaugeService.submit( 'magni.upload.expiration', expirationMinutes )
+        counterService.increment( 'example.upload' )
+        gaugeService.submit( 'example.upload.payload.size', payload.length )
+        gaugeService.submit( 'example.upload.expiration', expirationMinutes )
         toResponseEntity( id, contentType.toString(), payload.length, request )
     }
 
@@ -199,7 +199,7 @@ class RestInboundGateway extends AbstractFeedbackAware {
      * @param contentLength the length, in bytes, of the uploaded asset.
      * @param request the servlet request being serviced.
      */
-    private static ResponseEntity<MagniControl> toResponseEntity( UUID id,
+    private static ResponseEntity<HypermediaControl> toResponseEntity( UUID id,
                                                                   String mimeType,
                                                                   int contentLength,
                                                                   HttpServletRequest request ) {
@@ -221,7 +221,7 @@ class RestInboundGateway extends AbstractFeedbackAware {
     ResponseEntity<byte[]> retrieve( @PathVariable( 'id' ) final UUID id ) {
         def resource = outboundGateway.retrieve( id )
         def headers = new HttpHeaders( contentType: MediaType.parseMediaType( resource.contentType ) )
-        counterService.increment( 'magni.download' )
+        counterService.increment( 'example.download' )
         new ResponseEntity( resource.payload, headers, HttpStatus.OK )
     }
 
@@ -230,8 +230,8 @@ class RestInboundGateway extends AbstractFeedbackAware {
      * @param request the servlet request being serviced.
      * @return hypermedia control describing the API.
      */
-    @RequestMapping( method = GET, produces = [MagniControl.MIME_TYPE] )
-    ResponseEntity<MagniControl> apiDiscovery( HttpServletRequest request ) {
+    @RequestMapping( method = GET, produces = [HypermediaControl.MIME_TYPE] )
+    ResponseEntity<HypermediaControl> apiDiscovery( HttpServletRequest request ) {
         def control = newControl( HttpStatus.OK, request )
         new ResponseEntity( control, HttpStatus.OK )
     }
@@ -244,8 +244,8 @@ class RestInboundGateway extends AbstractFeedbackAware {
      * @return partially populated control.
      */
     @SuppressWarnings( 'DuplicateStringLiteral' )
-    private static MagniControl newControl( HttpStatus status, HttpServletRequest request ) {
-        def control = new MagniControl()
+    private static HypermediaControl newControl( HttpStatus status, HttpServletRequest request ) {
+        def control = new HypermediaControl()
         control.httpCode = status.value()
 
         // currently, these links are always valid

@@ -20,10 +20,10 @@ import org.kurron.feedback.exceptions.LengthRequiredError
 import org.kurron.feedback.exceptions.NotFoundError
 import org.kurron.feedback.exceptions.PayloadTooLargeError
 import org.kurron.feedback.exceptions.PreconditionFailedError
-import org.kurron.example.rest.feedback.MagniFeedbackContext
+import org.kurron.example.rest.feedback.ExampleFeedbackContext
 import org.springframework.http.HttpStatus
 import org.kurron.example.rest.BaseUnitTest
-import org.kurron.example.rest.inbound.MagniControl
+import org.kurron.example.rest.inbound.HypermediaControl
 
 /**
  * Unit-level testing of the GlobalExceptionHandler object.
@@ -35,8 +35,8 @@ class GlobalExceptionHandlerUnitTest extends BaseUnitTest {
 
     def 'exercise error handling'( Class clazz ) {
 
-        given: 'a valid magni exception'
-        def feedback = randomEnum( MagniFeedbackContext )
+        given: 'a valid application exception'
+        def feedback = randomEnum( ExampleFeedbackContext )
         def error = clazz.newInstance( feedback ) as AbstractError
 
         when: 'an exception is handled'
@@ -45,7 +45,7 @@ class GlobalExceptionHandlerUnitTest extends BaseUnitTest {
         then: 'a valid http response is returned'
         result
         result.statusCode == error.httpStatus
-        result.headers.getContentType() == MagniControl.MEDIA_TYPE
+        result.headers.getContentType() == HypermediaControl.MEDIA_TYPE
 
         and: 'the body contains the expected fault document'
         def control = result.body
@@ -59,9 +59,9 @@ class GlobalExceptionHandlerUnitTest extends BaseUnitTest {
         clazz << [NotFoundError, LengthRequiredError, PayloadTooLargeError, PreconditionFailedError]
     }
 
-    def 'exercise non-magni error handling'() {
+    def 'exercise non-application error handling'() {
 
-        given: 'a non-magni error'
+        given: 'a non-application error'
         def error = new RuntimeException( 'expected to fail' )
 
         when: 'an error is handled'
@@ -70,12 +70,12 @@ class GlobalExceptionHandlerUnitTest extends BaseUnitTest {
         then: 'a valid http response is returned'
         result
         result.statusCode == HttpStatus.INTERNAL_SERVER_ERROR
-        result.headers.getContentType() == MagniControl.MEDIA_TYPE
+        result.headers.getContentType() == HypermediaControl.MEDIA_TYPE
 
         and: 'the body contains a valid fault document'
-        def control = result.body as MagniControl
+        def control = result.body as HypermediaControl
         control
         control.httpCode == result.statusCode.value()
-        control.errorBlock.code == MagniFeedbackContext.GENERIC_ERROR.code
+        control.errorBlock.code == ExampleFeedbackContext.GENERIC_ERROR.code
     }
 }

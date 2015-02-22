@@ -15,9 +15,9 @@
  */
 package org.kurron.example.rest.outbound
 
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.REDIS_RESOURCE_NOT_FOUND
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.REDIS_RETRIEVE_INFO
-import static org.kurron.example.rest.feedback.MagniFeedbackContext.REDIS_STORE_INFO
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.REDIS_RESOURCE_NOT_FOUND
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.REDIS_RETRIEVE_INFO
+import static org.kurron.example.rest.feedback.ExampleFeedbackContext.REDIS_STORE_INFO
 import org.kurron.feedback.AbstractFeedbackAware
 import org.kurron.feedback.exceptions.NotFoundError
 import java.util.concurrent.TimeUnit

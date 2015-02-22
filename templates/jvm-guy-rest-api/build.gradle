@@ -1,125 +1,97 @@
+/*
+ * Copyright (c) 2015. Ronald D. Kurr kurr@jvmguy.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}" 
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
 
-subprojects {
-
-    group = 'org.example'
-    version = new ProjectVersion( major.toInteger(), minor.toInteger(), patch.toInteger(), release.toBoolean() )
-
-    repositories {
-        jcenter()
-    }
-
-    configurations.all {
-        exclude group: 'commons-logging'
-        exclude module: 'junit-dep'
-    }
-
-    task printVersion() {
-        group = 'Help'
-        description = 'Prints project version'
-        doLast {
-            logger.quiet "Version: ${version}"
-        }
-    }
-
-    task printStage() {
-        group = 'Help'
-        description = 'Displays whether or not Gradle thinks we are running on a CI server.'
-        doLast {
-            logger.quiet "On Build Server: ${onBuildServer}"
-        }
-    }
-
-    // comment out if you want to have version conflicts detected
-    /*
-    configurations*.resolutionStrategy {
-        failOnVersionConflict()
-    }
-    */
-
-    apply plugin: 'project-report'
-    apply plugin: 'build-dashboard'
-    apply plugin: 'build-announcements'
-
-    apply from: "$rootDir/gradle/groovy.gradle"
-    apply from: "$rootDir/gradle/jacoco.gradle"
-    apply from: "$rootDir/gradle/codenarc.gradle"
-    apply from: "$rootDir/gradle/checkstyle.gradle"
-    apply from: "$rootDir/gradle/maven-publish.gradle"
-//  TODO: Not sure why but FindBugs never completes.  Must revisit.
-//  apply from: "$rootDir/gradle/findbugs.gradle"
-//  TODO: No JDK 8 support yet and not sure which rule sets to use
-//  apply from: "$rootDir/gradle/pmd.gradle"
-//  TODO: No JD 8 support yet
-//  apply from: "$rootDir/gradle/jdepend.gradle"
-
-    dependencies {
-        compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
-        compile "com.netflix.hystrix:hystrix-core:${hystrixVersion}"
-        compile "com.netflix.rxjava:rxjava-core:${rxjavaVersion}"
-        compile "com.netflix.archaius:archaius-core:${archaiusVersion}"
-        compile "org.codehaus.gpars:gpars:${gparsVersion}"
-
-        testCompile( "org.spockframework:spock-core:${spockVersion}" ) {
-            exclude module: 'groovy-all'
-            exclude module: 'junit-dep'
-        }
-        testCompile( "org.spockframework:spock-spring:${spockVersion}" ) {
-            exclude module: 'groovy-all'
-            exclude module: 'junit-dep'
-        }
-        testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
-        testCompile "info.cukes:cucumber-groovy:${cucumberVersion}"
-        testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
-    }
-
-    task collectJars(type: Copy) {
-        description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
-        from configurations.testRuntime.asFileTree
-        into "$buildDir/dependencies"
-    }
+plugins {
+    id "org.asciidoctor.convert" version "1.5.2"
 }
 
-allprojects {
-    defaultTasks << 'clean'
-    defaultTasks << 'projectReport'
-    defaultTasks << 'build'
-    defaultTasks << 'buildDashboard'
-    defaultTasks << 'collectJars'
+group = 'org.kurron.example'
 
-    if ( 'true' == onBuildServer ) {
-        defaultTasks << 'publish'
-    }
-    else {
-        defaultTasks << 'publishToMavenLocal'
-    }
+ext.coverageExcludes = ['org/kurron/example/rest/Application',
+                        'org/kurron/example/rest/ApplicationProperties',
+                        'org/kurron/example/rest/WebMvcConfiguration',
+                        'org/kurron/example/rest/outbound/RedisResource',
+                        'org/kurron/example/rest/inbound/MetaDataBlock',
+                        'org/kurron/example/rest/inbound/ErrorBlock',
+                        'org/kurron/example/rest/inbound/HypermediaControl',
+                        'org/kurron/example/rest/inbound/CustomHttpHeaders',
+                        'org/kurron/example/rest/inbound/HeaderBlock',
+                        'org/kurron/example/rest/exception/CustomErrorController',
+                        'org/kurron/example/rest/inbound/RestInboundGateway$_home_closure1'
+]
+
+apply plugin: 'build-announcements'
+
+apply from: "$rootDir/gradle/repositories.gradle"
+apply from: "$rootDir/gradle/version.gradle"
+apply from: "$rootDir/gradle/groovy.gradle"
+apply from: "$rootDir/gradle/boot.gradle"
+apply from: "$rootDir/gradle/cloud.gradle"
+apply from: "$rootDir/gradle/docker.gradle"
+apply from: "$rootDir/gradle/jacoco.gradle"
+apply from: "$rootDir/gradle/codenarc.gradle"
+apply from: "$rootDir/gradle/maven-publish.gradle"
+apply from: "$rootDir/gradle/spock.gradle"
+apply from: "$rootDir/gradle/cucumber-jvm.gradle"
+apply from: "$rootDir/gradle/rest-documentation.gradle"
+apply from: "$rootDir/gradle/dependency-exclusions.gradle"
+apply from: "$rootDir/gradle/conflicts.gradle"
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
+    compile "org.springframework.hateoas:spring-hateoas:$springHateoasVersion"
+    compile "org.kurron:tools-java:${toolsJavaVersion}"
 }
 
-// formerly in buildSrc but caused problems when compiling with indy enabled
+task collectJars(type: Copy) {
+    description 'Copy dependencies into build area for use by external tooling, such as a CI machine'
+    from configurations.testRuntime.asFileTree
+    into "$buildDir/dependencies"
+}
 
-class ProjectVersion {
-    Integer major
-    Integer minor
-    Integer patch
-    Boolean release
+defaultTasks << 'clean'
+defaultTasks << 'build'
+defaultTasks << 'collectJars'
 
-    ProjectVersion( Integer major, Integer minor, Integer patch, Boolean release ) {
-        this.major = major
-        this.minor = minor
-        this.patch = patch
-        this.release = release
-    }
+if ( 'true' == runIntegrationTests ) {
+    defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests','updateJarWithApiDocumentation']
+    // make sure we deploy the docker container before running integration/acceptance tests
+    [inboundIntegrationTests, acceptanceTests]*.dependsOn runDockerContainer
+    // make sure the docker image is cleaned up
+    [inboundIntegrationTests, acceptanceTests]*.finalizedBy deleteDockerImage
+}
 
-    @Override
-    String toString() {
-        "${major}.${minor}.${patch}${release ? '.RELEASE' : '-SNAPSHOT'}"
-    }
+// TODO: Take out maven tasks once Push-E is updated to rely on docker container
+// only publish artifacts if publishArtifacts is true, and the branch is either master or development
+if ( 'true' == publishArtifacts && branch in ['master', 'development'] ) {
+    defaultTasks << 'publish'
+    defaultTasks << 'publishDockerImage'
+    // ensures that deleteDockerImage will not be executed until we publish, unless a failure occurs prior to publishing
+    publishDockerImage.finalizedBy deleteDockerImage
+}
+else {
+    defaultTasks << 'publishToMavenLocal'
 }
 

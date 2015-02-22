@@ -1,20 +1,29 @@
 buildscript {
     repositories {
         maven {
-            url "http://dl.bintray.com/pledbrook/plugins"
+            url 'http://dl.bintray.com/pledbrook/plugins'
         }
     }
 
     dependencies {
-        classpath "uk.co.cacoethes:lazybones-gradle:1.0.2"
+        classpath 'uk.co.cacoethes:lazybones-gradle:1.2.3'
     }
 }
 
-apply plugin: "lazybones-templates"
+apply plugin: "uk.co.cacoethes.lazybones-templates"
+
+ext.globalExcludes = ['**/*.swp', '.gradle', 'build', '.idea', '*.iml', 'VERSION', '**/.retain']
 
 lazybones {
-    repositoryUrl = "https://api.bintray.com/content/kurron/lazybones"
-//  repositoryName = "kurron/lazybones"
+    packageExcludes = globalExcludes 
+    repositoryUrl = 'https://api.bintray.com/content/kurron/lazybones'
     repositoryUsername = bintrayUsername 
     repositoryApiKey = bintrayApiKey 
+    publish = true
+
+    // template specific exclusions
+    template( 'jvm-guy-rest-api' ) {
+        // the global exclude is ignored in this case so we have to duplicate them
+        packageExcludes = globalExcludes + ['docker/artifacts']
+    }
 }

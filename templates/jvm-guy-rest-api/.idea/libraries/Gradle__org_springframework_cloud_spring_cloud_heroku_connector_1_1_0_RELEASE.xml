@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.cloud:spring-cloud-heroku-connector:1.1.0.RELEASE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-heroku-connector/1.1.0.RELEASE/cd1c808eecc7dff91cb5574f024e543d0cedc993/spring-cloud-heroku-connector-1.1.0.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-heroku-connector/1.1.0.RELEASE/526d2e8936224a510a5d6cb80b205d8dcdb8658a/spring-cloud-heroku-connector-1.1.0.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

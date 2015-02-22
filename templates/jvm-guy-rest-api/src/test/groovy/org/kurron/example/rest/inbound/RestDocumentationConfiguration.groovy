@@ -28,24 +28,9 @@ class RestDocumentationConfiguration extends MockMvcConfigurerAdapter {
 
     private String scheme = 'http'
 
-    private String host = 'api.example.com'
+    private String host = 'localhost'
 
     private int port = 8080
-
-    RestDocumentationConfiguration withScheme( String aScheme ) {
-        scheme = aScheme
-        this
-    }
-
-    RestDocumentationConfiguration withHost( String aHost ) {
-        host = aHost
-        this
-    }
-
-    RestDocumentationConfiguration withPort( int aPort ) {
-        port = aPort
-        this
-    }
 
     @Override
     RequestPostProcessor beforeMockMvcCreated( ConfigurableMockMvcBuilder<?> builder, WebApplicationContext context) {

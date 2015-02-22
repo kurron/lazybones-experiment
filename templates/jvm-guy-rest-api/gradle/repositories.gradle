@@ -27,4 +27,9 @@ repositories {
         name = 'Spring Milestone'
         url = 'http://repo.spring.io/libs-milestone-local/'
     }
+    maven {
+        name = 'Spring snapshots'
+        url = 'https://repo.spring.io/snapshot/'
+    }
+
 }

@@ -26,25 +26,19 @@ import org.springframework.web.context.WebApplicationContext
  **/
 class RestDocumentationConfiguration extends MockMvcConfigurerAdapter {
 
-    private String scheme = 'http'
-
-    private String host = 'localhost'
-
-    private int port = 8080
-
     @Override
     RequestPostProcessor beforeMockMvcCreated( ConfigurableMockMvcBuilder<?> builder, WebApplicationContext context) {
         new RequestPostProcessor() {
 
             @Override
+            @SuppressWarnings( 'DuplicateNumberLiteral' )
             MockHttpServletRequest postProcessRequest( MockHttpServletRequest request) {
-                request.setScheme( RestDocumentationConfiguration.this.scheme )
-                request.setRemotePort( RestDocumentationConfiguration.this.port )
-                request.setServerPort( RestDocumentationConfiguration.this.port )
-                request.setRemoteHost( RestDocumentationConfiguration.this.host )
+                request.setScheme( 'http' )
+                request.setRemotePort( 8080 )
+                request.setServerPort( 8080 )
+                request.setRemoteHost( 'localhost' )
                 request
             }
         }
     }
-
 }

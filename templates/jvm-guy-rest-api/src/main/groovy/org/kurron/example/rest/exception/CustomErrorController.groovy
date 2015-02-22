@@ -30,7 +30,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.servlet.ModelAndView
-import org.kurron.example.stereotype.InboundRestGateway
+import org.kurron.stereotype.InboundRestGateway
 
 /**
  * A handler that kicks in when all the other handlers aren't triggered. See ErrorAttributes to

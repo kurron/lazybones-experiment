@@ -23,7 +23,7 @@ import org.kurron.feedback.exceptions.NotFoundError
 import java.util.concurrent.TimeUnit
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisOperations
-import org.kurron.example.stereotype.OutboundGateway
+import org.kurron.stereotype.OutboundGateway
 
 /**
  * Implementation of the outbound gateway that talks to Redis.

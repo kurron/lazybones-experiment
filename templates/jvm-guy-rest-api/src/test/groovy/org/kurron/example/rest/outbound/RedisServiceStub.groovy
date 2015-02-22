@@ -16,7 +16,7 @@
 package org.kurron.example.rest.outbound
 
 import org.kurron.feedback.AbstractFeedbackAware
-import org.kurron.example.stereotype.ServiceStub
+import org.kurron.stereotype.ServiceStub
 
 /**
  * A Service Stub of the PersistenceOutboundGateway useful in testing.

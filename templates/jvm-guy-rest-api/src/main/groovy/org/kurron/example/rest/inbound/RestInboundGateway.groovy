@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.kurron.example.rest.outbound.PersistenceOutboundGateway
 import org.kurron.example.rest.outbound.RedisResource
-import org.kurron.example.stereotype.InboundRestGateway
+import org.kurron.stereotype.InboundRestGateway
 
 /**
  * Handles inbound REST requests.

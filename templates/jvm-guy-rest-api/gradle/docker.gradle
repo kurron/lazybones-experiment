@@ -44,7 +44,7 @@ task buildDockerImage( type: Exec, dependsOn: copyBuildArtifact ) {
 task runDockerContainer( type: Exec, dependsOn: buildDockerImage ) {
     group 'Docker'
     description = 'Deploys a docker container based on a previously built image'
-    commandLine 'sudo', 'docker', 'run', '--detach', '--publish', '8080', '--name', buildArtifactName, fullImageName, "--spring.profiles.active=default"
+    commandLine 'sudo', 'docker', 'run', '--detach', '--publish', '8080', '--name', buildArtifactName, fullImageName, "--spring.profiles.active=integration"
     doFirst {
         logger.quiet "Running a docker container with name $buildArtifactName based on image $fullImageName"
     }

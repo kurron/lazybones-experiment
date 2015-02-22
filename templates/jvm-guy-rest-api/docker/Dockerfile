@@ -15,6 +15,8 @@ RUN tar --gunzip --extract --verbose --file /jdk-8.tar.gz --directory /usr/lib/j
 RUN rm -f /jdk-8.tar.gz
 RUN chown -R root:root /usr/lib/jvm
 
+# cheat and set Redis host to a running instance.  Should really be running alongside a Redis container
+
 # set the environment variables
 ENV JDK_HOME /usr/lib/jvm/jdk1.8.0_31
 ENV JAVA_HOME /usr/lib/jvm/jdk1.8.0_31

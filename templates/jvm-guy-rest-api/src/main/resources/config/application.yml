@@ -57,6 +57,13 @@ example:
 
 #---------e Profile specific overrides ----------#
 
+# integration testing
+---
+spring:
+    profiles: integration
+    redis:
+        host: 192.168.44.50
+
 # live
 ---
 spring:

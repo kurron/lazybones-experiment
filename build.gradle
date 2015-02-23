@@ -12,7 +12,7 @@ buildscript {
 
 apply plugin: "uk.co.cacoethes.lazybones-templates"
 
-ext.globalExcludes = ['**/*.swp', '.gradle', 'build', '.idea', '*.iml', 'VERSION', '**/.retain']
+ext.globalExcludes = ['**/*.swp', '.gradle', 'build', '.idea', '*.iml', '*.ipr', 'VERSION', '**/.retain']
 
 lazybones {
     packageExcludes = globalExcludes 

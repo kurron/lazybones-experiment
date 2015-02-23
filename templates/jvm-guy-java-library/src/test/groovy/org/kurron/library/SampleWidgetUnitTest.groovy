@@ -17,10 +17,12 @@
 package org.kurron.library
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * Example Spock unit test.
  */
+@Unroll( '#description' )
 class SampleWidgetUnitTest  extends Specification {
 
     def 'exercise widget'() {
@@ -28,9 +30,18 @@ class SampleWidgetUnitTest  extends Specification {
         def sut = new SampleWidget()
 
         when: 'echo is called'
-        def result = sut.echo( 'bob' )
+        def result = sut.echo( message )
 
         then: 'expected response is returned'
-        'bob' == result
+        expected == result
+
+        where:
+        message || expected
+        'bob'   || 'BOB'
+        'ted'   || 'TED'
+        'devan' || 'DEVAN'
+        'logan' || 'LOGAN'
+
+        description = "Sent ${message}, expecting ${expected}"
     }
 }

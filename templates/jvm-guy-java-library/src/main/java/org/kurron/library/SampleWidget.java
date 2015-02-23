@@ -27,6 +27,6 @@ public class SampleWidget {
      * @return the repeated message.
      */
     public String echo( final String message ) {
-        return message;
+        return message.toUpperCase();
     }
 }

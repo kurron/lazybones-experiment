@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package org.kurron.library;
+package org.kurron.library
+
+import spock.lang.Specification
 
 /**
- * Silly little class just to exercise the compiler.
+ * Example Spock unit test.
  */
-public class SampleWidget {
+class SampleWidgetUnitTest  extends Specification {
 
-    /**
-     * Parrots back the send in message.
-     * @param message text to repeat back.
-     * @return the repeated message.
-     */
-    public String echo( final String message ) {
-        return message;
+    def 'exercise widget'() {
+        given: 'subject under test'
+        def sut = new SampleWidget()
+
+        when: 'echo is called'
+        def result = sut.echo( 'bob' )
+
+        then: 'expected response is returned'
+        'bob' == result
     }
 }

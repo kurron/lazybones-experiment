@@ -28,6 +28,10 @@ apply from: "$rootDir/gradle/maven-publish.gradle"
 apply from: "$rootDir/gradle/dependency-exclusions.gradle"
 apply from: "$rootDir/gradle/conflicts.gradle"
 
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
+}
+
 defaultTasks += ['clean', 'build']
 
 if ( 'true' == publishArtifacts ) {

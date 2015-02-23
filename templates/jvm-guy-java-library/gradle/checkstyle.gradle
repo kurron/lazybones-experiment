@@ -19,3 +19,4 @@ properties['checkstyle'].ignoreFailures = false
 checkstyleMain.enabled = true
 checkstyleTest.enabled = true
 checkstyle.configFile = file( "$rootDir/gradle/checkstyle-rules.xml" )
+checkstyle.toolVersion = checkstyleVersion

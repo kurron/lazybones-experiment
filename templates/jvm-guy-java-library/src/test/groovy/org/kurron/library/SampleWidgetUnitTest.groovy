@@ -22,7 +22,7 @@ import spock.lang.Unroll
  * Example Spock unit test.
  */
 @Unroll( '#description' )
-class SampleWidgetUnitTest  extends Specification {
+class SampleWidgetUnitTest extends Specification {
 
     def 'exercise widget'() {
         given: 'subject under test'

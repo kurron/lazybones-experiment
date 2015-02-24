@@ -18,7 +18,7 @@ def dockerDirectory = 'docker'
 def buildArtifactName = "${project.name}-${version.toString()}"
 def fullImageName = "jvm-guy/${project.name}:${version.toString()}"
 
-task copyBuildArtifact( type: Copy ) {
+task copyBuildArtifact( type: Copy, dependsOn: 'updateJarWithApiDocumentation' ) {
     from( 'build/libs/' ) {
         include "${buildArtifactName}.jar"
         rename "${buildArtifactName}.jar", "${project.name}.jar"   // always use the same artifact name to keep the dockerfile simple

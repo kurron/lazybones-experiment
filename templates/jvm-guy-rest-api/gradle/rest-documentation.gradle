@@ -31,7 +31,6 @@ test {
 asciidoctor {
     attributes 'generated': generatedDocumentation
     inputs.dir generatedDocumentation
-    dependsOn inboundIntegrationTests
 }
 
 task copyApiDocs( type: Copy, dependsOn: asciidoctor ) {

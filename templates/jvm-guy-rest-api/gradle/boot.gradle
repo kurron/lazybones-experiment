@@ -24,6 +24,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-redis:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-hateoas:${springBootVersion}"
 
     providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
 

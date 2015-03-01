@@ -61,7 +61,6 @@ apply from: "$rootDir/gradle/conflicts.gradle"
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
-    compile "org.springframework.hateoas:spring-hateoas:$springHateoasVersion"
     compile "org.kurron:tools-java:${toolsJavaVersion}"
 }
 

@@ -43,6 +43,16 @@ server:
 # the context to use for the operation actuators, eg /operations/info
 management:
     context-path: /operations
+    security:
+    enabled: false
+
+# operations shell
+shell:
+    auth:
+        simple:
+            user:
+                name: operations
+                password: operations
 
 # which logback configuration file to use
 logging:

@@ -57,7 +57,7 @@ task runDockerContainer( type: Exec, dependsOn: buildDockerImage ) {
 }
 
 private void waitForServerToStart( int port ) {
-    def urlToPoll = "http://localhost:$port/info".toURL()
+    def urlToPoll = "http://localhost:$port/operations/info".toURL()
     def serverUp = false
     def remainingAttempts = 40
     def secondsBetweenAttempts = 2

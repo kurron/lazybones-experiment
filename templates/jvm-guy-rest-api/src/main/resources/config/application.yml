@@ -1,9 +1,9 @@
 # Override the default values of the info endpoint
 info:
     app:
-        name: REST Example
-        description: Showcase application for REST best practices
-        version: 1.0.0
+        name: ${name}
+        description: ${description}
+        version: ${version}
 
 # enable shutdown of application via a POST
 endpoints:
@@ -72,5 +72,3 @@ spring:
         host: ????
 server:
     port: ????
-logging:
-    config: classpath:logback-live.xml

@@ -19,6 +19,12 @@ configurations {
     providedRuntime
 }
 
+// have Gradle expand properties during the JARing process
+processResources {
+    expand( project.properties )
+    excludes = ['**/logback.xml','**/banner.txt']
+}
+
 dependencies {
     compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"

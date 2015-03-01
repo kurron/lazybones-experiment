@@ -19,10 +19,11 @@ configurations {
     providedRuntime
 }
 
-// have Gradle expand properties during the JARing process
+// have Gradle expand properties when copying resource files
 processResources {
-    expand( project.properties )
-    excludes = ['**/logback.xml','**/banner.txt']
+    filesMatching( '**/application.yml' ) {
+        expand( project.properties )
+    }
 }
 
 dependencies {

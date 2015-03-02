@@ -154,4 +154,9 @@ task acceptanceTests( type: Test, dependsOn: build ) {
     // if the profile system property is set, copy into forked child process
     def springProfilesActive = System.properties['spring.profiles.active']
     if ( springProfilesActive ) { systemProperties['spring.profiles.active'] = springProfilesActive }
+
+    doFirst {
+        // copy the integration test port that was set after the docker container was deployed
+        systemProperties['integration.test.port'] = System.properties['integration.test.port']
+    }
 }

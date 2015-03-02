@@ -15,20 +15,17 @@
  */
 package org.kurron.example.rest
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.kurron.example.rest.feedback.ExampleFeedbackContext
-import org.kurron.example.rest.inbound.HypermediaControl
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import groovy.util.logging.Slf4j
+import org.kurron.example.rest.feedback.ExampleFeedbackContext
+import org.kurron.example.rest.inbound.CustomHttpHeaders
+import org.kurron.example.rest.inbound.HypermediaControl
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationContextLoader
-import org.springframework.boot.test.TestRestTemplate
-import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -37,23 +34,16 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.web.util.UriComponentsBuilder
-import org.kurron.example.rest.inbound.CustomHttpHeaders
 
 /**
  * Step definitions geared towards the application's acceptance test but remember, all steps are used
  * by Cucumber unless special care is taken. If you word your features in a consistent manner, then
  * steps will automatically get reused and you won't have to keep writing the same test code.
  **/
-@ContextConfiguration( classes = [Application], loader = SpringApplicationContextLoader )
-@WebIntegrationTest( randomPort = true )
+@ContextConfiguration( classes = [AcceptanceTestConfiguration], loader = SpringApplicationContextLoader )
 @Slf4j
 @SuppressWarnings( ['GrMethodMayBeStatic', 'GStringExpressionWithinString'] )
 class TestSteps {
-    @Value( '${local.server.port}' )
-    private int port
-
-    @Autowired
-    ObjectMapper transformer
 
     /**
      * The application's configuration settings.
@@ -85,11 +75,6 @@ class TestSteps {
     private final Randomizer randomizer = new Randomizer()
 
     /**
-     * HTTP connection.
-     **/
-    def internet = new TestRestTemplate()
-
-    /**
      * This is state shared between steps and can be setup and torn down by the hooks.
      **/
     static class MyWorld {
@@ -101,6 +86,8 @@ class TestSteps {
         URI uri
         URI location
         HttpStatus statusCode = HttpStatus.I_AM_A_TEAPOT
+        def internet = BaseInboundIntegrationTest.restOperations
+        def transformer = BaseInboundIntegrationTest.mapper
     }
 
     /**
@@ -113,7 +100,7 @@ class TestSteps {
         log.info( 'Creating shared state' )
         sharedState = new MyWorld()
         sharedState.bytes = randomByteArray( BUFFER_SIZE )
-        sharedState.uri = UriComponentsBuilder.newInstance().scheme( 'http' ).host( 'localhost' ).port( port ).path( '/' ).build().toUri()
+        sharedState.uri = BaseInboundIntegrationTest.serverUri
     }
 
     @After
@@ -203,7 +190,7 @@ class TestSteps {
         specifyContentType()
         specifyAcceptType()
         def requestEntity = new HttpEntity( sharedState.bytes, sharedState.headers )
-        sharedState.location = internet.postForLocation( sharedState.uri, requestEntity )
+        sharedState.location = sharedState.internet.postForLocation( sharedState.uri, requestEntity )
         sharedState.headers = new HttpHeaders() // reset for the remaining steps
     }
 
@@ -232,7 +219,7 @@ class TestSteps {
     @When( '^a POST request is made with the asset in the body$' )
     void 'a POST request is made with the asset in the body'() {
         def requestEntity = new HttpEntity( sharedState.bytes, sharedState.headers )
-        sharedState.uploadEntity = internet.postForEntity( sharedState.uri, requestEntity, HypermediaControl )
+        sharedState.uploadEntity = sharedState.internet.postForEntity( sharedState.uri, requestEntity, HypermediaControl )
         sharedState.statusCode = sharedState.uploadEntity.statusCode
     }
 
@@ -240,7 +227,7 @@ class TestSteps {
     void '^a GET request is made to the URI$'() {
         def requestEntity = new HttpEntity( new byte[0], sharedState.headers )
 
-        sharedState.downloadEntity = internet.exchange( sharedState.location, HttpMethod.GET, requestEntity, byte[] )
+        sharedState.downloadEntity = sharedState.internet.exchange( sharedState.location, HttpMethod.GET, requestEntity, byte[] )
         sharedState.statusCode = sharedState.downloadEntity.statusCode
     }
 
@@ -290,8 +277,7 @@ class TestSteps {
     @SuppressWarnings( 'UnnecessaryGetter' )
     void 'the hypermedia control describing the unknown asset is returned'() {
         assert sharedState.downloadEntity.headers.getContentType().isCompatibleWith( HypermediaControl.MEDIA_TYPE )
-        assert transformer
-        HypermediaControl control = transformer.readValue( sharedState.downloadEntity.body, HypermediaControl )
+        HypermediaControl control = sharedState.transformer.readValue( sharedState.downloadEntity.body, HypermediaControl )
         assert control.errorBlock.code
         assert control.errorBlock.message
         assert control.errorBlock.developerMessage

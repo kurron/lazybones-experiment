@@ -32,25 +32,25 @@ import org.springframework.web.util.UriComponentsBuilder
 @Category( InboundIntegrationTest )
 abstract class BaseInboundIntegrationTest extends BaseTest {
 
-    protected int getPort() {
+    protected static int getPort() {
         System.properties['integration.test.port'] as int
     }
 
-    protected RestOperations getRestOperations() {
+    protected static RestOperations getRestOperations() {
         def template = new TestRestTemplate()
         // filter out the existing Jackson convert so we can replace with our own that is configured to deal with HAL links
         def toKeep = template.messageConverters.findAll { !it.class.isAssignableFrom( MappingJackson2HttpMessageConverter ) }
-        toKeep.add( new MappingJackson2HttpMessageConverter( getMapper() ) )
+        toKeep.add( new MappingJackson2HttpMessageConverter( mapper ) )
         template.messageConverters.clear()
         template.messageConverters.addAll( toKeep )
         template
     }
 
-    protected ObjectMapper getMapper() {
+    protected static ObjectMapper getMapper() {
         new Jackson2ObjectMapperBuilder().modules( new Jackson2HalModule() ).build()
     }
 
-    protected URI getServerUri() {
+    protected static URI getServerUri() {
         UriComponentsBuilder.newInstance()
                 .scheme( 'http' )
                 .host( 'localhost' )

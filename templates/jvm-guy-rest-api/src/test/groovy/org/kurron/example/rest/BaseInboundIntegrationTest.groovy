@@ -19,7 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.experimental.categories.Category
 import org.kurron.categories.InboundIntegrationTest
 import org.springframework.boot.test.TestRestTemplate
+import org.springframework.hateoas.hal.Jackson2HalModule
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.RestOperations
 import org.springframework.web.util.UriComponentsBuilder
 
@@ -35,11 +37,17 @@ abstract class BaseInboundIntegrationTest extends BaseTest {
     }
 
     protected RestOperations getRestOperations() {
-        new TestRestTemplate()
+        def template = new TestRestTemplate()
+        // filter out the existing Jackson convert so we can replace with our own that is configured to deal with HAL links
+        def toKeep = template.messageConverters.findAll { !it.class.isAssignableFrom( MappingJackson2HttpMessageConverter ) }
+        toKeep.add( new MappingJackson2HttpMessageConverter( getMapper() ) )
+        template.messageConverters.clear()
+        template.messageConverters.addAll( toKeep )
+        template
     }
 
     protected ObjectMapper getMapper() {
-        new Jackson2ObjectMapperBuilder().build()
+        new Jackson2ObjectMapperBuilder().modules( new Jackson2HalModule() ).build()
     }
 
     protected URI getServerUri() {

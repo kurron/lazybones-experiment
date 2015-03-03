@@ -22,9 +22,11 @@ import org.kurron.example.rest.feedback.ExampleFeedbackContext
 import org.springframework.boot.actuate.metrics.CounterService
 import org.springframework.boot.actuate.metrics.GaugeService
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request
 import org.springframework.web.util.NestedServletException
 import org.kurron.example.rest.ApplicationPropertiesBuilder
 import org.kurron.example.rest.BaseUnitTest
@@ -65,7 +67,9 @@ class RestInboundGatewayUnitTest extends BaseUnitTest {
                 .header( CustomHttpHeaders.X_EXPIRATION_MINUTES, expirationMinutes )
 
         when: 'the POST request is made'
-        def result = mockMvc.perform( requestBuilder ).andReturn()
+        // https://github.com/spring-projects/spring-mvc-showcase
+        def bob = new ResponseEntity<HypermediaControl>( new HypermediaControl(), HttpStatus.CREATED )
+        def result = mockMvc.perform( requestBuilder ).andExpect( request().asyncStarted() ).andExpect( request().asyncResult( redisResource.payload ) ).andReturn()
 
         then: 'the outbound gateway is called'
         1 * outboundGateway.store( redisResource, expirationMinutes * 60 ) >> id

@@ -40,7 +40,8 @@ ext.coverageExcludes = ['org/kurron/example/rest/Application',
                         'org/kurron/example/rest/inbound/CustomHttpHeaders',
                         'org/kurron/example/rest/inbound/HeaderBlock',
                         'org/kurron/example/rest/exception/CustomErrorController',
-                        'org/kurron/example/rest/inbound/RestInboundGateway$_home_closure1'
+                        'org/kurron/example/rest/inbound/RestInboundGateway$_home_closure1',
+                        'crash/commands/ExampleCommand'
 ]
 
 apply plugin: 'build-announcements'

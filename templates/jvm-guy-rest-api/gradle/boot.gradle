@@ -33,6 +33,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-hateoas:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-remote-shell:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
 
     providedRuntime "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
 

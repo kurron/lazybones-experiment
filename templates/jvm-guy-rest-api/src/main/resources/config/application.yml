@@ -40,6 +40,10 @@ spring:
 server:
     port: 0
 
+security:
+    basic:
+        enabled: false
+
 # the context to use for the operation actuators, eg /operations/info
 management:
     context-path: /operations

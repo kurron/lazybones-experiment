@@ -15,7 +15,7 @@
  */
 package org.kurron.example.rest.inbound
 
-import static org.springframework.restdocs.core.RestDocumentation.document
+import static org.springframework.restdocs.RestDocumentation.document
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status

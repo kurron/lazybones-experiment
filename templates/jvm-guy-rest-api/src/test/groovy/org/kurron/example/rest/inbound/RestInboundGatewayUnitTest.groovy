@@ -15,15 +15,10 @@
  */
 package org.kurron.example.rest.inbound
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request
-import org.kurron.example.rest.ApplicationPropertiesBuilder
-import org.kurron.example.rest.BaseUnitTest
-import org.kurron.example.rest.feedback.ExampleFeedbackContext
-import org.kurron.example.rest.outbound.PersistenceOutboundGateway
-import org.kurron.example.rest.outbound.RedisResourceBuilder
 import org.kurron.feedback.exceptions.LengthRequiredError
 import org.kurron.feedback.exceptions.PayloadTooLargeError
 import org.kurron.feedback.exceptions.PreconditionFailedError
+import org.kurron.example.rest.feedback.ExampleFeedbackContext
 import org.springframework.boot.actuate.metrics.CounterService
 import org.springframework.boot.actuate.metrics.GaugeService
 import org.springframework.http.HttpStatus
@@ -31,6 +26,10 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.util.NestedServletException
+import org.kurron.example.rest.ApplicationPropertiesBuilder
+import org.kurron.example.rest.BaseUnitTest
+import org.kurron.example.rest.outbound.PersistenceOutboundGateway
+import org.kurron.example.rest.outbound.RedisResourceBuilder
 
 /**
  * Unit-level testing of the RestInboundGateway object.
@@ -66,8 +65,7 @@ class RestInboundGatewayUnitTest extends BaseUnitTest {
                 .header( CustomHttpHeaders.X_EXPIRATION_MINUTES, expirationMinutes )
 
         when: 'the POST request is made'
-        // https://github.com/spring-projects/spring-mvc-showcase
-        def result = mockMvc.perform( requestBuilder ).andExpect( request().asyncStarted() ).andExpect( request().asyncResult( redisResource.payload ) ).andReturn()
+        def result = mockMvc.perform( requestBuilder ).andReturn()
 
         then: 'the outbound gateway is called'
         1 * outboundGateway.store( redisResource, expirationMinutes * 60 ) >> id

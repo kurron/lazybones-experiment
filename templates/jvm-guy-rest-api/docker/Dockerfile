@@ -1,5 +1,5 @@
 # Pre-built JDK 8 image
-FROM kurron/java:1.8.0.31
+FROM kurron/docker-oracle-jdk-8:latest
 
 MAINTAINER Ron Kurr <kurr@jvmguy.com>
 

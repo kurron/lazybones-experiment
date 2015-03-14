@@ -21,7 +21,6 @@ import static org.kurron.example.rest.feedback.ExampleFeedbackContext.PRECONDITI
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.POST
-import java.util.concurrent.Callable
 import org.kurron.feedback.AbstractFeedbackAware
 import org.kurron.feedback.exceptions.LengthRequiredError
 import org.kurron.feedback.exceptions.PayloadTooLargeError
@@ -119,23 +118,18 @@ class RestInboundGateway extends AbstractFeedbackAware {
      * @return the response entity.
      */
     @RequestMapping( method = POST, produces = HypermediaControl.MIME_TYPE )
-    Callable<ResponseEntity<HypermediaControl>> store( @RequestBody final byte[] payload,
-                                        @RequestHeader HttpHeaders requestHeaders,
-                                        HttpServletRequest request ) {
-        new Callable<ResponseEntity<HypermediaControl>> () {
-            @Override
-            ResponseEntity<HypermediaControl> call() throws Exception {
-                validateContentLengthHeader( requestHeaders )
-                validatePayloadSize( payload )
-                def contentType = extractContentType( requestHeaders )
-                def expirationMinutes = extractExpirationMinutes( requestHeaders )
-                def id = outboundGateway.store( new RedisResource( contentType: contentType.toString(), payload: payload ), minutesToSeconds( expirationMinutes ) )
-                counterService.increment( 'example.upload' )
-                gaugeService.submit( 'example.upload.payload.size', payload.length )
-                gaugeService.submit( 'example.upload.expiration', expirationMinutes )
-                toResponseEntity( id, contentType.toString(), payload.length, request )
-            }
-        }
+    ResponseEntity<HypermediaControl> store( @RequestBody final byte[] payload,
+                                             @RequestHeader HttpHeaders requestHeaders,
+                                             HttpServletRequest request ) {
+        validateContentLengthHeader( requestHeaders )
+        validatePayloadSize( payload )
+        def contentType = extractContentType( requestHeaders )
+        def expirationMinutes = extractExpirationMinutes( requestHeaders )
+        def id = outboundGateway.store( new RedisResource( contentType: contentType.toString(), payload: payload ), minutesToSeconds( expirationMinutes ) )
+        counterService.increment( 'example.upload' )
+        gaugeService.submit( 'example.upload.payload.size', payload.length )
+        gaugeService.submit( 'example.upload.expiration', expirationMinutes )
+        toResponseEntity( id, contentType.toString(), payload.length, request )
     }
 
     /**

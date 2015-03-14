@@ -20,7 +20,7 @@ ext {
 }
 
 dependencies {
-    testCompile 'org.springframework.restdocs:spring-restdocs-core:0.1.0.BUILD-SNAPSHOT'
+    testCompile 'org.springframework.restdocs:spring-restdocs:0.1.0.BUILD-SNAPSHOT'
 }
 
 test {

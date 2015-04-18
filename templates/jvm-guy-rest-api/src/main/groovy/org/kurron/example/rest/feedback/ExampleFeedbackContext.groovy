@@ -26,7 +26,7 @@ import org.kurron.feedback.FeedbackLevel
 /**
  * Message codes specific to this application.
  */
-@SuppressWarnings( ['LineLength'] )
+@SuppressWarnings( ['LineLength', 'SerializableClassMustDefineSerialVersionUID'] )
 enum ExampleFeedbackContext implements FeedbackContext {
 
     GENERIC_ERROR( 2000, 'The following error has occurred and was caught by the global error handler: {}', ERROR, QA ),

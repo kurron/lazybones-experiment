@@ -18,23 +18,30 @@ package org.kurron.example.rest
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.experimental.categories.Category
 import org.kurron.categories.InboundIntegrationTest
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.TestRestTemplate
+import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.hateoas.hal.Jackson2HalModule
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.web.client.RestOperations
-import org.springframework.web.util.UriComponentsBuilder
 
 /**
- * Base class for tests of the inbound gateways.
+ * Base class for tests of the inbound gateways.  All inbound tests are run against the embedded instance.
  */
 @SuppressWarnings( ['GStringExpressionWithinString'] )
 @Category( InboundIntegrationTest )
+@ContextConfiguration( loader = SpringApplicationContextLoader, classes = [Application, InboundIntegrationTestConfiguration] )
+@WebIntegrationTest( randomPort = true )
 abstract class BaseInboundIntegrationTest extends BaseTest {
 
-    protected static int getPort() {
-        System.properties['integration.test.port'] as int
-    }
+    /**
+     * Knows how to determine the service that the application is listening on.
+     **/
+    @Autowired
+    protected HttpServiceResolver theServiceResolver
 
     protected static RestOperations getRestOperations() {
         def template = new TestRestTemplate()
@@ -50,13 +57,4 @@ abstract class BaseInboundIntegrationTest extends BaseTest {
         new Jackson2ObjectMapperBuilder().modules( new Jackson2HalModule() ).build()
     }
 
-    protected static URI getServerUri() {
-        UriComponentsBuilder.newInstance()
-                .scheme( 'http' )
-                .host( 'localhost' )
-                .port( port )
-                .path( '/' )
-                .build()
-                .toUri()
-    }
 }

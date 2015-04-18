@@ -15,17 +15,14 @@
  */
 package org.kurron.example.rest
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.context.annotation.Bean
-
 /**
- * We need just enough Spring to parse the application.yml file for us.
+ * Strategy for determining the HTTP coordinates the tests should connect to.
  **/
-@EnableConfigurationProperties( ApplicationProperties )
-class AcceptanceTestConfiguration {
+interface HttpServiceResolver {
 
-    @Bean
-    EnvironmentServiceResolver environmentServiceResolver() {
-        new EnvironmentServiceResolver()
-    }
+    /**
+     * Resolves the URI that should be used when connecting to the application.
+     * @return URI to use.
+     */
+    URI resolveURI()
 }

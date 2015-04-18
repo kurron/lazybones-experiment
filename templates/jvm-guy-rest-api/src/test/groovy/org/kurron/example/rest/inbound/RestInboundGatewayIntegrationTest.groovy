@@ -44,14 +44,14 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
         def requestEntity = new HttpEntity( payload, headers )
 
         when: 'the payload is stored'
-        def responseEntity = restOperations.postForEntity( serverUri, requestEntity, HypermediaControl )
+        def responseEntity = restOperations.postForEntity( theServiceResolver.resolveURI(), requestEntity, HypermediaControl )
 
         then: 'a 201 (CREATED) status is returned'
         responseEntity.statusCode == HttpStatus.CREATED
 
         and: 'the expected URI is returned in the location header'
         def location = responseEntity.headers.getLocation()
-        location.toString().contains( serverUri.toString() )
+        location.toString().contains( theServiceResolver.resolveURI().toString() )
 
         and: 'the URI is also returned in the body of the response'
         responseEntity.body.links.find { it.rel == 'self' }.href == location.toString()
@@ -72,6 +72,7 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
         def headers = buildHeaders()
         // accept both JSON (our error document) and stream (expected bytes)
         headers.setAccept( [MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM] )
+        def serverUri = theServiceResolver.resolveURI()
         def requestEntity = new RequestEntity( headers, HttpMethod.GET, URI.create( "$serverUri${UUID.randomUUID()}" ) )
 
         when: 'a non-existent resource is retrieved'
@@ -94,6 +95,7 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
         given: 'a request entity with a missing correlation id header'
         // accept both JSON (our error document) and stream (expected bytes)
         def headers = new HttpHeaders( accept: [MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM] )
+        def serverUri = theServiceResolver.resolveURI()
         def requestEntity = new RequestEntity( headers, HttpMethod.GET, URI.create( "$serverUri${UUID.randomUUID()}" ) )
 
         when: 'a request is made'
@@ -116,7 +118,7 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
         given: 'a request entity with properly set headers'
         def headers = buildHeaders()
         headers.setAccept( [HypermediaControl.MEDIA_TYPE] )
-        def requestEntity = new RequestEntity( headers, HttpMethod.GET, serverUri )
+        def requestEntity = new RequestEntity( headers, HttpMethod.GET, theServiceResolver.resolveURI() )
 
         when: 'the  resource is retrieved'
         def result = restOperations.exchange( requestEntity, HypermediaControl )

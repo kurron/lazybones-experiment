@@ -52,6 +52,12 @@ class TestSteps {
     private ApplicationProperties configuration
 
     /**
+     * Knows how to determine the service that the application is listening on.
+     **/
+    @Autowired
+    private HttpServiceResolver theServiceResolver
+
+    /**
      * Constant for unknown media type.
      **/
     public static final String ALL = '*'
@@ -100,7 +106,6 @@ class TestSteps {
         log.info( 'Creating shared state' )
         sharedState = new MyWorld()
         sharedState.bytes = randomByteArray( BUFFER_SIZE )
-        sharedState.uri = BaseInboundIntegrationTest.serverUri
     }
 
     @After
@@ -190,7 +195,7 @@ class TestSteps {
         specifyContentType()
         specifyAcceptType()
         def requestEntity = new HttpEntity( sharedState.bytes, sharedState.headers )
-        sharedState.location = sharedState.internet.postForLocation( sharedState.uri, requestEntity )
+        sharedState.location = sharedState.internet.postForLocation( theServiceResolver.resolveURI(), requestEntity )
         sharedState.headers = new HttpHeaders() // reset for the remaining steps
     }
 
@@ -219,7 +224,7 @@ class TestSteps {
     @When( '^a POST request is made with the asset in the body$' )
     void 'a POST request is made with the asset in the body'() {
         def requestEntity = new HttpEntity( sharedState.bytes, sharedState.headers )
-        sharedState.uploadEntity = sharedState.internet.postForEntity( sharedState.uri, requestEntity, HypermediaControl )
+        sharedState.uploadEntity = sharedState.internet.postForEntity( theServiceResolver.resolveURI(), requestEntity, HypermediaControl )
         sharedState.statusCode = sharedState.uploadEntity.statusCode
     }
 

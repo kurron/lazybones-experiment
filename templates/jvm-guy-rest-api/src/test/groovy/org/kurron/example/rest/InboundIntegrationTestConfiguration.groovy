@@ -19,13 +19,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 
 /**
- * We need just enough Spring to parse the application.yml file for us.
+ * Beans specific to inbound integration tests.
  **/
 @EnableConfigurationProperties( ApplicationProperties )
-class AcceptanceTestConfiguration {
+class InboundIntegrationTestConfiguration {
 
     @Bean
-    EnvironmentServiceResolver environmentServiceResolver() {
-        new EnvironmentServiceResolver()
+    EmbeddedServiceResolver embeddedServiceResolver() {
+        new EmbeddedServiceResolver()
     }
 }

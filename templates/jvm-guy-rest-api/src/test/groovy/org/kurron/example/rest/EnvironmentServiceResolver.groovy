@@ -15,17 +15,31 @@
  */
 package org.kurron.example.rest
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.context.annotation.Bean
+import org.springframework.web.util.UriComponentsBuilder
 
 /**
- * We need just enough Spring to parse the application.yml file for us.
+ * Uses the environment to obtain the port that a standalone server is running on.
  **/
-@EnableConfigurationProperties( ApplicationProperties )
-class AcceptanceTestConfiguration {
+class EnvironmentServiceResolver implements HttpServiceResolver {
 
-    @Bean
-    EnvironmentServiceResolver environmentServiceResolver() {
-        new EnvironmentServiceResolver()
+    /**
+     * Pulls the service port from the environment.
+     * @return
+     */
+    private static int resolvePort() {
+        System.properties['integration.test.port'] as int
+
     }
+
+    @Override
+    URI resolveURI() {
+        UriComponentsBuilder.newInstance()
+                .scheme( 'http' )
+                .host( 'localhost' )
+                .port( resolvePort() )
+                .path( '/' )
+                .build()
+                .toUri()
+    }
+
 }

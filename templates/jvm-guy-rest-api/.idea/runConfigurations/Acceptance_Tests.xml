@@ -8,7 +8,7 @@
     <option name="MAIN_CLASS_NAME" value="org.kurron.example.rest.AcceptanceTests" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
-    <option name="VM_PARAMETERS" value="-ea -Dintegration.test.port=8080" />
+    <option name="VM_PARAMETERS" value="-ea -Dintegration.test.port=32799" />
     <option name="PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />
     <option name="ENV_VARIABLES" />

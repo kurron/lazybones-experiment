@@ -30,7 +30,7 @@ task buildDockerImage( type: Exec, dependsOn: copyBuildArtifact ) {
     group 'Docker'
     description = 'Builds a docker image'
     workingDir dockerDirectory
-    commandLine 'sudo', 'docker', 'build', '--tag', fullImageName, '.'
+    commandLine 'docker', 'build', '--tag', fullImageName, '.'
     doFirst {
         logger.quiet "Building docker image $fullImageName based on the Dockerfile in $dockerDirectory/"
     }
@@ -43,12 +43,12 @@ task buildDockerImage( type: Exec, dependsOn: copyBuildArtifact ) {
 task runDockerContainer( type: Exec, dependsOn: buildDockerImage ) {
     group 'Docker'
     description = 'Deploys a docker container based on a previously built image'
-    commandLine 'sudo', 'docker', 'run', '--detach', '--link', 'redis:redis', '--publish', '8080', '--name', buildArtifactName, fullImageName, "--spring.profiles.active=integration"
+    commandLine 'docker', 'run', '--detach', '--link', 'redis:redis', '--publish', '8080', '--name', buildArtifactName, fullImageName, "--spring.profiles.active=integration"
     doFirst {
         logger.quiet "Running a docker container with name $buildArtifactName based on image $fullImageName"
     }
     doLast {
-        def process = "sudo docker port $buildArtifactName".execute()
+        def process = "docker port $buildArtifactName".execute()
         def port = process.text.split( ':' ).last() as int
         logger.quiet "The container was deployed to port $port! Adding to system properties..."
         System.setProperty( 'integration.test.port', port.toString() )
@@ -80,7 +80,7 @@ private void waitForServerToStart( int port ) {
 task deleteDockerContainer( type: Exec ) {
     group 'Docker'
     description = 'Deletes a docker container, even if it is running'
-    commandLine 'sudo', 'docker', 'rm', '-f', buildArtifactName
+    commandLine 'docker', 'rm', '-f', buildArtifactName
     doFirst {
         logger.quiet "Deleting docker container $buildArtifactName from the host"
     }
@@ -89,7 +89,7 @@ task deleteDockerContainer( type: Exec ) {
 task deleteDockerImage( type: Exec, dependsOn: deleteDockerContainer ) {
     group 'Docker'
     description = 'Deletes a docker image'
-    commandLine 'sudo', 'docker', 'rmi', fullImageName
+    commandLine 'docker', 'rmi', fullImageName
     doFirst {
         logger.quiet "Deleting docker image $fullImageName from the host"
     }

@@ -45,8 +45,8 @@ class Application {
     /**
      * Indicates the type of service emitting the messages.
      */
-    //@Value( '${spring.application.name}' )
-    String serviceCode = 'rest-example'
+    @Value( '${info.app.name}' )
+    String serviceCode
 
     /**
      * Indicates the instance of the service emitting the messages.

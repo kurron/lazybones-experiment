@@ -83,7 +83,7 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
 
         and: 'a json fault document is returned in the body of the response'
         result.headers.getContentType().includes( MediaType.APPLICATION_JSON )
-        def control = mapper.readValue( result.body, HypermediaControl )
+        def control = objectMapper.readValue( result.body, HypermediaControl )
         control.httpCode == HttpStatus.NOT_FOUND.value()
         control.errorBlock.code == ExampleFeedbackContext.REDIS_RESOURCE_NOT_FOUND.code
         log.info 'Fault message: {}', control.errorBlock.message
@@ -106,7 +106,7 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
 
         and: 'a json fault document is returned in the body of the response'
         result.headers.getContentType().includes( MediaType.APPLICATION_JSON )
-        def control = mapper.readValue( result.body, HypermediaControl )
+        def control = objectMapper.readValue( result.body, HypermediaControl )
         control.httpCode == HttpStatus.PRECONDITION_FAILED.value()
         control.errorBlock.code == ExampleFeedbackContext.PRECONDITION_FAILED.code
         log.info 'Fault message: {}', control.errorBlock.message

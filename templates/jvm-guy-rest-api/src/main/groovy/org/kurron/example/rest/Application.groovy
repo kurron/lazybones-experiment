@@ -28,7 +28,6 @@ import org.springframework.context.annotation.Bean
  * the main() method.
  */
 @SpringBootApplication
-//@EnableDiscoveryClient
 @EnableConfigurationProperties( ApplicationProperties )
 @Slf4j
 @SuppressWarnings( 'GStringExpressionWithinString' )
@@ -46,8 +45,8 @@ class Application {
     /**
      * Indicates the type of service emitting the messages.
      */
-    @Value( '${spring.application.name}' )
-    String serviceCode
+    //@Value( '${spring.application.name}' )
+    String serviceCode = 'rest-example'
 
     /**
      * Indicates the instance of the service emitting the messages.
@@ -61,8 +60,8 @@ class Application {
      * services use an AMQP-based control bus and you want to always group your
      * services based on a common vhost.
      */
-    @Value( '${spring.rabbitmq.virtualHost}' )
-    String realm
+    // @Value( '${spring.rabbitmq.virtualHost}' )
+    String realm = '/default-realm'
 
     @Bean
     FeedbackAwareBeanPostProcessor feedbackAwareBeanPostProcessor() {

@@ -15,8 +15,12 @@
  */
 package org.kurron.example.rest
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.test.TestRestTemplate
 import org.springframework.context.annotation.Bean
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.client.RestOperations
 
 /**
  * Beans specific to inbound integration tests.
@@ -28,4 +32,21 @@ class InboundIntegrationTestConfiguration {
     EmbeddedServiceResolver embeddedServiceResolver() {
         new EmbeddedServiceResolver()
     }
+
+    @Bean
+    RestOperations restOperations( ObjectMapper mapper ) {
+        def template = new TestRestTemplate()
+        // filter out the existing Jackson convert so we can replace with our own that is configured to deal with HAL links
+        def toKeep = template.messageConverters.findAll { !it.class.isAssignableFrom( MappingJackson2HttpMessageConverter ) }
+        toKeep.add( new MappingJackson2HttpMessageConverter( mapper ) )
+        template.messageConverters.clear()
+        template.messageConverters.addAll( toKeep )
+        template
+    }
+
+/*    @Bean
+    ObjectMapper objectMapper() {
+        new Jackson2ObjectMapperBuilder().modules( new Jackson2HalModule() ).build()
+    }*/
+
 }

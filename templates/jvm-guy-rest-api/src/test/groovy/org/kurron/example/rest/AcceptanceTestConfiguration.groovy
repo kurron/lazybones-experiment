@@ -15,8 +15,14 @@
  */
 package org.kurron.example.rest
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.test.TestRestTemplate
 import org.springframework.context.annotation.Bean
+import org.springframework.hateoas.hal.Jackson2HalModule
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.client.RestOperations
 
 /**
  * We need just enough Spring to parse the application.yml file for us.
@@ -28,4 +34,21 @@ class AcceptanceTestConfiguration {
     EnvironmentServiceResolver environmentServiceResolver() {
         new EnvironmentServiceResolver()
     }
+
+    @Bean
+    RestOperations restOperations( ObjectMapper mapper ) {
+        def template = new TestRestTemplate()
+        // filter out the existing Jackson converter so we can replace with our own that is configured to deal with HAL links
+        def toKeep = template.messageConverters.findAll { !it.class.isAssignableFrom( MappingJackson2HttpMessageConverter ) }
+        toKeep.add( new MappingJackson2HttpMessageConverter( mapper ) )
+        template.messageConverters.clear()
+        template.messageConverters.addAll( toKeep )
+        template
+    }
+
+    @Bean
+    ObjectMapper objectMapper() {
+        new Jackson2ObjectMapperBuilder().modules( new Jackson2HalModule() ).build()
+    }
+
 }

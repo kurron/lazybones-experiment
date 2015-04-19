@@ -20,11 +20,7 @@ import org.junit.experimental.categories.Category
 import org.kurron.categories.InboundIntegrationTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
-import org.springframework.boot.test.TestRestTemplate
 import org.springframework.boot.test.WebIntegrationTest
-import org.springframework.hateoas.hal.Jackson2HalModule
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.web.client.RestOperations
 
@@ -43,18 +39,9 @@ abstract class BaseInboundIntegrationTest extends BaseTest {
     @Autowired
     protected HttpServiceResolver theServiceResolver
 
-    protected static RestOperations getRestOperations() {
-        def template = new TestRestTemplate()
-        // filter out the existing Jackson convert so we can replace with our own that is configured to deal with HAL links
-        def toKeep = template.messageConverters.findAll { !it.class.isAssignableFrom( MappingJackson2HttpMessageConverter ) }
-        toKeep.add( new MappingJackson2HttpMessageConverter( mapper ) )
-        template.messageConverters.clear()
-        template.messageConverters.addAll( toKeep )
-        template
-    }
+    @Autowired
+    protected RestOperations restOperations
 
-    protected static ObjectMapper getMapper() {
-        new Jackson2ObjectMapperBuilder().modules( new Jackson2HalModule() ).build()
-    }
-
+    @Autowired
+    protected ObjectMapper objectMapper
 }

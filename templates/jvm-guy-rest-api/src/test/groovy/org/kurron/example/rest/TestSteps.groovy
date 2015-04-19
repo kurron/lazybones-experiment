@@ -15,6 +15,7 @@
  */
 package org.kurron.example.rest
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
@@ -33,6 +34,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.web.client.RestOperations
 import org.springframework.web.util.UriComponentsBuilder
 
 /**
@@ -50,6 +52,12 @@ class TestSteps {
      **/
     @Autowired
     private ApplicationProperties configuration
+
+    @Autowired
+    private RestOperations restOperations
+
+    @Autowired
+    private ObjectMapper objectMapper
 
     /**
      * Knows how to determine the service that the application is listening on.
@@ -83,7 +91,7 @@ class TestSteps {
     /**
      * This is state shared between steps and can be setup and torn down by the hooks.
      **/
-    static class MyWorld {
+    class MyWorld {
         ResponseEntity<HypermediaControl> uploadEntity
         ResponseEntity<byte[]> downloadEntity
         byte[] bytes = new byte[0]
@@ -92,8 +100,8 @@ class TestSteps {
         URI uri
         URI location
         HttpStatus statusCode = HttpStatus.I_AM_A_TEAPOT
-        def internet = BaseInboundIntegrationTest.restOperations
-        def transformer = BaseInboundIntegrationTest.mapper
+        def internet = restOperations
+        def transformer = objectMapper
     }
 
     /**
@@ -106,6 +114,9 @@ class TestSteps {
         log.info( 'Creating shared state' )
         sharedState = new MyWorld()
         sharedState.bytes = randomByteArray( BUFFER_SIZE )
+        sharedState.uri = theServiceResolver.resolveURI()
+        log.error( 'theServiceResolver is {}', theServiceResolver )
+        log.error( 'sharedState.uri is {}', sharedState.uri )
     }
 
     @After
@@ -195,8 +206,9 @@ class TestSteps {
         specifyContentType()
         specifyAcceptType()
         def requestEntity = new HttpEntity( sharedState.bytes, sharedState.headers )
-        sharedState.location = sharedState.internet.postForLocation( theServiceResolver.resolveURI(), requestEntity )
+        sharedState.location = sharedState.internet.postForLocation( sharedState.uri, requestEntity )
         sharedState.headers = new HttpHeaders() // reset for the remaining steps
+        log.error( 'sharedState.location = {}', sharedState.location )
     }
 
     @Given( '^Content-Length header with a value larger than what the server will accept$' )
@@ -224,7 +236,7 @@ class TestSteps {
     @When( '^a POST request is made with the asset in the body$' )
     void 'a POST request is made with the asset in the body'() {
         def requestEntity = new HttpEntity( sharedState.bytes, sharedState.headers )
-        sharedState.uploadEntity = sharedState.internet.postForEntity( theServiceResolver.resolveURI(), requestEntity, HypermediaControl )
+        sharedState.uploadEntity = sharedState.internet.postForEntity( sharedState.uri, requestEntity, HypermediaControl )
         sharedState.statusCode = sharedState.uploadEntity.statusCode
     }
 

@@ -4,6 +4,7 @@ info:
         name: ${name}
         description: ${description}
         version: ${version}
+        realm: development
 
 # enable shutdown of application via a POST
 endpoints:
@@ -73,7 +74,15 @@ example:
 spring:
     profiles: integration
 
+info:
+    app:
+        realm: integration-test
+
 # live
 ---
 spring:
     profiles: live
+
+info:
+    app:
+        realm: production

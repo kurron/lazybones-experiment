@@ -55,13 +55,10 @@ class Application {
     String serviceInstance
 
     /**
-     * Indicates the logical group of the service emitting the messages.  For now we are
-     * using the RabbitMQ vhost as a surrogate for the realm.  This works because all
-     * services use an AMQP-based control bus and you want to always group your
-     * services based on a common vhost.
+     * Indicates the logical group of the service emitting the messages.
      */
-    // @Value( '${spring.rabbitmq.virtualHost}' )
-    String realm = '/default-realm'
+    @Value( '${info.app.realm}' )
+    String realm
 
     @Bean
     FeedbackAwareBeanPostProcessor feedbackAwareBeanPostProcessor() {

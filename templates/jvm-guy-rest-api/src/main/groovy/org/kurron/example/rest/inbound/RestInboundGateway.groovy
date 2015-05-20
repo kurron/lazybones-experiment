@@ -117,7 +117,7 @@ class RestInboundGateway extends AbstractFeedbackAware {
      * @param request the servlet request being serviced.
      * @return the response entity.
      */
-    @RequestMapping( method = POST, produces = [HypermediaControl.JSON_MIME_TYPE,HypermediaControl.XML_MIME_TYPE] )
+    @RequestMapping( method = POST, produces = [HypermediaControl.JSON_MIME_TYPE, HypermediaControl.XML_MIME_TYPE] )
     ResponseEntity<HypermediaControl> store( @RequestBody final byte[] payload,
                                              @RequestHeader HttpHeaders requestHeaders,
                                              HttpServletRequest request ) {
@@ -230,7 +230,7 @@ class RestInboundGateway extends AbstractFeedbackAware {
      * @param request the servlet request being serviced.
      * @return hypermedia control describing the API.
      */
-    @RequestMapping( method = GET, produces = [HypermediaControl.JSON_MIME_TYPE,HypermediaControl.XML_MIME_TYPE] )
+    @RequestMapping( method = GET, produces = [HypermediaControl.JSON_MIME_TYPE, HypermediaControl.XML_MIME_TYPE] )
     ResponseEntity<HypermediaControl> apiDiscovery( HttpServletRequest request ) {
         def control = newControl( HttpStatus.OK, request )
         new ResponseEntity( control, HttpStatus.OK )

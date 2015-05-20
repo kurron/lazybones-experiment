@@ -90,7 +90,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
     private static ResponseEntity<HypermediaControl> wrapInResponseEntity( HypermediaControl control,
                                                                            HttpStatus status,
                                                                            HttpHeaders headers = new HttpHeaders() ) {
-        headers.setContentType( HypermediaControl.MEDIA_TYPE )
+        headers.setContentType( HypermediaControl.JSON_MEDIA_TYPE )
         new ResponseEntity<>( control, headers, status )
     }
 }

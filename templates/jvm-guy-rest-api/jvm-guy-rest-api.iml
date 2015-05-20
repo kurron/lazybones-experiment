@@ -39,7 +39,6 @@
     <orderEntry type="library" scope="TEST" name="Gradle: info.cukes:cucumber-java:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: info.cukes:cucumber-html:0.2.3" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.kurron:tools-java:2.1.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.data:spring-data-redis:1.4.2.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.4.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.plugin:spring-plugin-core:1.1.0.RELEASE" level="project" />
@@ -100,5 +99,9 @@
     <orderEntry type="library" exported="" name="Gradle: org.slf4j:slf4j-api:1.7.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.springframework.boot:spring-boot-starter-test:1.2.3.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-test:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.kurron:tools-java:2.3.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.4.5" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.4.5" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.codehaus.woodstox:stax2-api:3.1.4" level="project" />
   </component>
 </module>

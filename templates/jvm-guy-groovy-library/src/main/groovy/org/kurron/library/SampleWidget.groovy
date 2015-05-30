@@ -9,7 +9,7 @@ class SampleWidget {
      * @param message text to repeat back.
      * @return the repeated message.
      */
-    public String echo( final String message ) {
-        message.toUpperCase();
+    String echo( final String message ) {
+        message.toUpperCase()
     }
 }

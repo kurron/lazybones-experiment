@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/jvm-guy-java-library.iml" filepath="$PROJECT_DIR$/jvm-guy-java-library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jvm-guy-groovy-library.iml" filepath="$PROJECT_DIR$/jvm-guy-groovy-library.iml" />
     </modules>
   </component>
 </project>

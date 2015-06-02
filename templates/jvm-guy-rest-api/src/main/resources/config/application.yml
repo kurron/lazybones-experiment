@@ -34,6 +34,11 @@ spring:
 server:
     port: 0
 
+# be ready for HTTP proxying
+    tomcat:
+        remote_ip_header: x-forwarded-for
+        protocol_header: x-forwarded-proto
+
 security:
     basic:
         enabled: false

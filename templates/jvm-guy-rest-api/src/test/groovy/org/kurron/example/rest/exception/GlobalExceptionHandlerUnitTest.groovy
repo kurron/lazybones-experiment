@@ -45,7 +45,7 @@ class GlobalExceptionHandlerUnitTest extends BaseUnitTest {
         then: 'a valid http response is returned'
         result
         result.statusCode == error.httpStatus
-        result.headers.getContentType() == HypermediaControl.MEDIA_TYPE
+        result.headers.getContentType() == HypermediaControl.JSON_MEDIA_TYPE
 
         and: 'the body contains the expected fault document'
         def control = result.body
@@ -70,7 +70,7 @@ class GlobalExceptionHandlerUnitTest extends BaseUnitTest {
         then: 'a valid http response is returned'
         result
         result.statusCode == HttpStatus.INTERNAL_SERVER_ERROR
-        result.headers.getContentType() == HypermediaControl.MEDIA_TYPE
+        result.headers.getContentType() == HypermediaControl.JSON_MEDIA_TYPE
 
         and: 'the body contains a valid fault document'
         def control = result.body as HypermediaControl

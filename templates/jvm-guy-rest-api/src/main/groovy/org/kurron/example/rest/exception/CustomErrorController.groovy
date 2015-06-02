@@ -76,7 +76,7 @@ class CustomErrorController extends AbstractFeedbackAware implements ErrorContro
      * @param request the HTTP request that triggered the failure.
      * @return the control containing the error details.
      */
-    @RequestMapping( value = '${error.path:/error}', produces = [HypermediaControl.MIME_TYPE] )
+    @RequestMapping( value = '${error.path:/error}', produces = [HypermediaControl.JSON_MIME_TYPE, HypermediaControl.XML_MIME_TYPE] )
     ResponseEntity<HypermediaControl> handleException( HttpServletRequest request ) {
         Map<String, Object> attributes = errorAttributes.getErrorAttributes( new ServletRequestAttributes( request ), false )
         def status = getStatus( request )

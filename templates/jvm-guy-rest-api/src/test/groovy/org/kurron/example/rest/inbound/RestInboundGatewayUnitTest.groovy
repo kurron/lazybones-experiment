@@ -75,7 +75,7 @@ class RestInboundGatewayUnitTest extends BaseUnitTest {
         result.response.status == HttpStatus.CREATED.value()
 
         and: 'the response content type is set'
-        result.response.contentType == HypermediaControl.MIME_TYPE
+        result.response.contentType == HypermediaControl.JSON_MIME_TYPE
 
         and: 'the expected response is set in the body of the response'
         mapper.readValue( result.response.contentAsByteArray, HypermediaControl ).links.find { it.rel == 'self' }.href  == expected.toString()

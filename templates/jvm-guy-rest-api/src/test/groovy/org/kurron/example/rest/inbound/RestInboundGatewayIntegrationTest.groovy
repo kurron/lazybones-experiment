@@ -117,7 +117,7 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
 
         given: 'a request entity with properly set headers'
         def headers = buildHeaders()
-        headers.setAccept( [HypermediaControl.MEDIA_TYPE] )
+        headers.setAccept( [HypermediaControl.JSON_MEDIA_TYPE] )
         def requestEntity = new RequestEntity( headers, HttpMethod.GET, theServiceResolver.resolveURI() )
 
         when: 'the  resource is retrieved'
@@ -127,7 +127,7 @@ class RestInboundGatewayIntegrationTest extends BaseInboundIntegrationTest {
         result.statusCode == HttpStatus.OK
 
         and: 'a control is returned in the body of the response'
-        result.headers.getContentType().includes( HypermediaControl.MEDIA_TYPE )
+        result.headers.getContentType().includes( HypermediaControl.JSON_MEDIA_TYPE )
         HypermediaControl control = result.body
         control.httpCode == HttpStatus.OK.value()
         control.links.find { it.rel == RestInboundGateway.API_DISCOVERY_RELATION }

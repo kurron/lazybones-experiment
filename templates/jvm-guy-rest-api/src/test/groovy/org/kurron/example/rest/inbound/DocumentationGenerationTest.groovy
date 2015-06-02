@@ -45,7 +45,7 @@ class DocumentationGenerationTest extends BaseOutboundIntegrationTest {
     def 'demonstrate api discovery'() {
 
         given: 'a valid request'
-        def requestBuilder = get( '/' ).accept( HypermediaControl.MIME_TYPE )
+        def requestBuilder = get( '/' ).accept( HypermediaControl.JSON_MIME_TYPE )
                                        .header( CustomHttpHeaders.X_CORRELATION_ID, '155887a0-8959-4031-a30a-a8e52bc6b7d8' )
 
         when: 'the GET request is made'
@@ -57,7 +57,7 @@ class DocumentationGenerationTest extends BaseOutboundIntegrationTest {
     def 'demonstrate failure scenario'() {
 
         given: 'a valid request'
-        def requestBuilder = get( '/{id}', randomUUID() ).accept( 'image/png;width=1024;height=768', HypermediaControl.MIME_TYPE )
+        def requestBuilder = get( '/{id}', randomUUID() ).accept( 'image/png;width=1024;height=768', HypermediaControl.JSON_MIME_TYPE )
                                                          .header( CustomHttpHeaders.X_CORRELATION_ID, '155887a0-8959-4031-a30a-a8e52bc6b7d8' )
 
         when: 'the GET request is made'
@@ -72,7 +72,7 @@ class DocumentationGenerationTest extends BaseOutboundIntegrationTest {
         def buffer = 'some image bytes'.bytes
         def requestBuilder = post( '/' ).content( buffer )
                 .contentType( 'image/png;width=1024;height=768' )
-                .accept( HypermediaControl.MIME_TYPE )
+                .accept( HypermediaControl.JSON_MIME_TYPE )
                 .header( 'Content-Length', buffer.size() )
                 .header( CustomHttpHeaders.X_EXPIRATION_MINUTES, 10 )
                 .header( CustomHttpHeaders.X_CORRELATION_ID, '155887a0-8959-4031-a30a-a8e52bc6b7d8' )
@@ -89,7 +89,7 @@ class DocumentationGenerationTest extends BaseOutboundIntegrationTest {
         def buffer = 'some image bytes'.bytes
         def uploadBuilder = post( '/' ).content( buffer )
                 .contentType( 'image/png;width=1024;height=768' )
-                .accept( HypermediaControl.MIME_TYPE )
+                .accept( HypermediaControl.JSON_MIME_TYPE )
                 .header( 'Content-Length', buffer.size() )
                 .header( CustomHttpHeaders.X_EXPIRATION_MINUTES, 10 )
                 .header( CustomHttpHeaders.X_CORRELATION_ID, '155887a0-8959-4031-a30a-a8e52bc6b7d8' )

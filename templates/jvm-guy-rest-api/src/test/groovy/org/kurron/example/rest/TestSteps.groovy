@@ -176,7 +176,7 @@ class TestSteps {
 
     private specifyAcceptType( MediaType mediaType = MediaType.APPLICATION_JSON ) {
         List<MediaType> acceptable = [mediaType]
-        acceptable.add( HypermediaControl.MEDIA_TYPE )
+        acceptable.add( HypermediaControl.JSON_MEDIA_TYPE )
         sharedState.headers.setAccept( acceptable )
     }
 
@@ -293,7 +293,7 @@ class TestSteps {
     @Then( '^the hypermedia control describing the unknown asset is returned$' )
     @SuppressWarnings( 'UnnecessaryGetter' )
     void 'the hypermedia control describing the unknown asset is returned'() {
-        assert sharedState.downloadEntity.headers.getContentType().isCompatibleWith( HypermediaControl.MEDIA_TYPE )
+        assert sharedState.downloadEntity.headers.getContentType().isCompatibleWith( HypermediaControl.JSON_MEDIA_TYPE )
         HypermediaControl control = sharedState.transformer.readValue( sharedState.downloadEntity.body, HypermediaControl )
         assert control.errorBlock.code
         assert control.errorBlock.message

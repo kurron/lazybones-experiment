@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="REST Service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="org.kurron.example.rest.Application" />
+    <option name="VM_PARAMETERS" value="-Dserver.port=8080 -Dname=IntelliJ -Ddescription=IntellliJ -Dversion=IntelliJ" />
+    <module name="jvm-guy-rest-api" />
+    <envs />
+    <method />
+  </configuration>
+</component>

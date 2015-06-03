@@ -49,5 +49,12 @@ class SpockExamplesUnitTest extends BaseUnitTest {
         println 'Helper method said yes'
     }
 
+    @Requires( { jvm.java8Compatible } )
+    def 'run only if Java 8 is in play'() {
+
+        expect: 'only run on Java 8 systems'
+        println 'Running on a Java 8 system'
+    }
+
 
 }

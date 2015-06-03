@@ -20,6 +20,7 @@ import spock.lang.IgnoreIf
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 import spock.util.environment.RestoreSystemProperties
 
 /**
@@ -110,6 +111,21 @@ class SpockExamplesUnitTest extends Specification implements DatabaseTrait {
 
         cleanup: 'but cleanup does'
         println 'cleanup called!'
+    }
+
+    def 'showcase waiting for an asynchronous event'() {
+
+        given: 'some setup'
+        PollingConditions conditions = new PollingConditions( timeout: 5, initialDelay: 0.5 )
+        // normally, some background threaded object goes here
+
+        when: 'a background task is fired'
+        Thread.start { Thread.sleep( 1000 ) ; sut << 'completed' }
+
+        then: 'wait for the task to complete'
+        conditions.eventually {
+            sut.find { it == 'completed' }
+        }
     }
 }
 

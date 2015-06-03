@@ -25,6 +25,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Subject
 import spock.lang.Title
+import spock.util.Exceptions
 import spock.util.concurrent.PollingConditions
 import spock.util.environment.RestoreSystemProperties
 
@@ -106,6 +107,7 @@ class SpockExamplesUnitTest extends Specification implements DatabaseTrait {
         !sut.find { it == 'root' }
     }
 
+    @SuppressWarnings( 'GroovyUnreachableStatement' )
     def 'showcase setup and cleanup'() {
 
         given: 'some setup'
@@ -150,6 +152,18 @@ class SpockExamplesUnitTest extends Specification implements DatabaseTrait {
             assert sut.find { it == 'completed' }
         }
     }
+
+    @SuppressWarnings( 'GroovyUnreachableStatement' )
+    def 'showcase exception tool'() {
+
+        when: 'a nested error is thrown'
+        throw new IllegalStateException( new UnsupportedOperationException( 'forced to fail' ) )
+
+        then: 'proper error is thrown'
+        def e = thrown( IllegalStateException )
+        Exceptions.getRootCause( e ).class == UnsupportedOperationException
+    }
+
 }
 
 // normally, this would be in a separate file

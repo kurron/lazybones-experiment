@@ -15,11 +15,13 @@
  */
 package org.kurron.example.rest
 
+import static org.kurron.example.rest.SpockExamplesUnitTest.shouldWeRun
 import spock.lang.Requires
 
 /**
  * Examples of some of the newer Spock features.
  */
+@Requires( { shouldWeRun( true ) } )
 class SpockExamplesUnitTest extends BaseUnitTest {
 
     def configuration = new ApplicationPropertiesBuilder().build()
@@ -38,5 +40,14 @@ class SpockExamplesUnitTest extends BaseUnitTest {
         expect: 'only run on 64-bit systems'
         println 'Running on a 64-bit system'
     }
+
+    static boolean shouldWeRun( boolean decision ) { decision }
+
+    def 'consult a static method'() {
+
+        expect: 'only run if helper method says so'
+        println 'Helper method said yes'
+    }
+
 
 }

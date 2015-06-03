@@ -16,6 +16,10 @@
 package org.kurron.example.rest
 
 import static org.kurron.example.rest.SpockExamplesUnitTest.shouldWeRun
+import org.junit.Rule
+import org.junit.rules.TestRule
+import org.junit.runner.Description
+import org.junit.runners.model.Statement
 import spock.lang.IgnoreIf
 import spock.lang.Issue
 import spock.lang.Narrative
@@ -36,6 +40,9 @@ import spock.util.environment.RestoreSystemProperties
 @Title( 'Spock Learning Test' )
 @Narrative( 'Spock Learning Test' )
 class SpockExamplesUnitTest extends Specification implements DatabaseTrait {
+
+    @Rule
+    CustomRule someRule = new CustomRule()
 
     @Subject
     def sut = ['a', 'b']
@@ -173,4 +180,13 @@ trait DatabaseTrait {
 
     def setupSpec() { databaseConnection = ['setup'] ; println 'setting up the database connection' }
     def cleanupSpec() { databaseConnection.clear() ; println 'tearing down the database connection' }
+}
+
+class CustomRule implements TestRule {
+    @Override
+    Statement apply( final Statement base, final Description description ) {
+
+        println "custom JUnit rule invoked for ${description.displayName}"
+        base
+    }
 }

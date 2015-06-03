@@ -64,5 +64,12 @@ class SpockExamplesUnitTest extends BaseUnitTest {
         println 'Running on a non-Java 8 system'
     }
 
+    @Requires( { os.linux } )
+    def 'run only if Linux is in play'() {
+
+        expect: 'only run on Linux systems'
+        println 'Running on a Linux system'
+    }
+
 
 }

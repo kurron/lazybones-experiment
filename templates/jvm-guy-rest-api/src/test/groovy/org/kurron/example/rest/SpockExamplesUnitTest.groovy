@@ -116,15 +116,14 @@ class SpockExamplesUnitTest extends Specification implements DatabaseTrait {
     def 'showcase waiting for an asynchronous event'() {
 
         given: 'some setup'
-        PollingConditions conditions = new PollingConditions( timeout: 5, initialDelay: 0.5 )
-        // normally, some background threaded object goes here
+        def conditions = new PollingConditions( timeout: 5, initialDelay: 0.5 )
 
         when: 'a background task is fired'
-        Thread.start { Thread.sleep( 1000 ) ; sut << 'completed' }
+        Thread.start { Thread.sleep( 2000 ) ; sut << 'completed' }
 
         then: 'wait for the task to complete'
         conditions.eventually {
-            sut.find { it == 'completed' }
+            assert sut.find { it == 'completed' }
         }
     }
 }

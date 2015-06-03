@@ -16,6 +16,7 @@
 package org.kurron.example.rest
 
 import static org.kurron.example.rest.SpockExamplesUnitTest.shouldWeRun
+import spock.lang.IgnoreIf
 import spock.lang.Requires
 
 /**
@@ -54,6 +55,13 @@ class SpockExamplesUnitTest extends BaseUnitTest {
 
         expect: 'only run on Java 8 systems'
         println 'Running on a Java 8 system'
+    }
+
+    @IgnoreIf( { jvm.java8Compatible } )
+    def 'ignore if Java 8 is in play'() {
+
+        expect: 'only run on non-Java 8 systems'
+        println 'Running on a non-Java 8 system'
     }
 
 

@@ -94,4 +94,19 @@ class SpockExamplesUnitTest extends BaseUnitTest {
         then: 'root is not in the list'
         !sut.find { it == 'root' }
     }
+
+    def 'showcase setup and cleanup'() {
+
+        given: 'some setup'
+        sut << 'set-up'
+
+        when: 'an error is thrown'
+        throw new IllegalStateException( 'forced to fail' )
+
+        then: 'does not get called'
+        false
+
+        cleanup: 'but cleanup does'
+        println 'cleanup called!'
+    }
 }

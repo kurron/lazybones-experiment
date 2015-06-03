@@ -18,6 +18,7 @@ package org.kurron.example.rest
 import static org.kurron.example.rest.SpockExamplesUnitTest.shouldWeRun
 import spock.lang.IgnoreIf
 import spock.lang.Requires
+import spock.util.environment.RestoreSystemProperties
 
 /**
  * Examples of some of the newer Spock features.
@@ -25,8 +26,7 @@ import spock.lang.Requires
 @Requires( { shouldWeRun( true ) } )
 class SpockExamplesUnitTest extends BaseUnitTest {
 
-    def configuration = new ApplicationPropertiesBuilder().build()
-    def sut = new CorrelationIdHandlerInterceptor( configuration )
+    def sut = ['a', 'b']
 
     @Requires( { env.containsKey( 'RUN_SPECIAL_TEST' ) } )
     def 'run only if an environmental variable is set'() {
@@ -71,5 +71,27 @@ class SpockExamplesUnitTest extends BaseUnitTest {
         println 'Running on a Linux system'
     }
 
+    @RestoreSystemProperties
+    def 'modify system properties'() {
 
+        given: 'modified system properties'
+        System.setProperty( 'user.name', 'root' )
+
+        when: 'sut is exercised'
+        sut << System.getProperty( 'user.name' )
+
+        then: 'root is in the list'
+        sut.find { it == 'root' }
+    }
+
+    def 'verify system properties have not been modified'() {
+
+        given: 'unmodified system properties'
+
+        when: 'sut is exercised'
+        sut << System.getProperty( 'user.name' )
+
+        then: 'root is not in the list'
+        !sut.find { it == 'root' }
+    }
 }

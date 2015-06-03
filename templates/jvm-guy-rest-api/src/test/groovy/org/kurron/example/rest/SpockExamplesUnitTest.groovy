@@ -17,9 +17,14 @@ package org.kurron.example.rest
 
 import static org.kurron.example.rest.SpockExamplesUnitTest.shouldWeRun
 import spock.lang.IgnoreIf
+import spock.lang.Issue
+import spock.lang.Narrative
 import spock.lang.Requires
+import spock.lang.See
 import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Subject
+import spock.lang.Title
 import spock.util.concurrent.PollingConditions
 import spock.util.environment.RestoreSystemProperties
 
@@ -27,8 +32,11 @@ import spock.util.environment.RestoreSystemProperties
  * Examples of some of the newer Spock features.
  */
 @Requires( { shouldWeRun( true ) } )
+@Title( 'Spock Learning Test' )
+@Narrative( 'Spock Learning Test' )
 class SpockExamplesUnitTest extends Specification implements DatabaseTrait {
 
+    @Subject
     def sut = ['a', 'b']
 
     @Requires( { env.containsKey( 'RUN_SPECIAL_TEST' ) } )
@@ -120,6 +128,22 @@ class SpockExamplesUnitTest extends Specification implements DatabaseTrait {
 
         when: 'a background task is fired'
         Thread.start { Thread.sleep( 2000 ) ; sut << 'completed' }
+
+        then: 'wait for the task to complete'
+        conditions.eventually {
+            assert sut.find { it == 'completed' }
+        }
+    }
+
+    @See( 'http://confluence/feature/foo' )
+    @Issue( 'http://jira/issue/123' )
+    def 'showcase documentation annotations'() {
+
+        given: 'some setup'
+        def conditions = new PollingConditions( timeout: 5, initialDelay: 0.5 )
+
+        when: 'a background task is fired'
+        Thread.start { Thread.sleep( 1000 ) ; sut << 'completed' }
 
         then: 'wait for the task to complete'
         conditions.eventually {

@@ -18,13 +18,15 @@ package org.kurron.example.rest
 import static org.kurron.example.rest.SpockExamplesUnitTest.shouldWeRun
 import spock.lang.IgnoreIf
 import spock.lang.Requires
+import spock.lang.Shared
+import spock.lang.Specification
 import spock.util.environment.RestoreSystemProperties
 
 /**
  * Examples of some of the newer Spock features.
  */
 @Requires( { shouldWeRun( true ) } )
-class SpockExamplesUnitTest extends BaseUnitTest {
+class SpockExamplesUnitTest extends Specification implements DatabaseTrait {
 
     def sut = ['a', 'b']
 
@@ -109,4 +111,13 @@ class SpockExamplesUnitTest extends BaseUnitTest {
         cleanup: 'but cleanup does'
         println 'cleanup called!'
     }
+}
+
+// normally, this would be in a separate file
+trait DatabaseTrait {
+    @Shared
+    List<String> databaseConnection = []
+
+    def setupSpec() { databaseConnection = ['setup'] ; println 'setting up the database connection' }
+    def cleanupSpec() { databaseConnection.clear() ; println 'tearing down the database connection' }
 }

@@ -29,10 +29,19 @@
       register: login
     - debug: var=login
     - debug: msg="Logged in as user {{ login.stdout }}"
-    - set_fact: devan={{ login.stdout }}
-    - debug: msg="The devan fact is {{ devan }}"
-    
 
+    - name: Show how to set your own fact 
+      set_fact: devan={{ login.stdout }}
+    - debug: msg="The devan fact is {{ devan }}"
+
+    - name: Dump baked in variables 
+      debug: msg="hostvars = {{ hostvars }}"
+    - debug: msg="inventory_hostname = {{ inventory_hostname }}"
+    - debug: msg="group_names = {{ group_names }}"
+    - debug: msg="groups = {{ groups }}"
+    - debug: msg="play_hosts = {{ play_hosts }}"
+    - debug: msg="ansible_version = {{ ansible_version }}"
+    
 - name: Configure web server with Nginx
   hosts: webservers
   sudo: True

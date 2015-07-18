@@ -1,5 +1,26 @@
 #!/usr/bin/env ansible-playbook
 
+- name: Group hosts by distribution 
+  hosts: all
+  gather_facts: True
+  tasks:
+    - name: create groups based on distro
+      group_by: key={{ ansible_distribution }}
+
+- name: do something to Ubuntu hosts
+  hosts: Ubuntu
+  sudo: True
+  tasks:
+    - name: install htop
+      apt: name=htop
+
+- name: do something to CentOS hosts
+  hosts: CentOS
+  sudo: True
+  tasks:
+    - name: install htop
+      yum: name=htop
+ 
 - name: Configure web server with Nginx
   hosts: webservers
   sudo: True

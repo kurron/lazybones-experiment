@@ -21,6 +21,14 @@
     - name: install htop
       yum: name=htop
  
+- name: show return value of command module
+  hosts: all
+  tasks:
+    - name: capture output of id command
+      command: id -un
+      register: login
+    - debug: var=login
+
 - name: Configure web server with Nginx
   hosts: webservers
   sudo: True

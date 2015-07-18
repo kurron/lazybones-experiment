@@ -28,6 +28,7 @@
       command: id -un
       register: login
     - debug: var=login
+    - debug: msg="Logged in as user {{ login.stdout }}" 
 
 - name: Configure web server with Nginx
   hosts: webservers

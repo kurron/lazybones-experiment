@@ -1,3 +1,5 @@
+#!/usr/bin/env ansible-playbook
+
 - name: Configure web server with Nginx
   hosts: webservers
   sudo: True

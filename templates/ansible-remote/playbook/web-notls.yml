@@ -3,12 +3,15 @@
 - name: Configure web server with Nginx
   hosts: webservers
   sudo: True
+  vars:
+      config_file: /etc/nginx/sites-available/default
+      server_name: localhost 
   tasks:
     - name: install nginx
       apt: name=nginx update_cache=yes
 
     - name: copy nginx config file
-      copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
+      copy: src=files/nginx.conf dest={{ config_file }}
 
     - name: enable configuration
       file: >

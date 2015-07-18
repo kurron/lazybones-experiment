@@ -28,7 +28,10 @@
       command: id -un
       register: login
     - debug: var=login
-    - debug: msg="Logged in as user {{ login.stdout }}" 
+    - debug: msg="Logged in as user {{ login.stdout }}"
+    - set_fact: devan={{ login.stdout }}
+    - debug: msg="The devan fact is {{ devan }}"
+    
 
 - name: Configure web server with Nginx
   hosts: webservers

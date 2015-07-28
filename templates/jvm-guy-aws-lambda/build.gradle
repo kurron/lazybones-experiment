@@ -14,34 +14,10 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-    }
-}
-
-plugins {
-    id "org.asciidoctor.convert" version "1.5.2"
-}
-
 description = 'Example Amazon Web Service Lambda Function'
 group = 'org.kurron.example'
 
-ext.coverageExcludes = ['org/kurron/example/rest/Application',
-                        'org/kurron/example/rest/ApplicationProperties',
-                        'org/kurron/example/rest/WebMvcConfiguration',
-                        'org/kurron/example/rest/outbound/RedisResource',
-                        'org/kurron/example/rest/inbound/MetaDataBlock',
-                        'org/kurron/example/rest/inbound/ErrorBlock',
-                        'org/kurron/example/rest/inbound/HypermediaControl',
-                        'org/kurron/example/rest/inbound/CustomHttpHeaders',
-                        'org/kurron/example/rest/inbound/HeaderBlock',
-                        'org/kurron/example/rest/exception/CustomErrorController',
-                        'org/kurron/example/rest/inbound/RestInboundGateway$_home_closure1',
-                        'crash/commands/ExampleCommand'
+ext.coverageExcludes = [
 ]
 
 apply plugin: 'build-announcements'
@@ -49,16 +25,12 @@ apply plugin: 'build-announcements'
 apply from: "$rootDir/gradle/repositories.gradle"
 apply from: "$rootDir/gradle/version.gradle"
 apply from: "$rootDir/gradle/groovy.gradle"
-apply from: "$rootDir/gradle/boot.gradle"
-//apply from: "$rootDir/gradle/cloud.gradle"
 apply from: "$rootDir/gradle/aws.gradle"
-apply from: "$rootDir/gradle/docker.gradle"
 apply from: "$rootDir/gradle/jacoco.gradle"
 apply from: "$rootDir/gradle/codenarc.gradle"
 apply from: "$rootDir/gradle/maven-publish.gradle"
 apply from: "$rootDir/gradle/spock.gradle"
 apply from: "$rootDir/gradle/cucumber-jvm.gradle"
-apply from: "$rootDir/gradle/rest-documentation.gradle"
 apply from: "$rootDir/gradle/dependency-exclusions.gradle"
 apply from: "$rootDir/gradle/conflicts.gradle"
 
@@ -70,14 +42,6 @@ dependencies {
 
 defaultTasks << 'clean'
 defaultTasks << 'build'
-
-if ( 'true' == runIntegrationTests ) {
-    defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests','updateJarWithApiDocumentation']
-    // make sure we deploy the docker container before running integration/acceptance tests
-    [acceptanceTests]*.dependsOn runDockerContainer
-    // make sure the docker image is cleaned up
-    [acceptanceTests]*.finalizedBy deleteDockerImage
-}
 
 // only publish artifacts if publishArtifacts is true, and the branch is either master or development
 if ( 'true' == publishArtifacts && branch in ['master', 'development'] ) {

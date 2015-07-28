@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kurron.example.rest
 
-import org.springframework.boot.context.properties.ConfigurationProperties
+package org.kurron.example.lambda
+
+import com.amazonaws.services.lambda.runtime.Context
+import com.amazonaws.services.lambda.runtime.RequestHandler
 
 /**
- * Application specific properties. This can be injected into beans to share values.
- */
-@ConfigurationProperties( value = 'example', ignoreUnknownFields = false )
-class ApplicationProperties {
+ * An example lamda function using input and output objects.
+ **/
+class EchoLambda implements RequestHandler<Void, String> {
 
-    /**
-     * The maximum payload size that the server will accept, in Megabytes.
-     */
-    long maxPayloadSize
-
-    /**
-     * Flag controlling whether or not the correlation id is required.
-     */
-    boolean requireCorrelationId
+    @Override
+    String handleRequest( final Void input, final Context context )
+    {
+        Calendar.instance.time.toString()
+    }
 }

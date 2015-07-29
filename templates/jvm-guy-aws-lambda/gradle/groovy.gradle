@@ -44,6 +44,16 @@ jar {
 
 jar.dependsOn 'createBuildInformationFile'
 
+task buildZip( type: Zip ) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtime
+    }
+}
+
+build.dependsOn buildZip
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource

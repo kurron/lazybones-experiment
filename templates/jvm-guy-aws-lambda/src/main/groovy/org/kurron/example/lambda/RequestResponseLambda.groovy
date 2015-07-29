@@ -25,6 +25,9 @@ class RequestResponseLambda implements RequestHandler<Request, Response> {
 
     @Override
     Response handleRequest( final Request input, final Context context ) {
-        new Response( greetings: "Hello, ${input.firstName} ${input.lastName}" )
+        def logger = context.logger
+        def message = "Hello, ${input.firstName} ${input.lastName}"
+        logger.log( message )
+        new Response( greetings: message )
     }
 }

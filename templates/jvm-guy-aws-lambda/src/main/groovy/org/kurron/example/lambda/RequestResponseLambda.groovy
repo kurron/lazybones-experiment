@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kurron.example.lambda
 
 import com.amazonaws.services.lambda.runtime.Context
@@ -25,8 +24,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler
 class RequestResponseLambda implements RequestHandler<Request, Response> {
 
     @Override
-    Response handleRequest( final Request input, final Context context )
-    {
+    Response handleRequest( final Request input, final Context context ) {
         new Response( greetings: "Hello, ${input.firstName} ${input.lastName}" )
     }
 }

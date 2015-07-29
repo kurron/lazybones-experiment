@@ -28,7 +28,7 @@ class StreamLambda implements RequestStreamHandler {
         def logger = context.logger
         def raw = input.getText( 'UTF-8' )
         logger.log( "Processing ${raw}" )
-        output.newWriter( 'UTF-8' ).write( raw.toUpperCase() )
+        output.write( raw.toUpperCase().bytes )
         output.flush()
     }
 }

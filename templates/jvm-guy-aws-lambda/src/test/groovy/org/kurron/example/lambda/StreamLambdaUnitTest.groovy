@@ -38,8 +38,10 @@ class StreamLambdaUnitTest extends Specification {
         when:
         sut.handleRequest( input, output, context )
 
+
         then:
-        def response = new String( output.toByteArray() )
-        response == allLowerCase
+        def bytes = output.toByteArray()
+        def response = new String( bytes )
+        response == allLowerCase.toUpperCase()
     }
 }

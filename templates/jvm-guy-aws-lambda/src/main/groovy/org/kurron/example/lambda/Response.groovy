@@ -16,17 +16,9 @@
 
 package org.kurron.example.lambda
 
-import com.amazonaws.services.lambda.runtime.Context
-import com.amazonaws.services.lambda.runtime.RequestHandler
-
 /**
- * An example lamda function using input and output objects.
+ * Response structure
  **/
-class EchoLambda implements RequestHandler<Request, Response> {
-
-    @Override
-    Response handleRequest( final Request input, final Context context )
-    {
-        new Response( greetings: "Hello, ${input.firstName} ${input.lastName}" )
-    }
+class Response {
+    String greetings
 }

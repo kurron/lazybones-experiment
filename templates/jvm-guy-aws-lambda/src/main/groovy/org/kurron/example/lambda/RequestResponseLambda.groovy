@@ -22,7 +22,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler
 /**
  * An example lamda function using input and output objects.
  **/
-class EchoLambda implements RequestHandler<Request, Response> {
+class RequestResponseLambda implements RequestHandler<Request, Response> {
 
     @Override
     Response handleRequest( final Request input, final Context context )

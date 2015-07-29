@@ -37,7 +37,6 @@ apply from: "$rootDir/gradle/conflicts.gradle"
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
     compile "org.kurron:tools-java:${toolsJavaVersion}"
-    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jacksonVersion}"
 }
 
 defaultTasks << 'clean'

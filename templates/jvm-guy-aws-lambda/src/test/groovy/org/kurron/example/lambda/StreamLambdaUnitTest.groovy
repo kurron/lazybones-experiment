@@ -38,7 +38,6 @@ class StreamLambdaUnitTest extends Specification {
         when:
         sut.handleRequest( input, output, context )
 
-
         then:
         def bytes = output.toByteArray()
         def response = new String( bytes )

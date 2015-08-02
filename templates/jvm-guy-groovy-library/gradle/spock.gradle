@@ -19,5 +19,5 @@ dependencies {
         exclude module: 'groovy-all'
         exclude module: 'junit-dep'
     }
-    testCompile "junit:junit:${junitVersion}"
+//    testCompile "junit:junit:${junitVersion}"
 }

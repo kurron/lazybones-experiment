@@ -22,7 +22,6 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 
 /**
  * This is the main entry into the application. Running from the command-line using embedded Tomcat will invoke
@@ -66,14 +65,4 @@ class Application {
         new FeedbackAwareBeanPostProcessor( serviceCode, serviceInstance, realm )
     }
 
-    /**
-     * This bean will permit Jackson to be the codec for both JSON and XML.
-     * @return properly configured bean.
-     */
-    @Bean
-    Jackson2ObjectMapperBuilder jacksonBuilder() {
-        def bean = new Jackson2ObjectMapperBuilder()
-        bean.createXmlMapper( true )
-        bean
-    }
 }

@@ -21,13 +21,24 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.shell.CommandLine
+import org.springframework.shell.core.ExitShellRequest
+import org.springframework.shell.core.JLineShellComponent
 
 /**
  * This is the main entry into the application. Running from the command-line using embedded Tomcat will invoke
  * the main() method.
  */
 @SpringBootApplication
+@ComponentScan(
+        basePackages = [ 'org.kurron.example.rest',
+                         "org.springframework.shell.commands",
+                         "org.springframework.shell.converters",
+                         "org.springframework.shell.plugin.support" ]
+)
 @EnableConfigurationProperties( ApplicationProperties )
 @Slf4j
 @SuppressWarnings( 'GStringExpressionWithinString' )
@@ -37,9 +48,16 @@ class Application {
      * Called to start the entire application. Typically, java -jar foo.jar.
      * @param args any arguments to the program.
      */
+/*
     static void main( String[] args ) {
         log.info '--- Running embedded web container ----'
         SpringApplication.run( Application, args )
+    }
+*/
+
+    static void main( String[] args ) {
+        def application = new Application()
+        application.runShell()
     }
 
     /**
@@ -60,9 +78,35 @@ class Application {
     @Value( '${info.app.realm}' )
     String realm
 
+    private ApplicationContext ctx
+
+    public Application(){
+        ctx = SpringApplication.run( Application )
+    }
+
     @Bean
     FeedbackAwareBeanPostProcessor feedbackAwareBeanPostProcessor() {
         new FeedbackAwareBeanPostProcessor( serviceCode, serviceInstance, realm )
     }
 
+    @Bean
+    JLineShellComponent jLineShellComponent() {
+        new JLineShellComponent()
+    }
+
+    @Bean
+    CommandLine commandLine() {
+        new CommandLine( null,3000, null )
+    }
+
+
+
+    private ExitShellRequest runShell() {
+        JLineShellComponent shell = ctx.getBean( JLineShellComponent )
+        shell.start()
+        shell.promptLoop()
+        def exitShellRequest = shell.getExitShellRequest()
+        shell.waitForComplete()
+        exitShellRequest
+    }
 }

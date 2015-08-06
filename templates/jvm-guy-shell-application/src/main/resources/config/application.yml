@@ -16,7 +16,7 @@ endpoints:
 # show the banner file during startup
 spring:
     main:
-        show_banner: true
+        show_banner: false
     # Redis configuration (see RedisProperties for details)
     redis:
         database: 0 # redis relies on 0-based index database names

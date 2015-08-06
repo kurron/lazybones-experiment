@@ -19,11 +19,12 @@ import groovy.util.logging.Slf4j
 import org.kurron.feedback.FeedbackAwareBeanPostProcessor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
-import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.Configuration
 import org.springframework.shell.CommandLine
 import org.springframework.shell.core.ExitShellRequest
 import org.springframework.shell.core.JLineShellComponent
@@ -32,7 +33,9 @@ import org.springframework.shell.core.JLineShellComponent
  * This is the main entry into the application. Running from the command-line using embedded Tomcat will invoke
  * the main() method.
  */
-@SpringBootApplication
+//@SpringBootApplication
+@Configuration
+@EnableAutoConfiguration
 @ComponentScan(
         basePackages = [ 'org.kurron.example.rest',
                          "org.springframework.shell.commands",
@@ -98,8 +101,6 @@ class Application {
     CommandLine commandLine() {
         new CommandLine( null,3000, null )
     }
-
-
 
     private ExitShellRequest runShell() {
         JLineShellComponent shell = ctx.getBean( JLineShellComponent )

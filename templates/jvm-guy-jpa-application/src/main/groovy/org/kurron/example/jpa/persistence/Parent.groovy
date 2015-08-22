@@ -30,7 +30,7 @@ class Parent {
     String name
 
     @Transient
-    String doNotSaveMe = 'This should not be stored in the database'
+    String doNotSaveMe = 'Do not store'
 
     // this is a read-only derived property using database functions to fill the value at load time
     @Formula( 'substr( name, 1, 2 )' )
@@ -44,12 +44,6 @@ class Parent {
     @ColumnTransformer( read = 'IMPERIALWEIGHT / 2.20462', write = '? * 2.20462' )
 */
     Integer weight
-
-/*
-    @Temporal( TemporalType.TIMESTAMP )
-    @HibernateGenerated( GenerationTime.ALWAYS )
-*/
-    Calendar lastModified
 
     @Column( insertable = false, columnDefinition = "varchar(255) default 'Hello, there.'" )
     @Size( min = 1, max = 255, message = 'This should have been defaulted')

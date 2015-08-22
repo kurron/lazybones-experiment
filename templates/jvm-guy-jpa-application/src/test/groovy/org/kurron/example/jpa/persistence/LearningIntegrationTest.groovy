@@ -23,8 +23,7 @@ class LearningIntegrationTest extends Specification implements GenerationAbility
 
         when: 'record is written'
         Parent stored = sut.save( new Parent( name: randomHexString(),
-                                              color: randomElement( Color.values() as List ) as Color,
-                                              weight: randomInteger( 10, 100 ) ) )
+                                              color: randomElement( Color.values() as List ) as Color ) )
 
         then: 'we can read it from the database'
         Parent read = sut.findOne( stored.id )

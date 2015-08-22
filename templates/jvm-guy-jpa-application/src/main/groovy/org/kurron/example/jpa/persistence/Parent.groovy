@@ -36,15 +36,6 @@ class Parent {
     @Formula( 'substr( name, 1, 2 )' )
     String shortName
 
-/*
-    // we store weight in pounds but the application wants kilograms
-    // be careful in queries since there is no index for this "column" -- full table scans!
-    @Column( name = 'IMPERIALWEIGHT' )
-    @NotNull( message = 'Weight cannot be null!' )
-    @ColumnTransformer( read = 'IMPERIALWEIGHT / 2.20462', write = '? * 2.20462' )
-*/
-    Integer weight
-
     @Column( insertable = false, columnDefinition = "varchar(255) default 'Hello, there.'" )
     @Size( min = 1, max = 255, message = 'This should have been defaulted')
     @HibernateGenerated( GenerationTime.INSERT )

@@ -35,7 +35,7 @@ class Parent {
 
     // this is a read-only derived property using database functions to fill the value at load time
     @Formula( 'substr( name, 1, 2 )' )
-    String shortName
+    String calculated
 
     // store things in upper case but always show lower case
     @Column( name = 'TRANSFORMED' )
@@ -46,7 +46,7 @@ class Parent {
     @Column( insertable = false, columnDefinition = "varchar(255) default 'Hello, there.'" )
     @Size( min = 1, max = 255, message = 'This should have been defaulted')
     @HibernateGenerated( GenerationTime.INSERT )
-    String alwaysTheSame
+    String defaulted
 
     @NotNull( message = 'Color cannot be null!' )
     @Enumerated( EnumType.STRING )

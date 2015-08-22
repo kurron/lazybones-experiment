@@ -80,4 +80,6 @@ class Application {
         bean.createXmlMapper( true )
         bean
     }
+
+    //TODO: do I need to install an instance of SpringNamingStrategy or does Boot do it for me?
 }

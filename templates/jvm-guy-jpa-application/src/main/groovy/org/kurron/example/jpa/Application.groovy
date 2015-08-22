@@ -16,14 +16,10 @@
 package org.kurron.example.jpa
 
 import groovy.util.logging.Slf4j
-import org.kurron.feedback.FeedbackAwareBeanPostProcessor
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.context.annotation.Bean
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
 /**
@@ -47,39 +43,39 @@ class Application {
         SpringApplication.run( Application, args )
     }
 
-    /**
-     * Indicates the type of service emitting the messages.
-     */
-    @Value( '${info.app.name}' )
-    String serviceCode
+//    /**
+//     * Indicates the type of service emitting the messages.
+//     */
+//    @Value( '${info.app.name}' )
+//    String serviceCode
+//
+//    /**
+//     * Indicates the instance of the service emitting the messages.
+//     */
+//    @Value( '${PID}' )
+//    String serviceInstance
+//
+//    /**
+//     * Indicates the logical group of the service emitting the messages.
+//     */
+//    @Value( '${info.app.realm}' )
+//    String realm
 
-    /**
-     * Indicates the instance of the service emitting the messages.
-     */
-    @Value( '${PID}' )
-    String serviceInstance
-
-    /**
-     * Indicates the logical group of the service emitting the messages.
-     */
-    @Value( '${info.app.realm}' )
-    String realm
-
-    @Bean
-    FeedbackAwareBeanPostProcessor feedbackAwareBeanPostProcessor() {
-        new FeedbackAwareBeanPostProcessor( serviceCode, serviceInstance, realm )
-    }
-
-    /**
-     * This bean will permit Jackson to be the codec for both JSON and XML.
-     * @return properly configured bean.
-     */
-    @Bean
-    Jackson2ObjectMapperBuilder jacksonBuilder() {
-        def bean = new Jackson2ObjectMapperBuilder()
-        bean.createXmlMapper( true )
-        bean
-    }
+//    @Bean
+//    FeedbackAwareBeanPostProcessor feedbackAwareBeanPostProcessor() {
+//        new FeedbackAwareBeanPostProcessor( serviceCode, serviceInstance, realm )
+//    }
+//
+//    /**
+//     * This bean will permit Jackson to be the codec for both JSON and XML.
+//     * @return properly configured bean.
+//     */
+//    @Bean
+//    Jackson2ObjectMapperBuilder jacksonBuilder() {
+//        def bean = new Jackson2ObjectMapperBuilder()
+//        bean.createXmlMapper( true )
+//        bean
+//    }
 
     //TODO: do I need to install an instance of SpringNamingStrategy or does Boot do it for me?
 }

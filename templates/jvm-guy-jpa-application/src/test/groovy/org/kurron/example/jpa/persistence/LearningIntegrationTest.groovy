@@ -1,6 +1,7 @@
 package org.kurron.example.jpa.persistence
 
 import org.kurron.example.jpa.Application
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
@@ -10,4 +11,13 @@ import spock.lang.Specification
  */
 @ContextConfiguration( loader = SpringApplicationContextLoader, classes = Application )
 class LearningIntegrationTest extends Specification {
+
+    @Autowired
+    ParentRepository sut
+
+    def 'exercise CRUD support'() {
+
+        given: 'subject under test'
+        assert sut
+    }
 }

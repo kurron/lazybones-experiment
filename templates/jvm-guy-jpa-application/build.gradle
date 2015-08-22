@@ -55,7 +55,8 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
     compile "org.kurron:tools-groovy:${toolsGroovyVersion}"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jacksonVersion}"
-    runtime "org.hsqldb:hsqldb:${hsqldbVersion}"
+//    runtime "org.hsqldb:hsqldb:${hsqldbVersion}"
+    runtime "mysql:mysql-connector-java:${mySqlDriverVersion}"
 }
 
 defaultTasks << 'clean'

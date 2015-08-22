@@ -10,6 +10,7 @@ import javax.persistence.Id
 import javax.persistence.Transient
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
+import org.hibernate.annotations.ColumnTransformer
 import org.hibernate.annotations.Formula
 import org.hibernate.annotations.Generated as HibernateGenerated
 import org.hibernate.annotations.GenerationTime
@@ -35,6 +36,12 @@ class Parent {
     // this is a read-only derived property using database functions to fill the value at load time
     @Formula( 'substr( name, 1, 2 )' )
     String shortName
+
+    // store things in upper case but always show lower case
+    @Column( name = 'TRANSFORMED' )
+    @NotNull( message = 'Transformed cannot be null!' )
+    @ColumnTransformer( read = 'LOWER( TRANSFORMED )', write = 'UPPER( ? )' )
+    String transformed
 
     @Column( insertable = false, columnDefinition = "varchar(255) default 'Hello, there.'" )
     @Size( min = 1, max = 255, message = 'This should have been defaulted')

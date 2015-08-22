@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import groovy.util.logging.Slf4j
+import org.kurron.example.jpa.ApplicationProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ContextConfiguration

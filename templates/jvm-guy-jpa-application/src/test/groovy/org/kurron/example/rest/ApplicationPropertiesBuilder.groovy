@@ -15,6 +15,8 @@
  */
 package org.kurron.example.rest
 
+import org.kurron.example.jpa.ApplicationProperties
+
 /**
  * Constructs an ApplicationProperties object with reasonable defaults.
  */

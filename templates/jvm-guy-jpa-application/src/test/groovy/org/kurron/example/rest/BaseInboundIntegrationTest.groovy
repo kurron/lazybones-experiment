@@ -18,6 +18,7 @@ package org.kurron.example.rest
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.experimental.categories.Category
 import org.kurron.categories.InboundIntegrationTest
+import org.kurron.example.jpa.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest

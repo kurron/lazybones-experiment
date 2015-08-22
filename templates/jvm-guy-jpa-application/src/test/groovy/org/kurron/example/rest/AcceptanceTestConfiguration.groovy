@@ -16,6 +16,7 @@
 package org.kurron.example.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.kurron.example.jpa.ApplicationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.TestRestTemplate
 import org.springframework.context.annotation.Bean

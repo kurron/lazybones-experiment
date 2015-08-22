@@ -17,6 +17,7 @@ package org.kurron.example.rest
 
 import org.junit.experimental.categories.Category
 import org.kurron.categories.OutboundIntegrationTest
+import org.kurron.example.jpa.Application
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.test.context.ContextConfiguration

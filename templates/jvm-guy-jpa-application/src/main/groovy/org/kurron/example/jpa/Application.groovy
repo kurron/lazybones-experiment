@@ -22,13 +22,17 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
+import org.springframework.transaction.annotation.EnableTransactionManagement
 
 /**
  * This is the main entry into the application. Running from the command-line using embedded Tomcat will invoke
  * the main() method.
  */
 @SpringBootApplication
+@EnableJpaRepositories
+@EnableTransactionManagement
 @EnableConfigurationProperties( ApplicationProperties )
 @Slf4j
 @SuppressWarnings( 'GStringExpressionWithinString' )

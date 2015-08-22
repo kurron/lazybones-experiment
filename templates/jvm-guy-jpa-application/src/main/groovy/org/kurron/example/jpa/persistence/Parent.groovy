@@ -3,6 +3,8 @@ package org.kurron.example.jpa.persistence
 import groovy.transform.Canonical
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Temporal
@@ -49,4 +51,8 @@ class Parent {
     @Column( insertable = false, columnDefinition = "default 'Hello, there.'" )
     @HibernateGenerated( GenerationTime.INSERT )
     String alwaysTheSame
+
+    @NotNull
+    @Enumerated( EnumType.STRING )
+    Color color
 }

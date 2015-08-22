@@ -17,10 +17,8 @@ package org.kurron.example.rest
 
 import org.junit.experimental.categories.Category
 import org.kurron.categories.OutboundIntegrationTest
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
-import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.test.context.ContextConfiguration
 
 /**
@@ -32,6 +30,4 @@ import org.springframework.test.context.ContextConfiguration
 @Category( OutboundIntegrationTest )
 abstract class BaseOutboundIntegrationTest extends BaseTest {
 
-    @Autowired
-    protected RedisTemplate redisTemplate
 }

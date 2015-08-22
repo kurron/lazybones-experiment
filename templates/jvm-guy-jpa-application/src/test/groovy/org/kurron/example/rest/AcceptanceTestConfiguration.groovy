@@ -19,8 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.TestRestTemplate
 import org.springframework.context.annotation.Bean
-import org.springframework.hateoas.hal.Jackson2HalModule
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.RestOperations
 
@@ -44,11 +42,6 @@ class AcceptanceTestConfiguration {
         template.messageConverters.clear()
         template.messageConverters.addAll( toKeep )
         template
-    }
-
-    @Bean
-    ObjectMapper objectMapper() {
-        new Jackson2ObjectMapperBuilder().modules( new Jackson2HalModule() ).build()
     }
 
 }

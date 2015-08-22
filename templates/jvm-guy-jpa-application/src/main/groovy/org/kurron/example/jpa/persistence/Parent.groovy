@@ -7,12 +7,9 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.Temporal
-import javax.persistence.TemporalType
 import javax.persistence.Transient
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
-import org.hibernate.annotations.ColumnTransformer
 import org.hibernate.annotations.Formula
 import org.hibernate.annotations.Generated as HibernateGenerated
 import org.hibernate.annotations.GenerationTime
@@ -28,7 +25,7 @@ class Parent {
     @GeneratedValue( generator = Constants.GENERATOR_STRATEGY )
     Long id
 
-    @NotNull
+    @NotNull( message = 'Name cannot be null!' )
     @Size( min = 2, max = 255, message = 'Name is required, 255 character maximum')
     String name
 
@@ -39,20 +36,27 @@ class Parent {
     @Formula( 'substr( name, 1, 2 )' )
     String shortName
 
+/*
     // we store weight in pounds but the application wants kilograms
     // be careful in queries since there is no index for this "column" -- full table scans!
+    @Column( name = 'IMPERIALWEIGHT' )
+    @NotNull( message = 'Weight cannot be null!' )
     @ColumnTransformer( read = 'IMPERIALWEIGHT / 2.20462', write = '? * 2.20462' )
-    int imperialWeight
+*/
+    Integer weight
 
+/*
     @Temporal( TemporalType.TIMESTAMP )
     @HibernateGenerated( GenerationTime.ALWAYS )
+*/
     Calendar lastModified
 
-    @Column( insertable = false, columnDefinition = "default 'Hello, there.'" )
+    @Column( insertable = false, columnDefinition = "varchar(255) default 'Hello, there.'" )
+    @Size( min = 1, max = 255, message = 'This should have been defaulted')
     @HibernateGenerated( GenerationTime.INSERT )
     String alwaysTheSame
 
-    @NotNull
+    @NotNull( message = 'Color cannot be null!' )
     @Enumerated( EnumType.STRING )
     Color color
 }

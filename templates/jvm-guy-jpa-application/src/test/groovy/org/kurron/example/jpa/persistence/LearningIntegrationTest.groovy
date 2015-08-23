@@ -67,7 +67,11 @@ class LearningIntegrationTest extends Specification implements GenerationAbility
         assert entityManager
 
         when: 'record is written'
-        Blob blob = new PassThroughBlob( randomByteArray( 64 ) )
+        Blob blob = new PassThroughBlob( randomByteArray( 64 ) ) // this is cheating but I couldn't get the Hibernate way to work
+/*
+        Session session = entityManager.unwrap( Session )
+        Blob busted = session.lobHelper.createBlob( randomByteArray( 64 ) )
+*/
         def address = new Address( street: randomHexString(),
                                    zipcode: randomHexString(),
                                    inserted: Calendar.instance,

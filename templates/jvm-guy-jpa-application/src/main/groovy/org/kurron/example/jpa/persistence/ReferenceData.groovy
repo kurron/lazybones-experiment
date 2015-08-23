@@ -16,7 +16,7 @@ import org.hibernate.annotations.Synchronize
 @Canonical
 @Entity
 @HibernateImmutable
-@Subselect( value = 'select id, name from parent' )
+@Subselect( value = 'select p.name from parent p where p.id = id' )
 @Synchronize( ['parent'] )
 class ReferenceData {
 

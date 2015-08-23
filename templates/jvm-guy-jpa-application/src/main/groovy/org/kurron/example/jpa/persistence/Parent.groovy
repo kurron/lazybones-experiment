@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenerationTime
 /**
  * This is an entity, meaning it can stand on its own, that can be associated to 1 or more children.
  */
-@Canonical
+@Canonical( excludes = ['calculated', 'transformed'] )
 @Entity
 class Parent {
 

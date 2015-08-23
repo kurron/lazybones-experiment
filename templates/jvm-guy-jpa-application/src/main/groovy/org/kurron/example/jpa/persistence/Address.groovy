@@ -1,8 +1,10 @@
 package org.kurron.example.jpa.persistence
 
 import groovy.transform.Canonical
+import java.sql.Blob
 import javax.persistence.Column
 import javax.persistence.Embeddable
+import javax.persistence.Lob
 import javax.persistence.Temporal
 import javax.persistence.TemporalType
 import javax.validation.constraints.NotNull
@@ -11,7 +13,7 @@ import javax.validation.constraints.Size
 /**
  * This is a value type, meaning it cannot exist on its own and must be associated to a parent.
  */
-@Canonical
+@Canonical( excludes = 'loadedLazily' )
 @Embeddable
 class Address {
 
@@ -33,4 +35,8 @@ class Address {
 
     @NotNull
     byte[] loadedEagerly
+
+    @NotNull
+    @Lob
+    Blob loadedLazily
 }

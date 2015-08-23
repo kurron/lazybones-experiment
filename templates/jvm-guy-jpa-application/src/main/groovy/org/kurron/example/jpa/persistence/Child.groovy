@@ -21,4 +21,7 @@ class Child {
     @NotNull
     @Size( min = 1, max = 255, message = 'Name is required, 255 character maximum')
     String name
+
+    // no annotation needed because the Address class is annotated
+    Address address
 }

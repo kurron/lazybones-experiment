@@ -30,4 +30,7 @@ class Address {
     @Column( nullable = false ) // used for DDL generation
     @Temporal( TemporalType.TIMESTAMP )
     Calendar inserted
+
+    @NotNull
+    byte[] loadedEagerly
 }

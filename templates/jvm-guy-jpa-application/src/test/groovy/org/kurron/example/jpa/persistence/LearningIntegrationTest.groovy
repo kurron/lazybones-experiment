@@ -61,7 +61,10 @@ class LearningIntegrationTest extends Specification implements GenerationAbility
         assert childRepository
 
         when: 'record is written'
-        def address = new Address( street: randomHexString(), zipcode: randomHexString(), inserted: Calendar.instance )
+        def address = new Address( street: randomHexString(),
+                                   zipcode: randomHexString(),
+                                   inserted: Calendar.instance,
+                                   loadedEagerly: randomByteArray( 32 ))
         Child stored = childRepository.save( new Child( name: randomHexString(), address: address ) )
 
         then: 'we can read it from the database'

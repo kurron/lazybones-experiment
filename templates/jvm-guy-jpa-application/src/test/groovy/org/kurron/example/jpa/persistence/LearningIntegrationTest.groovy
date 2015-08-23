@@ -32,7 +32,7 @@ class LearningIntegrationTest extends Specification implements GenerationAbility
         then: 'we can read it from the database'
         Parent read = parentRepository.findOne( stored.id )
         read
-        // they will never be equal due to the calcudate field
+        // they will never be equal due to the calculate field
         // read == stored
     }
 

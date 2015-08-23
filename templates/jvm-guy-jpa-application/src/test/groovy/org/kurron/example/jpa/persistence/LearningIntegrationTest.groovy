@@ -19,7 +19,10 @@ class LearningIntegrationTest extends Specification implements GenerationAbility
     @Autowired
     ReferenceDataRepository referenceDataRepository
 
-    def 'exercise CRUD support'() {
+    @Autowired
+    ChildRepository childRepository
+
+    def 'exercise parent CRUD support'() {
 
         given: 'subject under test'
         assert parentRepository
@@ -51,4 +54,18 @@ class LearningIntegrationTest extends Specification implements GenerationAbility
         ReferenceData read = referenceDataRepository.findOne( stored.id )
         read.name == stored.name
     }
+
+    def 'exercise child CRUD support'() {
+
+        given: 'subject under test'
+        assert childRepository
+
+        when: 'record is written'
+        Child stored = childRepository.save( new Child( name: randomHexString() ) )
+
+        then: 'we can read it from the database'
+        Child read = childRepository.findOne( stored.id )
+        read == stored
+    }
+
 }

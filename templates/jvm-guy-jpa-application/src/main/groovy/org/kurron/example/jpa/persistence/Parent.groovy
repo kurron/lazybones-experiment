@@ -2,6 +2,7 @@ package org.kurron.example.jpa.persistence
 
 import groovy.transform.Canonical
 import javax.persistence.Column
+import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -51,4 +52,7 @@ class Parent {
     @NotNull( message = 'Color cannot be null!' )
     @Enumerated( EnumType.STRING )
     Color color
+
+    @ElementCollection
+    Set<String> oneToManyValueTypes = new HashSet<>()
 }

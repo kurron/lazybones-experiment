@@ -2,11 +2,12 @@ package org.kurron.example.jpa.persistence
 
 import java.sql.Blob
 import javax.persistence.EntityManager
+import javax.transaction.Transactional
+import org.hibernate.Session
 import org.kurron.example.jpa.Application
 import org.kurron.traits.GenerationAbility
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
-import org.springframework.jdbc.support.lob.PassThroughBlob
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
@@ -14,6 +15,7 @@ import spock.lang.Specification
  * A test to see how Spring Data JPA and Spring 4 work together.
  */
 @ContextConfiguration( loader = SpringApplicationContextLoader, classes = Application )
+@Transactional
 class LearningIntegrationTest extends Specification implements GenerationAbility {
 
     @Autowired
@@ -31,9 +33,11 @@ class LearningIntegrationTest extends Specification implements GenerationAbility
         assert parentRepository
 
         when: 'record is written'
+        Set<String> valueObjects = (1..20).collect { randomHexString() } as Set
         Parent stored = parentRepository.save( new Parent( name: randomHexString(),
                                               color: randomElement( Color.values() as List ) as Color,
-                                              transformed: randomHexString() ) )
+                                              transformed: randomHexString(),
+                                              oneToManyValueTypes: valueObjects ) )
 
         then: 'we can read it from the database'
         Parent read = parentRepository.findOne( stored.id )
@@ -67,11 +71,9 @@ class LearningIntegrationTest extends Specification implements GenerationAbility
         assert entityManager
 
         when: 'record is written'
-        Blob blob = new PassThroughBlob( randomByteArray( 64 ) ) // this is cheating but I couldn't get the Hibernate way to work
-/*
         Session session = entityManager.unwrap( Session )
-        Blob busted = session.lobHelper.createBlob( randomByteArray( 64 ) )
-*/
+        Blob blob = session.lobHelper.createBlob( randomByteArray( 64 ) )
+
         def address = new Address( street: randomHexString(),
                                    zipcode: randomHexString(),
                                    inserted: Calendar.instance,

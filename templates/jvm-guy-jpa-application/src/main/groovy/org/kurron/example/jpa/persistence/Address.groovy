@@ -3,6 +3,8 @@ package org.kurron.example.jpa.persistence
 import groovy.transform.Canonical
 import javax.persistence.Column
 import javax.persistence.Embeddable
+import javax.persistence.Temporal
+import javax.persistence.TemporalType
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
@@ -23,4 +25,9 @@ class Address {
     @Column( nullable = false ) // used for DDL generation
     @Size( min = 1, max = 255, message = 'Zip Code is required, 255 character maximum')
     String zipcode
+
+    @NotNull
+    @Column( nullable = false ) // used for DDL generation
+    @Temporal( TemporalType.TIMESTAMP )
+    Calendar inserted
 }

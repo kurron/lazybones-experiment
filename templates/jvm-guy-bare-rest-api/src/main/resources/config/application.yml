@@ -47,7 +47,7 @@ security:
 management:
     context-path: /operations
     security:
-    enabled: false
+        enabled: false
 
 # operations shell
 shell:
@@ -60,13 +60,6 @@ shell:
 # which logback configuration file to use
 logging:
     config: classpath:logback.xml
-
-eureka:
-    client:
-        serviceUrl:
-            defaultZone: http://localhost:8761/eureka/
-    instance:
-        preferIpAddress: true
 
 example:
     maxPayloadSize: 10

@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-repositories {
-    jcenter()
-    maven {
-        url = releaseURL
-    }
-    maven {
-        name = 'kurron'
-        url = 'http://dl.bintray.com/kurron/maven'
-    }
-    maven {
-        name = 'Spring Milestone'
-        url = 'https://repo.spring.io/milestone'
-    }
-    maven {
-        name = 'Spring snapshots'
-        url = 'https://repo.spring.io/snapshot'
-    }
-
+dependencies {
+    compile('org.springframework.cloud:spring-cloud-cloudfoundry-discovery')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+    compile('org.springframework.cloud:spring-cloud-starter-consul-discovery')
+    compile('org.springframework.cloud:spring-cloud-starter-zookeeper-discovery')
 }

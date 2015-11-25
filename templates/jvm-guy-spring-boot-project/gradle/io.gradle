@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-repositories {
-    jcenter()
-    maven {
-        url = releaseURL
-    }
-    maven {
-        name = 'kurron'
-        url = 'http://dl.bintray.com/kurron/maven'
-    }
-    maven {
-        name = 'Spring Milestone'
-        url = 'https://repo.spring.io/milestone'
-    }
-    maven {
-        name = 'Spring snapshots'
-        url = 'https://repo.spring.io/snapshot'
-    }
-
+dependencies {
+    compile('org.activiti:activiti-spring-boot-starter-basic:5.19.0')
+    compile('org.springframework.boot:spring-boot-starter-amqp')
+    compile('org.springframework.boot:spring-boot-starter-artemis')
+    compile('org.springframework.boot:spring-boot-starter-batch')
+    compile('org.springframework.boot:spring-boot-starter-hornetq')
+    compile('org.springframework.boot:spring-boot-starter-integration')
+    compile('org.springframework.boot:spring-boot-starter-mail')
 }

@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-repositories {
-    jcenter()
-    maven {
-        url = releaseURL
-    }
-    maven {
-        name = 'kurron'
-        url = 'http://dl.bintray.com/kurron/maven'
-    }
-    maven {
-        name = 'Spring Milestone'
-        url = 'https://repo.spring.io/milestone'
-    }
-    maven {
-        name = 'Spring snapshots'
-        url = 'https://repo.spring.io/snapshot'
-    }
-
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-freemarker')
+    compile('org.springframework.boot:spring-boot-starter-groovy-templates')
+    compile('org.springframework.boot:spring-boot-starter-mustache')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-velocity')
 }

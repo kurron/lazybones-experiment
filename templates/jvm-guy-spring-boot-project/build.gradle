@@ -19,7 +19,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "io.spring.gradle:dependency-management-plugin:${dependencyPluginVersion}" 
+        classpath "io.spring.gradle:dependency-management-plugin:${dependencyPluginVersion}"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
 

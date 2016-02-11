@@ -18,6 +18,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-actuator-docs')
     compile('org.springframework.boot:spring-boot-starter-remote-shell') {
-        exclude module: 'groovy-all'
+        exclude module: 'groovy'
     }
 }

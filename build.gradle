@@ -17,8 +17,8 @@ ext.globalExcludes = ['**/*.swp', '.gradle', 'build', '.idea', '*.iml', '*.ipr',
 lazybones {
     packageExcludes = globalExcludes 
     repositoryUrl = 'https://api.bintray.com/content/kurron/lazybones'
-    repositoryUsername = bintrayUsername 
-    repositoryApiKey = bintrayApiKey 
+    repositoryUsername = System.getenv("BINTRAY_USER_NAME")
+    repositoryApiKey = System.getenv("BINTRAY_API_KEY")
     publish = true
 
     // template specific exclusions

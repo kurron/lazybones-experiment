@@ -23,3 +23,14 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-websocket')
     testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 }
+
+//TODO: only works if the Groovy plugin has previously been included.  Shoudl probably check.
+task documentationTests( type: Test ) {
+    group 'Documentation'
+    description = 'Runs the tests that generate the examples for the API documentation.'
+    includes << '**/DocumentationGenerationTest.class'
+    reports.html.destination =  "$buildDir/reports/documentationTests"
+    // if the profile system property is set, copy into forked child process
+    def springProfilesActive = System.properties['spring.profiles.active']
+    if ( springProfilesActive ) { systemProperties['spring.profiles.active'] = springProfilesActive }
+}

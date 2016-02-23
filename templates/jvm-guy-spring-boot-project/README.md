@@ -1,41 +1,59 @@
-#Overview
-This sample REST application is built on the following technology stack:
+# Overview
+This project ... 
 
-* Java 8
-* Gradle
-* Groovy
-* Spring Boot
-* Spring MVC
-* Spring Cloud
-* Spring REST Docs
-* Spring HATEOAS
-* Docker
-* JaCoCo
-* CodeNarc
-* Spock
-* Cucumber JVM
-* Redis
-* Tomcat 8
-* SLF4J
-* Logback
-* Jackson
+# Prerequisites
 
-The entire project contains 74 files and showcases the following:
+* [JDK 8](http://www.oracle.com/technetwork/java/index.html) installed and working
+* Building under [Ubuntu Linux](http://www.ubuntu.com/) is supported and recommended 
 
-* Modularizing the Gradle build for greater understandability
-* Spring Boot simplifying dependency and configuration management
-* Spring Boot managing packaging and self-hosting via embedded Tomcat
-* Automated code inspection via CodeNarc
-* Automated testing via Spock and Cucumber JVM
-* Automated test detection via JaCoCo
-* Application packaging and deployment via Docker
-* Automated REST API documentation generation via Sprig REST Docs
-* Automated acceptance testing via Cucumber JVM
-* Construction of hypermedia controls via Spring HATEOAS and Jackson
-* Marking and running different types of test in different contexts via JUnit Categories
-* Categorizing Spring beans using custom stereotypes for clearer readability and programmer intent
-* Thorough error handling using custom Spring MVC error handlers
-* Enterprise class log message handling designed to use in distributed logging solutions, such as Logback
+# Building
+Type `./gradlew` to build and assemble the service.
 
-The application itself is trivial.  It allows for temporary storage of binary assets in a Redis database.  The
-REST API documentation provides details, if you are interested.
+# Installation
+TODO
+
+# Tips and Tricks
+
+## Verifying The Setup
+TODO
+
+## Running Integration Tests From Gradle
+TODO
+
+## Running Acceptance Tests From Gradle
+TODO
+
+## Running Acceptance Tests From IDEA
+TODO
+
+## Operations Endpoints
+The services supports a variety of endpoints useful to an Operations engineer.
+
+* /operations - Provides a hypermedia-based “discovery page” for the other endpoints.
+* /operations/autoconfig - Displays an auto-configuration report showing all auto-configuration candidates and the reason why they ‘were’ or ‘were not’ applied.
+* /operations/beans - Displays a complete list of all the Spring beans in your application.
+* /operations/configprops - Displays a collated list of all `@ConfigurationProperties`.
+* /operations/dump - Performs a thread dump.
+* /operations/env - Exposes properties from Spring’s `ConfigurableEnvironment`.
+* /operations/flyway - Shows any `Flyway` database migrations that have been applied.
+* /operations/health - Shows application health information.
+* /operations/info - Displays arbitrary application info.
+* /operations/liquibase - Shows any `Liquibase` database migrations that have been applied.
+* /operations/logfile - Returns the contents of the logfile (if logging.file or logging.path properties have been set).
+* /operations/metrics - Shows ‘metrics’ information for the current application.
+* /operations/mappings - Displays a collated list of all `@RequestMapping` paths.
+* /operations/shutdown - Allows the application to be gracefully shutdown (not enabled by default).
+* /operations/trace - Displays trace information (by default the last few HTTP requests).
+
+## REST API Documentation
+You can find the current API documentation at `/docs/index.hml`.
+
+# Troubleshooting
+
+TODO
+
+# License and Credits
+This project is licensed under the [Apache License Version 2.0, January 2004](http://www.apache.org/licenses/).
+
+# List of Changes
+

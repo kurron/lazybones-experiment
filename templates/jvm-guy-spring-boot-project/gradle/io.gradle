@@ -22,5 +22,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-hornetq')
     compile('org.springframework.boot:spring-boot-starter-integration')
     compile('org.springframework.boot:spring-boot-starter-mail')
+    compile('io.ratpack:ratpack-spring-boot:1.1.1')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

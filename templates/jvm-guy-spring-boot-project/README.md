@@ -1,8 +1,32 @@
 # Overview
-This project ... 
+This project is a template project that will quickly get you set up with a Spring Boot REST service.
 
 # Prerequisites
+* [JDK 8](http://www.oracle.com/technetwork/java/index.html) installed and working
+* [Lazybones](https://github.com/pledbrook/lazybones) and working.  Using [SDKMAN!](http://sdkman.io/) is the easiest way to install it.
+* TODO: discuss access private template area
 
+# Building
+This project is a collection of text files that Lazybones copies around so there is nothing to build.
+
+# Installation
+Type `lazybones list` and make sure the `jvm-guy-spring-boot-project` is available.  Assuming you want to create 
+a new project named `sample` in the `/tmp` directory, you would type `lazybones create jvm-guy-spring-boot-project /tmp/sample`.
+
+# Tips and Tricks
+
+## What Is Provided
+TODO
+
+## Migrating The Template
+TODO
+
+------------
+
+# Overview
+This project ...
+
+# Prerequisites
 * [JDK 8](http://www.oracle.com/technetwork/java/index.html) installed and working
 * Building under [Ubuntu Linux](http://www.ubuntu.com/) is supported and recommended 
 

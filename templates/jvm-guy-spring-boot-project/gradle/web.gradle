@@ -60,7 +60,14 @@ jar {
 task documentationTests( type: Test ) {
     group 'Documentation'
     description = 'Runs the tests that generate the examples for the API documentation.'
-    includes << '**/DocumentationGenerationTest.class'
+    debug = false
+    useJUnit {
+        includeCategories 'org.kurron.categories.DocumentationTest'
+    }
+    testLogging {
+        showStandardStreams = false
+        exceptionFormat = 'full'
+    }
     reports.html.destination =  "$buildDir/reports/documentationTests"
     // if the profile system property is set, copy into forked child process
     def springProfilesActive = System.properties['spring.profiles.active']

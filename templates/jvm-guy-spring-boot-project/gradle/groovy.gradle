@@ -121,3 +121,20 @@ task outboundIntegrationTests( type: Test, dependsOn: build ) {
     if ( springProfilesActive ) { systemProperties['spring.profiles.active'] = springProfilesActive }
 }
 
+task inboundIntegrationTests( type: Test, dependsOn: build ) {
+    group 'Verification'
+    description = 'Runs the outbound integration tests.'
+    debug = false
+    useJUnit {
+        includeCategories 'org.kurron.categories.InboundIntegrationTest'
+    }
+    testLogging {
+        showStandardStreams = false
+        exceptionFormat = 'full'
+    }
+    reports.html.destination =  "$buildDir/reports/inboundIntegrationTests"
+    // if the profile system property is set, copy into forked child process
+    def springProfilesActive = System.properties['spring.profiles.active']
+    if ( springProfilesActive ) { systemProperties['spring.profiles.active'] = springProfilesActive }
+}
+

@@ -24,6 +24,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.asciidoctor.convert" version "1.5.2"
+}
+
 description = 'Bare bones example REST micro-service'
 group = 'org.kurron.example'
 
@@ -38,7 +42,7 @@ apply from: "$rootDir/gradle/io-platform.gradle"
 apply from: "$rootDir/gradle/boot.gradle"
 apply from: "$rootDir/gradle/core.gradle"
 apply from: "$rootDir/gradle/web.gradle"
-apply from: "$rootDir/gradle/sql.gradle"
+//apply from: "$rootDir/gradle/sql.gradle"
 //apply from: "$rootDir/gradle/nosql.gradle"
 //apply from: "$rootDir/gradle/cloud-core.gradle"
 //apply from: "$rootDir/gradle/cloud-config.gradle"
@@ -49,10 +53,10 @@ apply from: "$rootDir/gradle/cloud-circuit-breaker.gradle"
 //apply from: "$rootDir/gradle/cloud-messaging.gradle"
 //apply from: "$rootDir/gradle/cloud-aws.gradle"
 //apply from: "$rootDir/gradle/cloud-cluster.gradle"
-apply from: "$rootDir/gradle/social.gradle"
+//apply from: "$rootDir/gradle/social.gradle"
 //apply from: "$rootDir/gradle/io.gradle"
 apply from: "$rootDir/gradle/ops.gradle"
-apply from: "$rootDir/gradle/template-engines.gradle"
+//apply from: "$rootDir/gradle/template-engines.gradle"
 apply from: "$rootDir/gradle/maven-publish.gradle"
 apply from: "$rootDir/gradle/spock.gradle"
 apply from: "$rootDir/gradle/dependency-exclusions.gradle"
@@ -68,11 +72,12 @@ defaultTasks << 'clean'
 defaultTasks << 'build'
 
 if ( 'true' == runIntegrationTests ) {
-    defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests','updateJarWithApiDocumentation']
+//  defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests','updateJarWithApiDocumentation']
+    defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests', 'documentationTests']
     // make sure we deploy the docker container before running integration/acceptance tests
-    [acceptanceTests]*.dependsOn runDockerContainer
+//  [acceptanceTests]*.dependsOn runDockerContainer
     // make sure the docker image is cleaned up
-    [acceptanceTests]*.finalizedBy deleteDockerImage
+//  [acceptanceTests]*.finalizedBy deleteDockerImage
 }
 
 // only publish artifacts if publishArtifacts is true, and the branch is either master or development

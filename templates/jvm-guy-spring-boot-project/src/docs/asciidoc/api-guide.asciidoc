@@ -1,0 +1,210 @@
+= Visualiz-E API Guide
+Ron Kurr;
+:doctype: book
+:toc:
+:sectanchors:
+:sectlinks:
+:toclevels: 4
+:source-highlighter: highlightjs
+
+[[overview]]
+= Overview
+The Visualiz-E service is a simple microservice that transforms data into pie charts.  The transformation is done
+in Visualiz-E but the results are stored in an expiring BLOB store, Magni.
+
+[[overview-http-verbs]]
+== HTTP verbs
+
+Visualiz-E tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.  The supported verbs are idempotent so that retrying an operation in a partial
+failure scenario is expected and will not adversely affect the service.
+
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Not currently supported
+
+| `PUT`
+| Used to create a new resource
+
+| `PATCH`
+| Not currently supported
+
+| `DELETE`
+| Not currently supported
+
+| `HEAD`
+| Not currently supported
+
+| `OPTIONS`
+| Not currently supported
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+
+Visualiz-E tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| The request completed successfully.
+
+| `201 Created`
+| A new resource has been created successfully. The resource's URI is available from the response's
+`Location` header.
+
+| `400 Bad Request`
+| The request was malformed. The response body will include an error providing further information.
+
+| `404 Not Found`
+| The requested resource did not exist. The response body will include an error providing further information.
+
+| `411 Length Required`
+| The request is missing the required Content-Length header. The response body will include an error providing further information.
+
+| `412 Precondition Failed`
+| The request is missing a required header. The response body will include an error providing further information.
+
+| `413 Request Entity Too Large`
+| The uploaded entity is too large for the service to handle. The response body will include an error providing further information.
+|===
+
+[[overview-required-http-headers]]
+== Required HTTP headers
+
+A small number of HTTP headers are required to be in all requests.
+
+|===
+| Header | Usage
+
+| `X-Correlation-Id`
+| Visualiz-E is part of a network of cooperating services and publishes its log messages to a centralized server.  To facilitate the tracing of events
+and messages between systems, Visualiz-E requires that a correlation id be provided with each request. If the client is the initiator of an action, then a
+new id should be generated.  If the client, however, is reacting to an outside event or message, the client should propagate the correlation id it was handed.
+|===
+
+[[overview-errors]]
+== Errors
+
+Whenever an error response (status code >= 400) is returned, a hypermedia control containing information that describes the problem will be returned.
+The control will populate the following fields in a failure scenario:
+
+|===
+| Field | Description
+
+| `http-code`
+| The HTTP status code being returned, e.g. 413.  Useful for clients that have difficulty accessing HTTP headers.
+
+| `code`
+| An integer code uniquely identifying the error message being returned. Helpful when troubleshooting failures.
+
+| `message`
+| A short message describing the problem using terms suitable for end users.
+
+| `developer-message`
+| A more detailed message describing the problem using terms suitable for developers and may contain possible solutions.
+|===
+
+For example, a request that is missing a required header will produce a `412 Precondition Failed` response:
+
+include::{snippets}/failure-scenario/curl-request.adoc[]
+include::{snippets}/failure-scenario/http-request.adoc[]
+include::{snippets}/failure-scenario/http-response.adoc[]
+
+[[overview-hypermedia]]
+== Hypermedia
+
+Visualiz-E uses a simple hypermedia control based on http://stateless.co/hal_specification.html[HAL] and includes links to other resources that the client
+can use to navigate around the service. Links can be found using the `_links` key.
+
+IMPORTANT:  Users of the API should not assemble or hard-code URIs themselves. Instead, they should use
+the above-described links to navigate from resource to resource.  Failure to observe this rule will undoubtedly
+result in errors as services and URIs change.
+
+[[overview-miscellaneous]]
+== Miscellaneous
+
+Visualiz-E does not currently require any form of authentication, expecting that the service will not be
+exposed directly to the public internet.  Visualiz-E does not currently rate limit requests, expecting that
+API users will be prudent in their use of the service.
+
+[[resources]]
+= Resources
+
+[[resources-index]]
+== B4U
+
+A B4U is a binary payload based on a format proprietary to Transparent Language.  The B4U is not
+stored within in the system and must be provided each time a transformation is requested.
+
+[[api-discovery]]
+=== API discovery
+
+A `GET` request will return a collection of links to the currently supported resources.
+Interpreting those resources will allow the API user to navigate the API without having
+to hard code well-known URIs.
+
+IMPORTANT: The API and its URIs are likely to change over time so it is important the caller
+always begin a session with API discovery to obtain the currently supported URIs.
+
+==== Example Conversation
+
+include::{snippets}/api-discovery/curl-request.adoc[]
+include::{snippets}/api-discovery/http-request.adoc[]
+include::{snippets}/api-discovery/http-response.adoc[]
+
+[[mime-type]]
+=== Specifying Media Types
+The `Accept` and `Content-Type` headers contain the media types of entities being sent to and returned from the service.  Visualiz-E makes
+use of https://tools.ietf.org/html/rfc2045[RFC 2045] parameters to handle versioning of the formats as well as to
+indicate options that can be applied to the transformations.  An example of a media type containing version information
+might be `application/vnd.transparent.b4u;version=1.2.3`.
+
+[[b4u-transformation]]
+=== Transforming a B4U
+
+A `PUT` request is used to upload the B4U and initiate the transformation process.  The process is idempotent and may be retried in the event
+of a partial failure.
+
+|===
+| Notable Header | Usage
+| `Accept`
+| This header is used to indicate the format of the response.  In the context of Visualiz-E, it is always the MIME type of the hypermedia control.
+| `Content-Length`
+| This header is used to indicate the size, in bytes, of the B4U being uploaded.
+| `Content-MD5`
+| This header is used to ensure the B4U being uploaded arrives uncorrupted.  Fill the header with the Base64 encoding of the MD5 digest of the B4U.
+| `Content-Type`
+| This header is used to indicate the exact format of the B4U being uploaded, including version.
+| `X-Expiration-Minutes`
+| The number of minutes that the system should hold onto the generated asset before purging it.
+| `X-Transform-To`
+| The MIME type of the desired conversion.
+| `X-Uploaded-By`
+| Identifies the application communicating with Visualiz-E and is used primarily for logging and reporting purposes.  The contents are never
+interpreted but be should unique within the enterprise.  Examples include 'TLO-EE', 'my cool application', 'Visualiz-E'.
+|===
+
+==== Example Conversation
+
+include::{snippets}/b4u-transformation/curl-request.adoc[]
+include::{snippets}/b4u-transformation/http-request.adoc[]
+include::{snippets}/b4u-transformation/http-response.adoc[]
+
+[[asset-download]]
+=== Downloading the asset
+
+The generated asset will be hosted by the Magni service and not by Visualiz-E.  The `Location` header returned as part of the `PUT` request contains
+the URI to the asset and should be used to `GET` the asset.
+
+[[current-limitations]]
+=== Current Limitations
+
+Transformation to B4X is the only supported format.  Options to the B4X transform may be supported in the future, if the demand is strong enough.

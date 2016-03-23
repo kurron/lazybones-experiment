@@ -35,5 +35,32 @@ class RestGatewayIntegrationTest extends Specification implements GenerationAbil
 
         then: 'we get a proper response'
         HttpStatus.OK == response.statusCode
+        println response.body
+    }
+
+    def 'exercise GET system exception path'() {
+        given: 'a proper testing environment'
+        assert port
+
+        when: 'we GET /descriptor/fail'
+        def uri = buildURI( port, '/descriptor/fail', [:] )
+        def response = template.getForEntity( uri, String )
+
+        then: 'we get a proper response'
+        HttpStatus.INTERNAL_SERVER_ERROR == response.statusCode
+        println response.body
+    }
+
+    def 'exercise GET application exception path'() {
+        given: 'a proper testing environment'
+        assert port
+
+        when: 'we GET /descriptor/fail/application'
+        def uri = buildURI( port, '/descriptor/fail/application', [:] )
+        def response = template.getForEntity( uri, String )
+
+        then: 'we get a proper response'
+        HttpStatus.I_AM_A_TEAPOT == response.statusCode
+        println response.body
     }
 }

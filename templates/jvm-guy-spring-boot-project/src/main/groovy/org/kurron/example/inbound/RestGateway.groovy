@@ -2,6 +2,7 @@ package org.kurron.example.inbound
 
 import java.time.Instant
 import javax.servlet.http.HttpServletRequest
+import org.kurron.example.MessagingContext
 import org.kurron.example.core.TimeComponent
 import org.kurron.feedback.AbstractFeedbackAware
 import org.kurron.stereotype.InboundRestGateway
@@ -34,6 +35,16 @@ class RestGateway extends AbstractFeedbackAware {
         def control = defaultControl( request )
         control.time = theComponent.currentTime().toString()
         ResponseEntity.ok( control )
+    }
+
+    @RequestMapping( path = '/descriptor/fail', method = [RequestMethod.GET], produces = [HypermediaControl.MIME_TYPE] )
+    ResponseEntity<HypermediaControl> failApplicationList() {
+        throw new RuntimeException( 'Failure -- system exception' )
+    }
+
+    @RequestMapping( path = '/descriptor/fail/application', method = [RequestMethod.GET], produces = [HypermediaControl.MIME_TYPE] )
+    ResponseEntity<HypermediaControl> failSystemApplicationList() {
+        throw new ForcedApplicationError( MessagingContext.FORCED_ERROR )
     }
 
     protected static HypermediaControl defaultControl( HttpServletRequest request ) {

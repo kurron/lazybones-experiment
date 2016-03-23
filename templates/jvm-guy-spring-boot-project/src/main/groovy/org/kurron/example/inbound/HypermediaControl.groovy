@@ -11,8 +11,6 @@ import org.springframework.http.MediaType
  * The hypermedia object returned by all services.
  **/
 @Canonical
-// I shouldn't have to do this but Spring Boot is ignoring my configuration!
-// @JsonInclude( JsonInclude.Include.NON_EMPTY )
 class HypermediaControl extends ResourceSupport {
 
     /**

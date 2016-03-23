@@ -11,14 +11,14 @@ import spock.lang.Specification
  * A unit-level test of the DefaultComponent object.
  **/
 @Category( UnitTest )
-class SampleGatewayUnitTest extends Specification implements GenerationAbility {
+class DefaultTimeComponentUnitTest extends Specification implements GenerationAbility {
 
     def 'exercise currentTime happy path'() {
         given: 'a subject under test'
         def stub = Stub( TimeService )
         stub.checkTheTime() >> Instant.now()
 
-        def sut = new DefaultComponent( stub )
+        def sut = new DefaultTimeComponent( stub )
 
         when: 'we call currentTime'
         def results = sut.currentTime()

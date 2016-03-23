@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component
  * no touching the network, filesystem or anything else that exists outside the process.
  **/
 @Component
-class DefaultComponent extends AbstractFeedbackAware implements TimeComponent {
+class DefaultTimeComponent extends AbstractFeedbackAware implements TimeComponent {
 
     private TimeService gateway
 
     @Autowired
-    DefaultComponent( TimeService aGateway ) {
+    DefaultTimeComponent( TimeService aGateway ) {
         gateway = aGateway
     }
 

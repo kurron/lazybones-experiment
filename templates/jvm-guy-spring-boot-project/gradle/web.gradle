@@ -35,6 +35,27 @@ dependencyManagement {
     }
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    attributes 'snippets': snippetsDir
+    inputs.dir snippetsDir
+    dependsOn 'documentationTests'
+}
+
+jar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
+}
+
 //TODO: only works if the Groovy plugin has previously been included.  Should probably check.
 task documentationTests( type: Test ) {
     group 'Documentation'

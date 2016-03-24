@@ -6,7 +6,11 @@ import org.kurron.example.Application
 import org.kurron.example.ApplicationProperties
 import org.kurron.example.inbound.rest.RestCapable
 import org.kurron.traits.GenerationAbility
+import org.springframework.amqp.core.MessageDeliveryMode
+import org.springframework.amqp.core.MessagePropertiesBuilder
 import org.springframework.amqp.rabbit.core.RabbitAdmin
+import org.springframework.amqp.rabbit.core.RabbitOperations
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.IntegrationTest
 import org.springframework.boot.test.SpringApplicationContextLoader
@@ -27,18 +31,40 @@ class RabbitGatewayIntegrationTest extends Specification implements GenerationAb
     @Autowired
     RabbitAdmin administrator
 
+    @Autowired
+    RabbitOperations template
+
+    @Autowired
+    Jackson2JsonMessageConverter converter
+
     def setup() {
         // clear the queue before each test
+        assert configuration
+        assert administrator
         administrator.purgeQueue( configuration.queueName, false )
     }
 
-    def 'exercise GET happy path'() {
+    def 'exercise publishing happy path'() {
         given: 'a proper testing environment'
-        assert administrator
+        assert template
+        assert converter
 
-        when: 'we GET /descriptor/application'
+        and: 'a valid message'
+        def properties = MessagePropertiesBuilder.newInstance()
+                .setAppIdIfAbsent( 'integration test' )
+                .setContentTypeIfAbsentOrDefault( 'test/plain' )
+                .setDeliveryModeIfAbsentOrDefault( MessageDeliveryMode.NON_PERSISTENT )
+                .setMessageIdIfAbsent( randomUUID() as String )
+                .setTimestampIfAbsent( Calendar.instance.time )
+                .setTypeIfAbsent( 'pon-e command' )
+                .build()
+        def message = converter.toMessage( randomHexString(), properties )
 
-        then: 'we get a proper response'
+        when: 'message is sent'
+        template.send( configuration.exchangeName, configuration.queueName, message )
+
+        then:
+        Thread.sleep( 1000 )
     }
 
 }

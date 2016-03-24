@@ -11,7 +11,7 @@ class RabbitGateway {
 
     @SuppressWarnings(['GrMethodMayBeStatic', 'GroovyUnusedDeclaration'])
     @RabbitListener( queues = '${example.queueName}' )
-    void processMessage( String message ) {
-        println "message ${message} recieved"
+    void processMessage(SampleRequest  request ) {
+        println "Request ${request} recieved"
     }
 }

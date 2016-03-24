@@ -56,9 +56,9 @@ class RabbitGatewayIntegrationTest extends Specification implements GenerationAb
                 .setDeliveryModeIfAbsentOrDefault( MessageDeliveryMode.NON_PERSISTENT )
                 .setMessageIdIfAbsent( randomUUID() as String )
                 .setTimestampIfAbsent( Calendar.instance.time )
-                .setTypeIfAbsent( 'pon-e command' )
+                .setTypeIfAbsent( 'sample command' )
                 .build()
-        def message = converter.toMessage( randomHexString(), properties )
+        def message = converter.toMessage( new SampleRequest( status: randomPositiveInteger(), timestamp: randomHexString() ), properties )
 
         when: 'message is sent'
         template.send( configuration.exchangeName, configuration.queueName, message )

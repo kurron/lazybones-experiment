@@ -1,4 +1,4 @@
-package org.kurron.example.inbound
+package org.kurron.example.inbound.rest
 
 import org.kurron.example.ApplicationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties

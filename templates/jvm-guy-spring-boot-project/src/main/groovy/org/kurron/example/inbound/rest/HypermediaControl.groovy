@@ -1,4 +1,4 @@
-package org.kurron.example.inbound
+package org.kurron.example.inbound.rest
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.Canonical

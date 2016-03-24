@@ -1,4 +1,4 @@
-package org.kurron.example.inbound
+package org.kurron.example.inbound.rest
 
 import cucumber.api.CucumberOptions
 import cucumber.api.junit.Cucumber

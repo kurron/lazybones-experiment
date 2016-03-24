@@ -1,4 +1,4 @@
-package org.kurron.example.inbound
+package org.kurron.example.inbound.rest
 
 import org.junit.experimental.categories.Category
 import org.kurron.categories.InboundIntegrationTest

@@ -1,4 +1,4 @@
-package org.kurron.example.inbound
+package org.kurron.example.inbound.rest
 
 import groovy.transform.InheritConstructors
 import org.kurron.feedback.exceptions.AbstractError

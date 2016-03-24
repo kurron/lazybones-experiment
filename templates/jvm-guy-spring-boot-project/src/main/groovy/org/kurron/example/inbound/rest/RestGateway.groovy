@@ -1,4 +1,4 @@
-package org.kurron.example.inbound
+package org.kurron.example.inbound.rest
 
 import java.time.Instant
 import javax.servlet.http.HttpServletRequest

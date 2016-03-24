@@ -9,6 +9,11 @@ spring:
     serialization:
       indent_output: true
     serialization-inclusion: non_empty
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 management:
     context-path: /operations
@@ -45,6 +50,8 @@ security:
 # app specific properties
 example:
   foo: default
+  exchangeName: some-exchange
+  queueName: some-queue
 
 #---------- profile specific overrides ----------#
 

@@ -13,4 +13,14 @@ class ApplicationProperties {
      */
     String foo
 
+    /**
+     * This property controls the name of the queue that the inbound gateway binds to.
+     */
+    String queueName
+
+    /**
+     * This property controls the name of the exchange that the inbound gateway binds to.
+     */
+    String exchangeName
+
 }

@@ -2,6 +2,7 @@ package org.kurron.example.inbound
 
 import org.junit.Rule
 import org.junit.experimental.categories.Category
+import org.kurron.categories.DocumentationTest
 import org.kurron.example.Application
 import org.kurron.traits.GenerationAbility
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * See http://docs.spring.io/spring-restdocs/docs/1.0.1.RELEASE/reference/html5/ for details on how to use the documentation tool.
  **/
-@Category( DocumentationGenerationTest )
+@Category( DocumentationTest )
 @WebIntegrationTest( randomPort = true )
 @ContextConfiguration( classes = Application, loader = SpringApplicationContextLoader )
 class DocumentationGenerationTest extends Specification implements GenerationAbility {
@@ -40,6 +41,17 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
 
     def setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup( context ).apply( documentationConfiguration( documentation ) ).build()
+    }
+
+    def 'demonstrate failure scenario'() {
+
+        given: 'a valid request'
+        def requestBuilder = get( '/descriptor/application' ).accept( HypermediaControl.MEDIA_TYPE )
+
+        when: 'the GET request is made'
+        mockMvc.perform( requestBuilder ).andExpect( status().isOk() ).andDo( document( 'failure-scenario' ) )
+
+        then: 'examples are generated'
     }
 
     def 'demonstrate GET my resource'() {

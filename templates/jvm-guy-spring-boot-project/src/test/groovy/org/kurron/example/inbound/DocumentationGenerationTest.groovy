@@ -46,10 +46,10 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
     def 'demonstrate failure scenario'() {
 
         given: 'a valid request'
-        def requestBuilder = get( '/descriptor/application' ).accept( HypermediaControl.MEDIA_TYPE )
+        def requestBuilder = get( '/descriptor/fail/application' ).accept( HypermediaControl.MEDIA_TYPE ).header( 'X-Correlation-Id', randomUUID() )
 
         when: 'the GET request is made'
-        mockMvc.perform( requestBuilder ).andExpect( status().isOk() ).andDo( document( 'failure-scenario' ) )
+        mockMvc.perform( requestBuilder ).andExpect( status().isIAmATeapot() ).andDo( document( 'failure-scenario' ) )
 
         then: 'examples are generated'
     }

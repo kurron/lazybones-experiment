@@ -9,7 +9,7 @@ The JVM Guy;
 
 [[overview]]
 = Overview
-The Enchantment service is a simple microservice that transforms data into pie charts.  The transformation is done
+The Enchantment service is a simple microservice that transforms Magic Fairy Dust into pie charts.  The transformation is done
 in Enchantment but the results are stored in an expiring BLOB store, Lunar.
 
 [[overview-http-verbs]]
@@ -112,7 +112,7 @@ The control will populate the following fields in a failure scenario:
 | A more detailed message describing the problem using terms suitable for developers and may contain possible solutions.
 |===
 
-For example, a request that is missing a required header will produce a `412 Precondition Failed` response:
+For example, our forced failure resource will produce a `418 I'm a teapot` response:
 
 include::{snippets}/failure-scenario/curl-request.adoc[]
 include::{snippets}/failure-scenario/http-request.adoc[]
@@ -139,10 +139,9 @@ API users will be prudent in their use of the service.
 = Resources
 
 [[resources-index]]
-== B4U
+== Magic Fairy Dust
 
-A B4U is a binary payload based on a format proprietary to Transparent Language.  The B4U is not
-stored within in the system and must be provided each time a transformation is requested.
+The Magic Fairy Dust resource...
 
 [[api-discovery]]
 === API discovery
@@ -156,21 +155,19 @@ always begin a session with API discovery to obtain the currently supported URIs
 
 ==== Example Conversation
 
-include::{snippets}/api-discovery/curl-request.adoc[]
-include::{snippets}/api-discovery/http-request.adoc[]
-include::{snippets}/api-discovery/http-response.adoc[]
+TODO: add examples here
 
 [[mime-type]]
 === Specifying Media Types
 The `Accept` and `Content-Type` headers contain the media types of entities being sent to and returned from the service.  Enchantment makes
 use of https://tools.ietf.org/html/rfc2045[RFC 2045] parameters to handle versioning of the formats as well as to
 indicate options that can be applied to the transformations.  An example of a media type containing version information
-might be `application/vnd.transparent.b4u;version=1.2.3`.
+might be `application/json;type=my-hypermedia-control;version=1.2.3`.
 
-[[b4u-transformation]]
-=== Transforming a B4U
+[[transformation]]
+=== Transforming Fairy Dust
 
-A `PUT` request is used to upload the B4U and initiate the transformation process.  The process is idempotent and may be retried in the event
+A `PUT` request is used to upload the Fairy Dust and initiate the transformation process.  The process is idempotent and may be retried in the event
 of a partial failure.
 
 |===
@@ -178,25 +175,23 @@ of a partial failure.
 | `Accept`
 | This header is used to indicate the format of the response.  In the context of Enchantment, it is always the MIME type of the hypermedia control.
 | `Content-Length`
-| This header is used to indicate the size, in bytes, of the B4U being uploaded.
+| This header is used to indicate the size, in bytes, of the Fairy Dust being uploaded.
 | `Content-MD5`
-| This header is used to ensure the B4U being uploaded arrives uncorrupted.  Fill the header with the Base64 encoding of the MD5 digest of the B4U.
+| This header is used to ensure the Fairy Dust being uploaded arrives uncorrupted.  Fill the header with the Base64 encoding of the MD5 digest of the Fairy Dust.
 | `Content-Type`
-| This header is used to indicate the exact format of the B4U being uploaded, including version.
+| This header is used to indicate the exact format of the Fairy Dust being uploaded, including version.
 | `X-Expiration-Minutes`
 | The number of minutes that the system should hold onto the generated asset before purging it.
 | `X-Transform-To`
 | The MIME type of the desired conversion.
 | `X-Uploaded-By`
 | Identifies the application communicating with Enchantment and is used primarily for logging and reporting purposes.  The contents are never
-interpreted but be should unique within the enterprise.  Examples include 'TLO-EE', 'my cool application', 'Enchantment'.
+interpreted but be should unique within the enterprise.  Examples include 'my cool application', 'Enchantment'.
 |===
 
 ==== Example Conversation
 
-include::{snippets}/b4u-transformation/curl-request.adoc[]
-include::{snippets}/b4u-transformation/http-request.adoc[]
-include::{snippets}/b4u-transformation/http-response.adoc[]
+TODO: add example snippets
 
 [[asset-download]]
 === Downloading the asset
@@ -207,4 +202,4 @@ the URI to the asset and should be used to `GET` the asset.
 [[current-limitations]]
 === Current Limitations
 
-Transformation to B4X is the only supported format.  Options to the B4X transform may be supported in the future, if the demand is strong enough.
+Transformation to pie charts is the only supported format.  Additional transformations may be supported in the future, if the demand is strong enough.

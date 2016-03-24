@@ -72,7 +72,6 @@ defaultTasks << 'clean'
 defaultTasks << 'build'
 
 if ( 'true' == runIntegrationTests ) {
-//  defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests','updateJarWithApiDocumentation']
     defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests']
     // make sure we deploy the docker container before running integration/acceptance tests
 //  [acceptanceTests]*.dependsOn runDockerContainer

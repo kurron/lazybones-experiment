@@ -11,6 +11,7 @@ import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.TestRestTemplate
 import org.springframework.cloud.client.ServiceInstance
 import org.springframework.cloud.client.discovery.DiscoveryClient
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ContextConfiguration
@@ -31,6 +32,9 @@ class DiscoveryClientIntegrationTest extends Specification implements Generation
     @Autowired
     private DiscoveryClient discoveryClient
 
+    @Autowired
+    private LoadBalancerClient loadBalancer
+
     def 'call service by hand'() {
         given: 'a proper testing environment'
         assert serviceName
@@ -38,21 +42,36 @@ class DiscoveryClientIntegrationTest extends Specification implements Generation
 
         when: 'we call checkTheTime'
         def template = new TestRestTemplate()
-        def uri = constructURI( '/descriptor/application' )
+        def instances = discoveryClient.getInstances( serviceName )
+        //TODO: a robust solution can deal with no available instances
+        def chosen = randomElement( instances ) as ServiceInstance
+        def uri = constructURI( chosen, '/descriptor/application' )
         ResponseEntity<String> response = template.getForEntity( uri, String )
 
         then: 'we get a proper response'
         response.statusCode == HttpStatus.OK
     }
 
-    URI constructURI( String path ) {
-        def instances = discoveryClient.getInstances( serviceName )
-        //TODO: a robust solution can deal with no available instances
-        def chosen = randomElement( instances ) as ServiceInstance
+    def 'call service using load balancer'() {
+        given: 'a proper testing environment'
+        assert serviceName
+        assert loadBalancer
+
+        when: 'we call checkTheTime'
+        def template = new TestRestTemplate()
+        def chosen = Optional.ofNullable( loadBalancer.choose( serviceName ) )
+        def uri = constructURI( chosen.orElseThrow( { new RuntimeException( 'No service instances!' ) } ), '/descriptor/application' )
+        ResponseEntity<String> response = template.getForEntity( uri, String )
+
+        then: 'we get a proper response'
+        response.statusCode == HttpStatus.OK
+    }
+
+    URI constructURI( ServiceInstance service, String path ) {
         UriComponentsBuilder.newInstance()
                             .scheme( 'http' )
-                            .host( chosen.host )
-                            .port( chosen.port )
+                            .host( service.host )
+                            .port( service.port )
                             .path( path )
                             .build().toUri()
     }

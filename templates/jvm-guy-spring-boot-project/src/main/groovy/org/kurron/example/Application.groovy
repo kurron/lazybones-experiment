@@ -35,25 +35,23 @@ class Application {
         SpringApplication.run( Application, args )
     }
 
-    //TODO: move the dead-letter stuff to the configuration
     @Bean
     public List<Declarable> amqpBindings( ApplicationProperties configuration ) {
         [
           new DirectExchange( configuration.exchangeName ),
           new Queue( configuration.queueName ),
           new Binding( configuration.queueName, QUEUE, configuration.exchangeName, configuration.queueName, null ),
-          new DirectExchange( 'dead-letter' ),
-          new Queue( 'dead-letter' ),
-          new Binding( 'dead-letter', QUEUE, 'dead-letter', 'dead-letter', null )
+          new DirectExchange( configuration.deadLetterExchangeName ),
+          new Queue( configuration.deadLetterQueueName ),
+          new Binding( configuration.deadLetterQueueName, QUEUE, configuration.deadLetterExchangeName, configuration.deadLetterQueueName, null )
         ] as List<Declarable>
     }
 
-    //TODO: put in a test to validate the dead letter stuff is working
     @Bean
     StatefulRetryOperationsInterceptor interceptor( RabbitTemplate template, ApplicationProperties settings ) {
         def strategy = new RepublishMessageRecoverer( template, 'dead-letter', 'dead-letter' )
         RetryInterceptorBuilder.stateful()
-                .maxAttempts( 3 )
+                .maxAttempts( settings.messageRetryAttempts )
                 .backOffPolicy( new ExponentialRandomBackOffPolicy() )
                 .recoverer( strategy )
                 .build()

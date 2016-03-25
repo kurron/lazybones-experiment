@@ -16,6 +16,7 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
@@ -28,6 +29,7 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 @Slf4j
 @SpringBootApplication
 @EnableCircuitBreaker
+@EnableDiscoveryClient
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {
 

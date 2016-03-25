@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
-
+import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 
 /**
@@ -47,8 +47,8 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
         theFeedbackProvider.sendFeedback( MessagingContext.GENERIC_ERROR, e.message )
         def control = new HypermediaControl( status: status.value() )
         control.errorBlock = new ErrorBlock( code: MessagingContext.GENERIC_ERROR.code,
-                message: e.message,
-                developerMessage: 'Indicates that the exception was not handled explicitly and is being handled as a generic error' )
+                                             message: e.message,
+                                             developerMessage: getRootCauseMessage( e ) )
         wrapInResponseEntity( control, status, headers )
     }
 
@@ -76,7 +76,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements F
         def control = new HypermediaControl( status: INTERNAL_SERVER_ERROR.value() )
         control.errorBlock = new ErrorBlock( code: MessagingContext.GENERIC_ERROR.code,
                 message: throwable.message,
-                developerMessage: 'Indicates that the exception was not handled explicitly and is being handled as a generic error' )
+                developerMessage: getRootCauseMessage( throwable ) )
         wrapInResponseEntity( control, INTERNAL_SERVER_ERROR )
     }
 

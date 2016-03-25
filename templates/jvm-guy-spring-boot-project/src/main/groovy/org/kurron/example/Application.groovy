@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
 
-
 import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 
 /**
@@ -46,7 +45,7 @@ class Application {
           new DirectExchange( 'dead-letter' ),
           new Queue( 'dead-letter' ),
           new Binding( 'dead-letter', QUEUE, 'dead-letter', 'dead-letter', null )
-        ]
+        ] as List<Declarable>
     }
 
     //TODO: put in a test to validate the dead letter stuff is working

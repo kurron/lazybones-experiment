@@ -13,5 +13,6 @@ class RabbitGateway {
     @RabbitListener( queues = '${example.queueName}' )
     void processMessage(SampleRequest  request ) {
         println "Request ${request} recieved"
+        throw new UnsupportedOperationException( 'forced to fail' )
     }
 }

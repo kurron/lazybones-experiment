@@ -3,4 +3,8 @@ spring:
         name: example
     cloud:
         config:
+            allowOverride: true
+            failFast: true
+            overrideNone: false
+            overrideSystemProperties: true
             uri: ${SPRING_CONFIG_URI:http://localhost:2020}

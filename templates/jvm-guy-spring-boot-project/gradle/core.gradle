@@ -17,7 +17,7 @@
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework.boot:spring-boot-starter-cache')
-    compile('org.springframework.boot:spring-boot-devtools')
+//  compile('org.springframework.boot:spring-boot-devtools')
 //  compile('org.springframework.boot:spring-boot-starter-jta-atomikos')
 //  compile('org.springframework.boot:spring-boot-starter-jta-bitronix')
 //  compile('org.projectlombok:lombok:1.16.6')

@@ -18,6 +18,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
+import org.springframework.cloud.netflix.turbine.EnableTurbine
 import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
@@ -32,6 +33,7 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 @SpringBootApplication
 @EnableCircuitBreaker
 @EnableHystrixDashboard
+@EnableTurbine
 @EnableDiscoveryClient
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {

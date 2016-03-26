@@ -17,9 +17,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView
 
 import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 
@@ -29,12 +31,19 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 @Slf4j
 @SpringBootApplication
 @EnableCircuitBreaker
+@EnableHystrixDashboard
 @EnableDiscoveryClient
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {
 
     static void main( String[] args ) {
         SpringApplication.run( Application, args )
+    }
+
+    // replaces the out-of-the-box white label page for Accept: application/json.  Need a Thymeleaf template for HTML.
+    @Bean
+    MappingJackson2JsonView mappingJackson2JsonView() {
+        new MappingJackson2JsonView()
     }
 
     @Bean

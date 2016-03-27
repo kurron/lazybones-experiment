@@ -1,6 +1,7 @@
 package org.kurron.example.outbound
 
 import feign.Logger
+import feign.Request
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -31,5 +32,12 @@ class RestGatewayClientConfiguration {
     @Bean
     CustomErrorDecoder customErrorDecoder() {
         new CustomErrorDecoder()
+    }
+
+    @Bean
+    Request.Options requestOptions() {
+        int connectionTimeout = 1000
+        int readTimeout = 1000
+        new Request.Options( connectionTimeout, readTimeout  )
     }
 }

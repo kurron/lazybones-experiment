@@ -1,7 +1,5 @@
 package org.kurron.example.inbound.rest
 
-import java.time.Instant
-import javax.servlet.http.HttpServletRequest
 import org.kurron.example.MessagingContext
 import org.kurron.example.core.TimeComponent
 import org.kurron.feedback.AbstractFeedbackAware
@@ -12,6 +10,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.HandlerMapping
+
+import javax.servlet.http.HttpServletRequest
+import java.time.Instant
 
 /**
  * Inbound HTTP gateway that supports the FIXME resource.
@@ -32,6 +33,9 @@ class RestGateway extends AbstractFeedbackAware {
 
     @RequestMapping( path = '/descriptor/application', method = [RequestMethod.GET], produces = [HypermediaControl.MIME_TYPE] )
     ResponseEntity<HypermediaControl> fetchApplicationList( HttpServletRequest request ) {
+        request.headerNames.each {
+            println "Header ${it} was sent."
+        }
         def control = defaultControl( request )
         control.time = theComponent.currentTime().toString()
         ResponseEntity.ok( control )

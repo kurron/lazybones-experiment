@@ -2,8 +2,12 @@ package org.kurron.example.outbound
 
 import feign.Logger
 import feign.Request
+import feign.RequestInterceptor
+import feign.RequestTemplate
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+
+import java.time.Instant
 
 /**
  * Custom Feign configuration for the RestGatewayClient.
@@ -39,5 +43,12 @@ class RestGatewayClientConfiguration {
         int connectionTimeout = 1000
         int readTimeout = 1000
         new Request.Options( connectionTimeout, readTimeout  )
+    }
+
+    @Bean
+    RequestInterceptor customRequestInterceptor() {
+        { RequestTemplate template ->
+            template.header( 'X-Custom-Header', Instant.now().toString() )
+        } as RequestInterceptor
     }
 }

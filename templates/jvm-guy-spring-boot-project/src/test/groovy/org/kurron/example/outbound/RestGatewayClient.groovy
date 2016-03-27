@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod
  * Dedicated HTTP client that knows only how to talk to the example service.
  */
 @FeignClient( name = 'example',
-              configuration = RestGatewayClientConfiguration,
-              fallback = RestGatewayClientFallback )
+              configuration = RestGatewayClientConfiguration
+              /*fallback = RestGatewayClientFallback*/ )
 interface RestGatewayClient {
 
     @RequestMapping( method = RequestMethod.GET,

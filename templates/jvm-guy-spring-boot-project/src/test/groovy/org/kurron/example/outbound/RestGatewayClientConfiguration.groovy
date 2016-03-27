@@ -27,4 +27,9 @@ class RestGatewayClientConfiguration {
     Logger.Level feignLoggerLevel() {
         Logger.Level.FULL
     }
+
+    @Bean
+    CustomErrorDecoder customErrorDecoder() {
+        new CustomErrorDecoder()
+    }
 }

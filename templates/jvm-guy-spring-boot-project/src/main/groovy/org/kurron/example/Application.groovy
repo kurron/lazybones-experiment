@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
+import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import org.springframework.cloud.netflix.turbine.EnableTurbine
 import org.springframework.context.annotation.Bean
@@ -35,6 +36,7 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 @EnableHystrixDashboard
 @EnableTurbine
 @EnableDiscoveryClient
+@EnableFeignClients
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {
 

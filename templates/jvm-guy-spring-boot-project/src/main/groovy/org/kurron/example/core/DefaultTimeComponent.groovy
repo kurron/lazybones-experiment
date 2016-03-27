@@ -1,10 +1,14 @@
 package org.kurron.example.core
 
-import java.time.Instant
+import com.netflix.spectator.api.Registry
 import org.kurron.example.outbound.TimeService
 import org.kurron.feedback.AbstractFeedbackAware
+import org.kurron.traits.GenerationAbility
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+
+import java.time.Instant
+import java.util.concurrent.Callable
 
 /**
  * An example of a core component.  Remember, components can only interact with
@@ -12,19 +16,40 @@ import org.springframework.stereotype.Component
  * no touching the network, filesystem or anything else that exists outside the process.
  **/
 @Component
-class DefaultTimeComponent extends AbstractFeedbackAware implements TimeComponent {
+class DefaultTimeComponent extends AbstractFeedbackAware implements TimeComponent, GenerationAbility {
 
-    private TimeService gateway
+    /**
+     * Outbound gateway.
+     */
+    private final TimeService gateway
+
+    /**
+     * Metrics collector.
+     */
+    private final Registry registry
 
     @Autowired
-    DefaultTimeComponent( TimeService aGateway ) {
+    DefaultTimeComponent( TimeService aGateway, Registry aRegistry ) {
         gateway = aGateway
+        registry = aRegistry
     }
 
     @Override
     Instant currentTime() {
+        // the timer also counts so this is redundant
+        def counter = registry.counter( 'currentTimeCounter' )
+        counter.increment()
+
+        // contrived example: normally this is used to record some incoming value
+        def distribution = registry.distributionSummary( 'currentTimeDistribution' )
+        distribution.record( randomLong() )
+
+        // gauges, which track the current number of something, like queue size, are also available
+
+        def timer = registry.timer( 'currentTimeTimer' )
         // in a real implementation we would interact with multiple services and take
         // the best result but this is only an example
-        gateway.checkTheTime()
+        // The timer simultaneously records 4 statistics: count, max, totalOfSquares, and totalTime.
+        timer.record( { gateway.checkTheTime() } as Callable<Instant> )
     }
 }

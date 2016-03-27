@@ -12,6 +12,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.amqp.rabbit.retry.RepublishMessageRecoverer
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -19,6 +20,8 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
+import org.springframework.cloud.netflix.metrics.atlas.AtlasTagProvider
+import org.springframework.cloud.netflix.metrics.atlas.EnableAtlas
 import org.springframework.cloud.netflix.turbine.EnableTurbine
 import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
@@ -37,11 +40,17 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 @EnableTurbine
 @EnableDiscoveryClient
 @EnableFeignClients
+@EnableAtlas
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {
 
     static void main( String[] args ) {
         SpringApplication.run( Application, args )
+    }
+
+    @Bean
+    AtlasTagProvider atlasCommonTags( @Value( '${spring.application.name}' ) String appName ) {
+        [ 'defaultTags': { ['app': appName] } ] as AtlasTagProvider
     }
 
     // replaces the out-of-the-box white label page for Accept: application/json.  Need a Thymeleaf template for HTML.

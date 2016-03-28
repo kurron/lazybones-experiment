@@ -37,7 +37,7 @@ class StreamGatewayIntegrationTest extends Specification implements GenerationAb
         assert producer
 
         when: 'message is sent'
-        100.times {
+        1000.times {
             producer.send()
         }
 

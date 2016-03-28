@@ -4,7 +4,7 @@ import groovy.util.logging.Slf4j
 import org.kurron.stereotype.OutboundGateway
 import org.kurron.traits.GenerationAbility
 import org.springframework.cloud.stream.annotation.EnableBinding
-import org.springframework.cloud.stream.messaging.Processor
+import org.springframework.cloud.stream.messaging.Source
 import org.springframework.integration.annotation.InboundChannelAdapter
 
 import java.time.Instant
@@ -14,10 +14,10 @@ import java.time.Instant
  */
 @Slf4j
 @OutboundGateway
-@EnableBinding( Processor )
+@EnableBinding( Source )
 class StreamProducer implements GenerationAbility{
 
-    @InboundChannelAdapter( Processor.OUTPUT )
+    @InboundChannelAdapter( Source.OUTPUT )
     public String send() {
         def message = "Hello, World. It is ${Instant.now().toString()}"
         log.info( 'Sending {}', message )

@@ -39,7 +39,6 @@ class StreamGatewayIntegrationTest extends Specification implements GenerationAb
         when: 'message is sent'
         100.times {
             producer.send()
-            Thread.sleep( 1000 )
         }
 
         then:

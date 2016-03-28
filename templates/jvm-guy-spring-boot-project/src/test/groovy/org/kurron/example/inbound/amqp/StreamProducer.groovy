@@ -3,6 +3,7 @@ package org.kurron.example.inbound.amqp
 import groovy.util.logging.Slf4j
 import org.kurron.stereotype.OutboundGateway
 import org.kurron.traits.GenerationAbility
+import org.springframework.cloud.stream.annotation.EnableBinding
 import org.springframework.cloud.stream.messaging.Processor
 import org.springframework.integration.annotation.InboundChannelAdapter
 
@@ -13,6 +14,7 @@ import java.time.Instant
  */
 @Slf4j
 @OutboundGateway
+@EnableBinding( Processor )
 class StreamProducer implements GenerationAbility{
 
     @InboundChannelAdapter( Processor.OUTPUT )

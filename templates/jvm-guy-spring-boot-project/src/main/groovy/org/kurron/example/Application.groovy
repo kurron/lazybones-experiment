@@ -22,7 +22,6 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import org.springframework.cloud.netflix.metrics.atlas.AtlasTagProvider
 import org.springframework.cloud.netflix.metrics.atlas.EnableAtlas
-import org.springframework.cloud.netflix.turbine.EnableTurbine
 import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
@@ -37,7 +36,7 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 @SpringBootApplication
 @EnableCircuitBreaker
 @EnableHystrixDashboard
-@EnableTurbine
+//@EnableTurbine <---- supposed to run Turbine as a standalone application
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableAtlas

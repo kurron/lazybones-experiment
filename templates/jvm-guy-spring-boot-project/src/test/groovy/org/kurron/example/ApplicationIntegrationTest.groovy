@@ -3,6 +3,7 @@ package org.kurron.example
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
+import org.springframework.cloud.stream.messaging.Sink
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
@@ -16,8 +17,12 @@ class ApplicationIntegrationTest extends Specification {
     @Autowired
     ApplicationProperties configuration
 
+    @Autowired
+    Sink sink
+
     def 'verify context loads'() {
         expect: 'the configuration bean was injected'
         'default' == configuration.foo
+        sink
     }
 }

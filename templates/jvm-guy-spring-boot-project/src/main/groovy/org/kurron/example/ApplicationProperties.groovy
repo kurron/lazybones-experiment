@@ -37,4 +37,9 @@ class ApplicationProperties {
      * This property controls how many times a message will be processed before being declared a poison message.
      */
     int messageRetryAttempts
+
+    /**
+     * What to name the message stream channel.
+     */
+    String inputChannelName
 }

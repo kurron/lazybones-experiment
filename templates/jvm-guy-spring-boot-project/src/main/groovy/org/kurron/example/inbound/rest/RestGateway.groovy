@@ -33,9 +33,6 @@ class RestGateway extends AbstractFeedbackAware {
 
     @RequestMapping( path = '/descriptor/application', method = [RequestMethod.GET], produces = [HypermediaControl.MIME_TYPE] )
     ResponseEntity<HypermediaControl> fetchApplicationList( HttpServletRequest request ) {
-        request.headerNames.each {
-            println "Header ${it} was sent."
-        }
         def control = defaultControl( request )
         control.time = theComponent.currentTime().toString()
         ResponseEntity.ok( control )

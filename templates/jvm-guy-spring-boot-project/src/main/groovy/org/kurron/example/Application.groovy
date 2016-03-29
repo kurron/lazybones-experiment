@@ -43,6 +43,7 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 
 //@EnableOAuth2Sso  <---- I never quite got the Oauth2 stuff to work
 //@EnableResourceServer
+//@EnableAuthorizationServer
 
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {

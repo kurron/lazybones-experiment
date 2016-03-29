@@ -40,6 +40,10 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableAtlas
+
+//@EnableOAuth2Sso  <---- I never quite got the Oauth2 stuff to work
+//@EnableResourceServer
+
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {
 
@@ -52,7 +56,7 @@ class Application {
         [ 'defaultTags': { ['app': appName] } ] as AtlasTagProvider
     }
 
-    // replaces the out-of-the-box white label page for Accept: application/json.  Need a Thymeleaf template for HTML.
+    // replaces the out-of-the-box white label page for Accept: application/json.  The Thymeleaf template handles HTML.
     @Bean
     MappingJackson2JsonView mappingJackson2JsonView() {
         new MappingJackson2JsonView()

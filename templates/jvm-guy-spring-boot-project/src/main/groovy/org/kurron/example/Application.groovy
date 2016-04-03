@@ -21,12 +21,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import org.springframework.cloud.netflix.metrics.atlas.AtlasTagProvider
-import org.springframework.cloud.netflix.metrics.atlas.EnableAtlas
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy
 import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView
+
 
 import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 
@@ -40,7 +40,7 @@ import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 //@EnableTurbine <---- supposed to run Turbine as a standalone application
 @EnableDiscoveryClient
 @EnableFeignClients
-@EnableAtlas
+//@EnableAtlas
 @EnableZuulProxy
 //@EnableOAuth2Sso  <---- I never quite got the Oauth2 stuff to work
 //@EnableResourceServer

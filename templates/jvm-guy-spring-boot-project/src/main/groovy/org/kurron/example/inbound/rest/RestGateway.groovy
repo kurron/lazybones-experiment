@@ -5,6 +5,7 @@ import org.kurron.example.core.TimeComponent
 import org.kurron.feedback.AbstractFeedbackAware
 import org.kurron.stereotype.InboundRestGateway
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.Link
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
@@ -34,6 +35,7 @@ class RestGateway extends AbstractFeedbackAware {
     @RequestMapping( path = '/descriptor/application', method = [RequestMethod.GET], produces = [HypermediaControl.MIME_TYPE] )
     ResponseEntity<HypermediaControl> fetchApplicationList( HttpServletRequest request ) {
         def control = defaultControl( request )
+        control.add( new Link( 'foo', 'bar' ) )
         control.time = theComponent.currentTime().toString()
         ResponseEntity.ok( control )
     }

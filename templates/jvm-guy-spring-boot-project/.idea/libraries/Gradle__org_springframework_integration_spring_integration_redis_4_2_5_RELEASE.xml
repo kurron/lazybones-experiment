@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.integration:spring-integration-redis:4.2.5.RELEASE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.integration/spring-integration-redis/4.2.5.RELEASE/2d391dfdeca34f55b83fc5770aec9ba8d2e1d5ac/spring-integration-redis-4.2.5.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.integration/spring-integration-redis/4.2.5.RELEASE/85c66e115dc1e9b31b63f52f0885e3621896c645/spring-integration-redis-4.2.5.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.cloud:spring-cloud-starter-spectator:1.1.0.RC1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-starter-spectator/1.1.0.RC1/9a62bac5918c2fc48015cf57b3465e05d07f2e6b/spring-cloud-starter-spectator-1.1.0.RC1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-starter-spectator/1.1.0.RC1/45d9bddf55448974916781bcf5517bb675adb8a8/spring-cloud-starter-spectator-1.1.0.RC1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

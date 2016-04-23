@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.cloud:spring-cloud-starter-atlas:1.1.0.RC2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-starter-atlas/1.1.0.RC2/5a0f76130d5f92e38488827442128facf8a70179/spring-cloud-starter-atlas-1.1.0.RC2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.cloud/spring-cloud-starter-atlas/1.1.0.RC2/1a05c8d2c925487d933491e020cb30ccc7377221/spring-cloud-starter-atlas-1.1.0.RC2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

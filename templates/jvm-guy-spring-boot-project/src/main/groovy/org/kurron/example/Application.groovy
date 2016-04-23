@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2016. Ronald D. Kurr kurr@jvmguy.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.kurron.example
 
+import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 import groovy.util.logging.Slf4j
 import org.aopalliance.aop.Advice
 import org.springframework.amqp.core.Binding
@@ -16,36 +33,27 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient
-import org.springframework.cloud.netflix.feign.EnableFeignClients
-import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import org.springframework.cloud.netflix.metrics.atlas.AtlasTagProvider
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy
 import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView
-
-
-import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 
 /**
  * The entry point into the system.  Runs as a standalone web server.
  */
 @Slf4j
 @SpringBootApplication
-@EnableCircuitBreaker
-@EnableHystrixDashboard
+//@EnableCircuitBreaker
+//@EnableHystrixDashboard
 //@EnableTurbine <---- supposed to run Turbine as a standalone application
-@EnableDiscoveryClient
-@EnableFeignClients
+//@EnableDiscoveryClient
+//@EnableFeignClients
 //@EnableAtlas
-@EnableZuulProxy
+//@EnableZuulProxy
 //@EnableOAuth2Sso  <---- I never quite got the Oauth2 stuff to work
 //@EnableResourceServer
 //@EnableAuthorizationServer
-
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {
 

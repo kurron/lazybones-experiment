@@ -29,11 +29,9 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.amqp.rabbit.retry.RepublishMessageRecoverer
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.cloud.netflix.metrics.atlas.AtlasTagProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
@@ -44,26 +42,11 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView
  */
 @Slf4j
 @SpringBootApplication
-//@EnableCircuitBreaker
-//@EnableHystrixDashboard
-//@EnableTurbine <---- supposed to run Turbine as a standalone application
-//@EnableDiscoveryClient
-//@EnableFeignClients
-//@EnableAtlas
-//@EnableZuulProxy
-//@EnableOAuth2Sso  <---- I never quite got the Oauth2 stuff to work
-//@EnableResourceServer
-//@EnableAuthorizationServer
 @EnableConfigurationProperties( ApplicationProperties )
 class Application {
 
     static void main( String[] args ) {
         SpringApplication.run( Application, args )
-    }
-
-    @Bean
-    AtlasTagProvider atlasCommonTags( @Value( '${spring.application.name}' ) String appName ) {
-        [ 'defaultTags': { ['app': appName] } ] as AtlasTagProvider
     }
 
     // replaces the out-of-the-box white label page for Accept: application/json.  The Thymeleaf template handles HTML.

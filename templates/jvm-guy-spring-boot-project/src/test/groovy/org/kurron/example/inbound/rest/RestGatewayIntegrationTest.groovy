@@ -78,7 +78,6 @@ class RestGatewayIntegrationTest extends Specification implements GenerationAbil
 
         then: 'we get a proper response'
         HttpStatus.OK == response.statusCode
-        println response.body
         assert response.body.links
     }
 
@@ -92,7 +91,6 @@ class RestGatewayIntegrationTest extends Specification implements GenerationAbil
 
         then: 'we get a proper response'
         HttpStatus.INTERNAL_SERVER_ERROR == response.statusCode
-        println response.body
     }
 
     def 'exercise GET application exception path'() {
@@ -105,6 +103,5 @@ class RestGatewayIntegrationTest extends Specification implements GenerationAbil
 
         then: 'we get a proper response'
         HttpStatus.I_AM_A_TEAPOT == response.statusCode
-        println response.body
     }
 }

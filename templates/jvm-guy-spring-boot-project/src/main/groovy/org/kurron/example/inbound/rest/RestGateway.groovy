@@ -90,9 +90,12 @@ class RestGateway extends AbstractFeedbackAware {
         response
     }
 
-    private static HypermediaControl addErrors( Errors errors, HypermediaControl toAugment ) {
+    private HypermediaControl addErrors( Errors errors, HypermediaControl toAugment ) {
         toAugment.status = HttpStatus.BAD_REQUEST.value()
-        def validationErrors = errors.fieldErrors.collect { new ValidationError( field: it.field, reason: it.defaultMessage ) }
+        def validationErrors = errors.fieldErrors.collect {
+            feedbackProvider.sendFeedback( MessagingContext.VALIDATION_ERROR, it.field, it.defaultMessage )
+            new ValidationError( field: it.field, reason: it.defaultMessage )
+        }
         toAugment.errorBlock = new ErrorBlock( code: MessagingContext.VALIDATION_ERROR.code,
                                                message: 'The uploaded descriptor is invalid.  Please correct the issues and try again.',
                                                developerMessage: 'Certain properties in the payload are invalid.',

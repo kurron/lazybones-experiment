@@ -85,9 +85,11 @@ task deleteDockerImage( type: Exec, dependsOn: [deleteDockerComposeAssets] ) {
     group 'Docker'
     description = 'Deletes Docker images not controlled by Docker Compose'
     workingDir dockerDirectory
-    doFirst {
-        logger.quiet "Cleaning up Docker image ${fullImageName}."
-        commandLine 'docker', 'rmi', fullImageName
+    if ( 'true' == publishArtifacts ) {
+        doFirst {
+            logger.quiet "Cleaning up Docker image ${fullImageName}."
+            commandLine 'docker', 'rmi', fullImageName
+        }
     }
 }
 

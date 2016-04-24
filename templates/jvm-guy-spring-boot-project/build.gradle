@@ -83,9 +83,9 @@ defaultTasks << 'build'
 if ( 'true' == runIntegrationTests ) {
     defaultTasks += ['outboundIntegrationTests', 'inboundIntegrationTests', 'acceptanceTests']
     // make sure we deploy the docker container before running integration/acceptance tests
-//  [acceptanceTests]*.dependsOn runDockerContainer
+    [acceptanceTests]*.dependsOn launchContainer
     // make sure the docker image is cleaned up
-//  [acceptanceTests]*.finalizedBy deleteDockerImage
+    [acceptanceTests]*.finalizedBy deleteDockerImage
 }
 
 // only publish artifacts if publishArtifacts is true, and the branch is either master or development

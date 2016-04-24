@@ -30,7 +30,7 @@ services:
             JVM_HEAP_MAX: 128m
             JVM_JMX_HOST: 127.0.0.1
             JVM_JMX_PORT: 2020
-            SPRING_RABBITMQ_RABBITMQ: rabbitmq
+            SPRING_RABBITMQ_HOST: rabbitmq
         cpu_shares: 0
         cpu_quota: 0
         mem_limit: 256m

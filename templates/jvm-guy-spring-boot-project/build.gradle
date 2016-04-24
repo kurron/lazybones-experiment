@@ -67,6 +67,7 @@ apply from: "$rootDir/gradle/spock.gradle"
 apply from: "$rootDir/gradle/dependency-exclusions.gradle"
 apply from: "$rootDir/gradle/conflicts.gradle"
 apply from: "$rootDir/gradle/cucumber.gradle"
+apply from: "$rootDir/gradle/docker.gradle"
 apply from: "$rootDir/gradle/bintray.gradle"
 
 dependencies {
@@ -89,7 +90,8 @@ if ( 'true' == runIntegrationTests ) {
 
 // only publish artifacts if publishArtifacts is true, and the branch is either master or development
 if ( 'true' == publishArtifacts && branch in ['master', 'development'] ) {
-    defaultTasks << 'publish'
+    // only use this if you decide not to use the Bintray plugin
+    // defaultTasks << 'publish'
     defaultTasks << 'bintrayUpload'
     defaultTasks << 'publishDockerImage'
     // ensures that deleteDockerImage will not be executed until we publish, unless a failure occurs prior to publishing

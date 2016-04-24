@@ -73,9 +73,8 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
     compile "org.kurron:tools-groovy:${toolsGroovyVersion}"
 
-    // not sure exactly who is supposed to pull this in?
-    //runtime "com.ecwid.consul:consul-api:1.1.9"
-
+    // provides a nice API explorer as your front page
+    runtime "org.webjars:hal-browser"
     runtime "net.logstash.logback:logstash-logback-encoder:${logstashLogbackVersion}"
 }
 

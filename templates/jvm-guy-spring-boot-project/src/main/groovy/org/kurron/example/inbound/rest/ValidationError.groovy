@@ -19,31 +19,19 @@ package org.kurron.example.inbound.rest
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * Optional error section of the control.
- */
-class ErrorBlock {
+ * Details a validation failure.
+ **/
+class ValidationError {
+    /**
+     * Name of the field that failed validation.
+     **/
+    @JsonProperty( 'field' )
+    String field
 
     /**
-     * Number uniquely describing the error conditions.
+     * Reason for the validation failure.
      **/
-    @JsonProperty( 'code' )
-    int code
+    @JsonProperty( 'reason' )
+    String reason
 
-    /**
-     * Details the error condition.
-     **/
-    @JsonProperty( 'message' )
-    String message
-
-    /**
-     * Details the error condition in language targeted towards the developer.
-     **/
-    @JsonProperty( 'developer-message' )
-    String developerMessage
-
-    /**
-     * Collects any input validation errors.
-     **/
-    @JsonProperty( 'validationErrors' )
-    List<ValidationError> validationErrors
 }

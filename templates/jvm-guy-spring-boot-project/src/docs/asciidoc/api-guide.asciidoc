@@ -162,7 +162,7 @@ TODO: add examples here
 The `Accept` and `Content-Type` headers contain the media types of entities being sent to and returned from the service.  Enchantment makes
 use of https://tools.ietf.org/html/rfc2045[RFC 2045] parameters to handle versioning of the formats as well as to
 indicate options that can be applied to the transformations.  An example of a media type containing version information
-might be `application/json;type=my-hypermedia-control;version=1.2.3`.
+might be `application/hal+json;version=1.2.3`.
 
 [[transformation]]
 === Transforming Fairy Dust

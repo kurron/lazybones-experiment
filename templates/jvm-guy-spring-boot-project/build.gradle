@@ -16,7 +16,9 @@
 
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            url = artifactory
+        }
     }
     dependencies {
         classpath "io.spring.gradle:dependency-management-plugin:${dependencyPluginVersion}"

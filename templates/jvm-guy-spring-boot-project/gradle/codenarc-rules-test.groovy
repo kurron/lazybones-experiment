@@ -144,10 +144,11 @@ ruleset {
         ignoreStrings = '/'
     }
     
+    // Do not use these rules anymore.  They cause compilation errors during processing.
     // rulesets/enhanced.xml
-    CloneWithoutCloneable 
-    JUnitAssertEqualsConstantActualValue 
-    UnsafeImplementationAsMap 
+    //CloneWithoutCloneable 
+    //JUnitAssertEqualsConstantActualValue 
+    //UnsafeImplementationAsMap 
     
     // rulesets/exceptions.xml
     CatchArrayIndexOutOfBoundsException 

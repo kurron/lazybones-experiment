@@ -330,7 +330,9 @@ ruleset {
     PackageNameMatchesFilePath 
     ParameterName 
     PropertyName 
-    VariableName 
+    VariableName {
+        finalRegex = /[a-z][a-zA-Z0-9]*/
+    }
     
     // rulesets/security.xml
     FileCreateTempFile 

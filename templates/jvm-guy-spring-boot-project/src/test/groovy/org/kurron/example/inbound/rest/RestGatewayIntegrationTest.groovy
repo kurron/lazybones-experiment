@@ -65,7 +65,6 @@ class RestGatewayIntegrationTest extends Specification implements GenerationAbil
         assert response.body.links
     }
 
-
     def 'exercise GET happy path'() {
         given: 'a proper testing environment'
         assert port

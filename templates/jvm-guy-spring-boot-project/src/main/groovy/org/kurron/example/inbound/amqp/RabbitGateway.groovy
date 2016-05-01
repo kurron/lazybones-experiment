@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kurron.example.inbound.amqp
 
 import org.kurron.example.shared.MessagingContext
@@ -30,8 +29,8 @@ class RabbitGateway  extends AbstractFeedbackAware {
 
     @SuppressWarnings(['GrMethodMayBeStatic', 'GroovyUnusedDeclaration'])
     @RabbitListener( queues = '${example.queueName}' )
-    void processMessage(SampleRequest  request ) {
+    void processMessage( SampleRequest  request ) {
         feedbackProvider.sendFeedback( MessagingContext.INTENTIONAL_ERROR, 'Triggering poison message handling.' )
-        throw new UnsupportedOperationException( 'forced to fail' )
+        throw new UnsupportedOperationException( "forced to fail: ${request.timestamp}" )
     }
 }

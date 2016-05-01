@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kurron.example.inbound.rest
 
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -56,7 +55,6 @@ class HypermediaControl extends ResourceSupport {
      */
     @JsonProperty( 'path' )
     String path
-
 
     /**
      * Output only, where fault information is stored.

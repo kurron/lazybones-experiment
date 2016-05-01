@@ -326,7 +326,9 @@ ruleset {
     PackageNameMatchesFilePath 
     ParameterName 
     PropertyName 
-    VariableName 
+    VariableName {
+        finalRegex = /[a-z][a-zA-Z0-9]*/
+    }
     
     // rulesets/security.xml
     FileCreateTempFile 
@@ -348,12 +350,12 @@ ruleset {
     // rulesets/size.xml
     AbcMetric   // Requires the GMetrics jar
     ClassSize 
-    CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
+//  CrapMetric
     CyclomaticComplexity   // Requires the GMetrics jar
     MethodCount 
     MethodSize 
-    NestedBlockDepth 
-    
+    NestedBlockDepth
+    UnnecessaryCast
     // rulesets/unnecessary.xml
     AddEmptyString 
     ConsecutiveLiteralAppends 

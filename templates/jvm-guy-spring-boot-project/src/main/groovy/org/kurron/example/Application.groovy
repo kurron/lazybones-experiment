@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kurron.example
 
+import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 import groovy.util.logging.Slf4j
 import org.aopalliance.aop.Advice
 import org.kurron.example.shared.ApplicationProperties
@@ -37,8 +37,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
 
-import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
-
 /**
  * The entry point into the system.  Runs as a standalone web server.
  */
@@ -56,8 +54,9 @@ class Application {
         new FeedbackAwareBeanPostProcessor( configuration.serviceCode, configuration.serviceInstance, configuration.realm )
     }
 
+    @SuppressWarnings( 'UnnecessaryCast' )
     @Bean
-    public List<Declarable> amqpBindings( ApplicationProperties configuration ) {
+    List<Declarable> amqpBindings( ApplicationProperties configuration ) {
         [
                 new DirectExchange( configuration.exchangeName ),
                 new Queue( configuration.queueName ),
@@ -70,7 +69,7 @@ class Application {
 
     @Bean
     StatefulRetryOperationsInterceptor interceptor( RabbitTemplate template, ApplicationProperties settings ) {
-        def strategy = new RepublishMessageRecoverer( template, 'dead-letter', 'dead-letter' )
+        def strategy = new RepublishMessageRecoverer( template, settings.deadLetterExchangeName, settings.deadLetterQueueName )
         RetryInterceptorBuilder.stateful()
                                .maxAttempts( settings.messageRetryAttempts )
                                .backOffPolicy( new ExponentialRandomBackOffPolicy() )

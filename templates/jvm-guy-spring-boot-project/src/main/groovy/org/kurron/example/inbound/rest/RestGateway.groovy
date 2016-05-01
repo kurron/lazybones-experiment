@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kurron.example.inbound.rest
 
+import java.time.Instant
+import javax.servlet.http.HttpServletRequest
+import javax.validation.Valid
 import org.kurron.example.core.TimeComponent
 import org.kurron.example.shared.MessagingContext
 import org.kurron.feedback.AbstractFeedbackAware
@@ -29,10 +31,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.HandlerMapping
-
-import javax.servlet.http.HttpServletRequest
-import javax.validation.Valid
-import java.time.Instant
 
 /**
  * Inbound HTTP gateway that supports the FIXME resource.
@@ -60,6 +58,7 @@ class RestGateway extends AbstractFeedbackAware {
         ResponseEntity.ok( control )
     }
 
+    @SuppressWarnings( 'ThrowRuntimeException' )
     @RequestMapping( path = '/descriptor/fail', method = [RequestMethod.GET], produces = [HypermediaControl.MIME_TYPE] )
     ResponseEntity<HypermediaControl> failApplicationList() {
         throw new RuntimeException( 'Failure -- system exception' )
@@ -87,7 +86,10 @@ class RestGateway extends AbstractFeedbackAware {
         else {
             control.time = theComponent.currentTime().toString()
             response = ResponseEntity.ok( control )
+            //TODO: do some real work
+            input.fragment
         }
+
         response
     }
 

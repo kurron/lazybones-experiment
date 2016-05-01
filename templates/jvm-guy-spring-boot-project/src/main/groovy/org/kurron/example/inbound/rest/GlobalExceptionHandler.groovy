@@ -1,5 +1,23 @@
+/*
+ * Copyright (c) 2016. Ronald D. Kurr kurr@jvmguy.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.kurron.example.inbound.rest
 
+import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.kurron.example.shared.MessagingContext
 import org.kurron.feedback.FeedbackAware
 import org.kurron.feedback.FeedbackProvider
@@ -12,9 +30,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
-
-import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 
 /**
  * Global handling for REST exceptions.

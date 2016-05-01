@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kurron.example
+package org.kurron.example.shared
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

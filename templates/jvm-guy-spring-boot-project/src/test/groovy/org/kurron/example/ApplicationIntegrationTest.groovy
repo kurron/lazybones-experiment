@@ -16,6 +16,7 @@
 
 package org.kurron.example
 
+import org.kurron.example.shared.ApplicationProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest

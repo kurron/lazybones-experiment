@@ -16,11 +16,8 @@
 
 package org.kurron.example.inbound.rest
 
-import java.time.Instant
-import javax.servlet.http.HttpServletRequest
-import javax.validation.Valid
-import org.kurron.example.MessagingContext
 import org.kurron.example.core.TimeComponent
+import org.kurron.example.shared.MessagingContext
 import org.kurron.feedback.AbstractFeedbackAware
 import org.kurron.stereotype.InboundRestGateway
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,6 +29,10 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.HandlerMapping
+
+import javax.servlet.http.HttpServletRequest
+import javax.validation.Valid
+import java.time.Instant
 
 /**
  * Inbound HTTP gateway that supports the FIXME resource.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kurron.example
+package org.kurron.example.shared
 
 import org.kurron.feedback.Audience
 import org.kurron.feedback.FeedbackContext

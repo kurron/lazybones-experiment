@@ -3,8 +3,8 @@ package org.kurron.example.inbound.amqp
 import org.junit.experimental.categories.Category
 import org.kurron.categories.InboundIntegrationTest
 import org.kurron.example.Application
-import org.kurron.example.ApplicationProperties
 import org.kurron.example.inbound.rest.RestCapable
+import org.kurron.example.shared.ApplicationProperties
 import org.kurron.traits.GenerationAbility
 import org.springframework.amqp.core.MessageDeliveryMode
 import org.springframework.amqp.core.MessagePropertiesBuilder

@@ -16,7 +16,7 @@
 
 package org.kurron.example.inbound.amqp
 
-import org.kurron.example.MessagingContext
+import org.kurron.example.shared.MessagingContext
 import org.kurron.feedback.AbstractFeedbackAware
 import org.kurron.stereotype.InboundGateway
 import org.springframework.amqp.rabbit.annotation.RabbitListener

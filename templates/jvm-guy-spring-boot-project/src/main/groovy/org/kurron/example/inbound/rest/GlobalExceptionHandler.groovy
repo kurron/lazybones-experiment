@@ -1,6 +1,6 @@
 package org.kurron.example.inbound.rest
 
-import org.kurron.example.MessagingContext
+import org.kurron.example.shared.MessagingContext
 import org.kurron.feedback.FeedbackAware
 import org.kurron.feedback.FeedbackProvider
 import org.kurron.feedback.NullFeedbackProvider

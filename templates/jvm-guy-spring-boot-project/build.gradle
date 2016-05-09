@@ -31,7 +31,7 @@ plugins {
 }
 
 plugins {
-    id "com.jfrog.bintray" version "1.2"
+    id "com.jfrog.bintray" version "1.6"
 }
 
 description = 'Bare bones example REST micro-service'
@@ -72,6 +72,7 @@ apply from: "$rootDir/gradle/cucumber.gradle"
 apply from: "$rootDir/gradle/docker.gradle"
 apply from: "$rootDir/gradle/bintray.gradle"
 apply from: "$rootDir/gradle/codenarc.gradle"
+apply from: "$rootDir/gradle/jacoco.gradle"
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"

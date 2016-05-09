@@ -1,12 +1,12 @@
 buildscript {
     repositories {
         maven {
-            url 'http://dl.bintray.com/pledbrook/plugins'
+            url = System.getenv( "ARTIFACTORY" )
         }
     }
 
     dependencies {
-        classpath 'uk.co.cacoethes:lazybones-gradle:1.2.3'
+        classpath 'uk.co.cacoethes:lazybones-gradle:1.2.4'
     }
 }
 
@@ -16,9 +16,10 @@ ext.globalExcludes = ['**/*.swp', '.gradle', 'build', '.idea', '*.iml', '*.ipr',
 
 lazybones {
     packageExcludes = globalExcludes 
+    // where we are publishing to
     repositoryUrl = 'https://api.bintray.com/content/kurron/lazybones'
-    repositoryUsername = System.getenv("BINTRAY_USER_NAME")
-    repositoryApiKey = System.getenv("BINTRAY_API_KEY")
+    repositoryUsername = System.getenv( "BINTRAY_USER_NAME" )
+    repositoryApiKey = System.getenv( "BINTRAY_API_KEY" )
     publish = true
 
     // template specific exclusions

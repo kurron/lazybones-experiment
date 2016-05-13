@@ -54,15 +54,19 @@ security:
 
 # app specific properties
 example:
-    serviceCode: ${name}
-    serviceInstance: \${random.int[1,65536]}
-    realm: development
-    queueName: example-queue
-    exchangeName: example-exchange
-    deadLetterExchangeName: dead-letter-exchange
-    deadLetterQueueName: dead-letter-queue
-    messageRetryAttempts: 3
-    foo: default
+    logging:
+        serviceCode: ${name}
+        serviceInstance: \${random.int[1,65536]}
+        realm: development
+    inbound:
+        exchangeName: example-events
+        routingKey: example-events
+        queueName: example-events
+    deadletter:
+        exchangeName: example-dead-letter
+        queueName: example-dead-letter
+        routingKey: example-dead-letter
+        messageRetryAttempts: 3
 
 
 #---------- profile specific overrides ----------#

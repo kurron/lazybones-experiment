@@ -28,7 +28,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener
 class RabbitGateway  extends AbstractFeedbackAware {
 
     @SuppressWarnings(['GrMethodMayBeStatic', 'GroovyUnusedDeclaration'])
-    @RabbitListener( queues = '${example.queueName}' )
+    @RabbitListener( queues = '${example.inbound.queueName}' )
     void processMessage( SampleRequest  request ) {
         feedbackProvider.sendFeedback( MessagingContext.INTENTIONAL_ERROR, 'Triggering poison message handling.' )
         throw new UnsupportedOperationException( "forced to fail: ${request.timestamp}" )

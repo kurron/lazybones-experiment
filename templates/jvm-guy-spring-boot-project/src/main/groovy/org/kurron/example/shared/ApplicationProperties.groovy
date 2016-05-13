@@ -24,47 +24,79 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class ApplicationProperties {
 
     /**
-     * Identifies this type of service. Used in logging.
+     * Contains the logging related properties.
      */
-    String serviceCode
+    Logging logging
 
     /**
-     * Identifies this instance of the service. Used in logging.
+     * Contains the dead letter exchange settings.
      */
-    String serviceInstance
+    DeadLetter deadletter
 
     /**
-     * Logically groups a collection of services. Used in logging.
+     * Contains the inbound AMQP settings.
      */
-    String realm
+    Inbound inbound
+
+    static class Logging {
+        /**
+         * Identifies this type of service. Used in logging.
+         */
+        String serviceCode
+
+        /**
+         * Identifies this instance of the service. Used in logging.
+         */
+        String serviceInstance
+
+        /**
+         * Logically groups a collection of services. Used in logging.
+         */
+        String realm
+    }
+
+    static class DeadLetter {
+        /**
+         * This property controls the name of the exchange used to publish poison messages to.
+         */
+        String exchangeName
+
+        /**
+         * This property controls the queue that is bound to the poison messages exchange.
+         */
+        String queueName
+
+        /**
+         * This property controls the routing key that is used when publishing poison messages.
+         */
+        String routingKey
+
+        /**
+         * This property controls how many times a message will be processed before being declared a poison message.
+         */
+        int messageRetryAttempts
+    }
+
+    static class Inbound {
+        /**
+         * This property controls the name of the exchange that the outbound gateway publishes to.
+         */
+        String exchangeName
+
+        /**
+         * This property controls the routing key that the outbound gateway publishes to.
+         */
+        String routingKey
+
+        /**
+         * This property controls the queue that is bound to the inbound exchange.
+         */
+        String queueName
+    }
 
     /**
      * This property controls...
      */
     String foo
 
-    /**
-     * This property controls the name of the queue that the inbound gateway binds to.
-     */
-    String queueName
-
-    /**
-     * This property controls the name of the exchange that the inbound gateway binds to.
-     */
-    String exchangeName
-
-    /**
-     * This property controls the name of the exchange used to publish poison messages to.
-     */
-    String deadLetterExchangeName
-
-    /**
-     * This property controls the name of the queue used to hold poison messages.
-     */
-    String deadLetterQueueName
-
-    /**
-     * This property controls how many times a message will be processed before being declared a poison message.
-     */
-    int messageRetryAttempts
 }

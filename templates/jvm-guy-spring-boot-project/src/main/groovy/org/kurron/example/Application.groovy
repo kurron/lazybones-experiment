@@ -51,27 +51,27 @@ class Application {
 
     @Bean
     static FeedbackAwareBeanPostProcessor feedbackAwareBeanPostProcessor( ApplicationProperties configuration ) {
-        new FeedbackAwareBeanPostProcessor( configuration.serviceCode, configuration.serviceInstance, configuration.realm )
+        new FeedbackAwareBeanPostProcessor( configuration.logging.serviceCode, configuration.logging.serviceInstance, configuration.logging.realm )
     }
 
     @SuppressWarnings( 'UnnecessaryCast' )
     @Bean
     List<Declarable> amqpBindings( ApplicationProperties configuration ) {
         [
-                new DirectExchange( configuration.exchangeName ),
-                new Queue( configuration.queueName ),
-                new Binding( configuration.queueName, QUEUE, configuration.exchangeName, configuration.queueName, null ),
-                new DirectExchange( configuration.deadLetterExchangeName ),
-                new Queue( configuration.deadLetterQueueName ),
-                new Binding( configuration.deadLetterQueueName, QUEUE, configuration.deadLetterExchangeName, configuration.deadLetterQueueName, null )
+                new DirectExchange( configuration.inbound.exchangeName ),
+                new Queue( configuration.inbound.queueName ),
+                new Binding( configuration.inbound.queueName, QUEUE, configuration.inbound.exchangeName, configuration.inbound.routingKey, null ),
+                new DirectExchange( configuration.deadletter.exchangeName ),
+                new Queue( configuration.deadletter.queueName ),
+                new Binding( configuration.deadletter.queueName, QUEUE, configuration.deadletter.exchangeName, configuration.deadletter.routingKey, null )
         ] as List<Declarable>
     }
 
     @Bean
     StatefulRetryOperationsInterceptor interceptor( RabbitTemplate template, ApplicationProperties settings ) {
-        def strategy = new RepublishMessageRecoverer( template, settings.deadLetterExchangeName, settings.deadLetterQueueName )
+        def strategy = new RepublishMessageRecoverer( template, settings.deadletter.exchangeName, settings.deadletter.routingKey )
         RetryInterceptorBuilder.stateful()
-                               .maxAttempts( settings.messageRetryAttempts )
+                               .maxAttempts( settings.deadletter.messageRetryAttempts )
                                .backOffPolicy( new ExponentialRandomBackOffPolicy() )
                                .recoverer( strategy )
                                .build()

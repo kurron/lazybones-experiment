@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2016. Ronald D. Kurr kurr@jvmguy.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.kurron.example.inbound.rest
 
 import cucumber.api.PendingException
@@ -6,7 +22,9 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import groovy.util.logging.Slf4j
+import org.kurron.example.Application
 import org.springframework.boot.test.SpringApplicationContextLoader
+import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -20,7 +38,13 @@ import org.springframework.test.context.ContextConfiguration
  **/
 @SuppressWarnings( ['MethodCount'] )
 @Slf4j
-@ContextConfiguration( classes = [AcceptanceTestConfiguration], loader = SpringApplicationContextLoader )
+// ====> this is the configuration to use when hitting a Docker container
+// @IntegrationTest
+// @ContextConfiguration( classes = [Application, AcceptanceTestConfiguration], loader = SpringApplicationContextLoader )
+
+// ====> this is the configuration to use when hitting an embedded application
+@WebIntegrationTest( randomPort = true )
+@ContextConfiguration( classes = [Application, AcceptanceTestConfiguration], loader = SpringApplicationContextLoader )
 class TestSteps {
     /**
      * This is state shared between steps and can be setup and torn down by the hooks.

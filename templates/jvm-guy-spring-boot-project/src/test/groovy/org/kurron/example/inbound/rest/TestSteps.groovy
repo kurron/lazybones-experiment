@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kurron.example.inbound.rest
 
 import cucumber.api.PendingException
@@ -23,8 +22,8 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import groovy.util.logging.Slf4j
 import org.kurron.example.Application
+import org.springframework.boot.test.IntegrationTest
 import org.springframework.boot.test.SpringApplicationContextLoader
-import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -39,12 +38,12 @@ import org.springframework.test.context.ContextConfiguration
 @SuppressWarnings( ['MethodCount'] )
 @Slf4j
 // ====> this is the configuration to use when hitting a Docker container
-// @IntegrationTest
-// @ContextConfiguration( classes = [Application, AcceptanceTestConfiguration], loader = SpringApplicationContextLoader )
+@IntegrationTest
+@ContextConfiguration( classes = [Application, AcceptanceTestConfiguration], loader = SpringApplicationContextLoader )
 
 // ====> this is the configuration to use when hitting an embedded application
-@WebIntegrationTest( randomPort = true )
-@ContextConfiguration( classes = [Application, AcceptanceTestConfiguration], loader = SpringApplicationContextLoader )
+// @WebIntegrationTest( randomPort = true )
+// @ContextConfiguration( classes = [Application, AcceptanceTestConfiguration], loader = SpringApplicationContextLoader )
 class TestSteps {
     /**
      * This is state shared between steps and can be setup and torn down by the hooks.

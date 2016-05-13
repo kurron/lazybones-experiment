@@ -56,7 +56,7 @@ class RabbitGatewayIntegrationTest extends Specification implements GenerationAb
         // clear the queue before each test
         assert configuration
         assert administrator
-        administrator.purgeQueue( configuration.queueName, false )
+        administrator.purgeQueue( configuration.inbound.queueName, false )
     }
 
     def 'exercise publishing happy path'() {
@@ -76,7 +76,7 @@ class RabbitGatewayIntegrationTest extends Specification implements GenerationAb
         def message = converter.toMessage( new SampleRequest( status: randomPositiveInteger(), timestamp: randomHexString() ), properties )
 
         when: 'message is sent'
-        template.send( configuration.exchangeName, configuration.queueName, message )
+        template.send( configuration.inbound.exchangeName, configuration.inbound.queueName, message )
 
         then:
         Thread.sleep( 1000 )

@@ -18,6 +18,11 @@ package org.kurron.example
 import static org.springframework.amqp.core.Binding.DestinationType.QUEUE
 import groovy.util.logging.Slf4j
 import org.aopalliance.aop.Advice
+import org.kurron.example.outbound.amqp.ExtendedRabbitOperations
+import org.kurron.example.outbound.amqp.InMemoryAcknowledgmentManager
+import org.kurron.example.outbound.amqp.MessageInterceptor
+import org.kurron.example.outbound.amqp.RabbitEventGateway
+import org.kurron.example.outbound.amqp.RabbitTemplateDelegate
 import org.kurron.example.shared.ApplicationProperties
 import org.kurron.feedback.FeedbackAwareBeanPostProcessor
 import org.springframework.amqp.core.Binding
@@ -26,6 +31,7 @@ import org.springframework.amqp.core.DirectExchange
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.amqp.rabbit.retry.RepublishMessageRecoverer
@@ -34,8 +40,10 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
+import org.springframework.retry.backoff.ExponentialBackOffPolicy
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
+import org.springframework.retry.support.RetryTemplate
 
 /**
  * The entry point into the system.  Runs as a standalone web server.
@@ -93,5 +101,55 @@ class Application {
             setAdviceChain( [interceptor] as Advice[] )
             it
         }
+    }
+
+    @Bean
+    MessageInterceptor messageInterceptor( ApplicationProperties configuration ) {
+        new MessageInterceptor( configuration )
+    }
+
+    @Bean
+    InMemoryAcknowledgmentManager inMemoryAcknowledgmentManager() {
+        new InMemoryAcknowledgmentManager()
+    }
+
+    // The bean created in RabbitAutoConfiguration is very basic so let's make a more sophisticated one.
+    @Bean
+    RabbitTemplate rabbitTemplate( CachingConnectionFactory connectionFactory,
+                                   Jackson2JsonMessageConverter jackson2JsonMessageConverter,
+                                   MessageInterceptor messageInterceptor,
+                                   RabbitTemplate.ConfirmCallback confirmationManager ) {
+        //TODO: externalize these values into the configuration
+
+        def bean = new RabbitTemplate( connectionFactory ).with {
+            mandatory = true
+            messageConverter = jackson2JsonMessageConverter
+            receiveTimeout = 0
+            replyTimeout = 5000
+            beforePublishPostProcessors = messageInterceptor
+
+            connectionFactory.publisherConfirms = true
+            confirmCallback = confirmationManager
+            it
+        }
+
+        bean.retryTemplate = new RetryTemplate().with {
+            it.backOffPolicy = new ExponentialBackOffPolicy( initialInterval: 500, multiplier: 10.0, maxInterval: 10000 )
+            it
+        }
+
+        bean
+    }
+
+    @Bean
+    RabbitTemplateDelegate rabbitTemplateDelegate( RabbitTemplate template ) {
+        new RabbitTemplateDelegate( template )
+    }
+
+    @Bean
+    RabbitEventGateway rabbitEventGateway( final ExtendedRabbitOperations template,
+                                           final ApplicationProperties configuration,
+                                           final Jackson2JsonMessageConverter converter ) {
+        new RabbitEventGateway( template, configuration, converter)
     }
 }

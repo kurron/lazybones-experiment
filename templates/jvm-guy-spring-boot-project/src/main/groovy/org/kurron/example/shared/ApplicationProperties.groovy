@@ -38,6 +38,11 @@ class ApplicationProperties {
      */
     Inbound inbound
 
+    /**
+     * Contains the outbound AMQP settings.
+     */
+    Outbound outbound
+
     static class Logging {
         /**
          * Identifies this type of service. Used in logging.
@@ -92,6 +97,18 @@ class ApplicationProperties {
          * This property controls the queue that is bound to the inbound exchange.
          */
         String queueName
+    }
+
+    static class Outbound {
+        /**
+         * This property controls the name of the exchange that the outbound gateway publishes to.
+         */
+        String exchangeName
+
+        /**
+         * This property controls the routing key that the outbound gateway publishes to.
+         */
+        String routingKey
     }
 
     /**

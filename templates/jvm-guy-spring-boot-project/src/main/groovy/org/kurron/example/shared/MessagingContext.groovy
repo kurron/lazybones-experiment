@@ -31,6 +31,7 @@ enum MessagingContext implements FeedbackContext {
     GENERIC_ERROR( 1007, FeedbackLevel.ERROR, Audience.QA, 'The following error has occurred and was caught by the global error handler: {}'  ),
     INTENTIONAL_ERROR( 1008, FeedbackLevel.ERROR, Audience.QA, 'Failing on purpose for this reason: {}'  ),
     VALIDATION_ERROR( 1009, FeedbackLevel.INFO, Audience.QA, 'The property {} is invalid. Cause: {}' ),
+    PUBLICATION_FAILURE( 1010, FeedbackLevel.ERROR, Audience.SUPPORT, 'The descriptor could not be published because of this error: {}' )
 
     private final int code
     private final String formatString

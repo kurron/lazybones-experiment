@@ -39,20 +39,7 @@ group = 'org.kurron.example'
 
 // Show how to exclude objects from being required to have a unit-level test
 ext.coverageExcludes = [
-    'org/kurron/example/Application',
-    'org/kurron/example/inbound/amqp/RabbitGateway',
-    'org/kurron/example/inbound/amqp/SampleRequest',
-    'org/kurron/example/inbound/rest/ErrorBlock',
-    'org/kurron/example/inbound/rest/ForcedApplicationError',
-    'org/kurron/example/inbound/rest/GlobalExceptionHandler',
-    'org/kurron/example/inbound/rest/HypermediaControl',
-    'org/kurron/example/inbound/rest/RestGateway',
-    'org/kurron/example/inbound/rest/SingleSignOntGateway',
-    'org/kurron/example/inbound/rest/ValidationError',
-    'org/kurron/example/outbound/RemoteTimeGateway',
-    'org/kurron/example/outbound/StubTimeService',
-    'org/kurron/example/shared/ApplicationProperties',
-    'org/kurron/example/shared/MessagingContext',
+    'org/kurron/example/'
 ]
 
 apply plugin: 'build-announcements'

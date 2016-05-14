@@ -59,9 +59,12 @@ example:
         serviceInstance: \${random.int[1,65536]}
         realm: development
     inbound:
+        exchangeName: example-commands
+        routingKey: example-commands
+        queueName: example-commands
+    outbound:
         exchangeName: example-events
         routingKey: example-events
-        queueName: example-events
     deadletter:
         exchangeName: example-dead-letter
         queueName: example-dead-letter

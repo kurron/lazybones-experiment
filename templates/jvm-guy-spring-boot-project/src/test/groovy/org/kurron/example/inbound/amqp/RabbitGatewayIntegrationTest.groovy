@@ -19,12 +19,12 @@ import org.junit.experimental.categories.Category
 import org.kurron.categories.InboundIntegrationTest
 import org.kurron.example.Application
 import org.kurron.example.inbound.rest.RestCapable
+import org.kurron.example.outbound.amqp.ExtendedRabbitOperations
 import org.kurron.example.shared.ApplicationProperties
 import org.kurron.traits.GenerationAbility
 import org.springframework.amqp.core.MessageDeliveryMode
 import org.springframework.amqp.core.MessagePropertiesBuilder
 import org.springframework.amqp.rabbit.core.RabbitAdmin
-import org.springframework.amqp.rabbit.core.RabbitOperations
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.IntegrationTest
@@ -47,7 +47,7 @@ class RabbitGatewayIntegrationTest extends Specification implements GenerationAb
     RabbitAdmin administrator
 
     @Autowired
-    RabbitOperations template
+    ExtendedRabbitOperations template
 
     @Autowired
     Jackson2JsonMessageConverter converter

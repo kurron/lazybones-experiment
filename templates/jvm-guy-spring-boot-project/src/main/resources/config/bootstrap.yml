@@ -1,6 +1,6 @@
 spring:
     application:
-        name: example
+        name: ${name}
     cloud:
         config:
             failFast: true

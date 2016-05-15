@@ -3,4 +3,13 @@ spring:
         name: example
     cloud:
         config:
-            uri: ${SPRING_CONFIG_URI:http://192.168.1.227:2020}
+            failFast: true
+            discovery:
+                enabled: true
+                serviceId: jvm-guy-configuration-server
+        consul:
+            host: 192.168.1.227
+            port: 8500
+            discovery:
+                tags:
+                - ${version}

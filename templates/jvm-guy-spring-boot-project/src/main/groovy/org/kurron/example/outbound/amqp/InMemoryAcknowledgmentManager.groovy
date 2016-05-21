@@ -18,6 +18,7 @@ package org.kurron.example.outbound.amqp
 import org.kurron.example.shared.ExampleData
 import org.kurron.example.shared.MessagingContext
 import org.kurron.feedback.AbstractFeedbackAware
+import org.springframework.amqp.core.Message
 import org.springframework.amqp.rabbit.support.CorrelationData
 
 /**
@@ -31,6 +32,9 @@ class InMemoryAcknowledgmentManager extends AbstractFeedbackAware implements Ack
      */
     private final Map<CorrelationData, ExampleData> outstanding = [:]
 
+    //TOD: not thread-safe! Use Redis instead?
+    private final List<Message> unacknowledged = []
+
     @Override
     CorrelationData manage( final ExampleData data ) {
         def key = new CorrelationData( UUID.randomUUID() as String )
@@ -42,10 +46,22 @@ class InMemoryAcknowledgmentManager extends AbstractFeedbackAware implements Ack
     void confirm( final CorrelationData correlationData, final boolean ack, final String cause ) {
         if ( ack ) {
             outstanding.remove( correlationData )
+            feedbackProvider.sendFeedback( MessagingContext.RETRY_ACKNOWLEDGE, correlationData.id )
         }
         else {
             //TODO: a production implementation might retry unacknowledged messages at a later time
-            feedbackProvider.sendFeedback( MessagingContext.PUBLICATION_FAILURE, cause ?: 'No cause given.' )
+            feedbackProvider.sendFeedback( MessagingContext.RETRY_UNACKNOWLEDGED, correlationData.id, cause ?: 'No cause given.' )
         }
+    }
+
+    @Override
+    void returnedMessage( final Message message,
+                          final int replyCode,
+                          final String replyText,
+                          final String exchange,
+                          final String routingKey ) {
+        feedbackProvider.sendFeedback( MessagingContext.RETRY_UNROUTABLE, replyCode, replyText, exchange, routingKey )
+        // REMINDER: an unroutable message STILL gets acknowledged so we'll need keep it in a separate retry list
+        unacknowledged.add( message )
     }
 }

@@ -22,6 +22,7 @@ import org.kurron.feedback.FeedbackLevel
 /**
  * The enumeration of all logged messages produced by the system.
  **/
+@SuppressWarnings( 'LineLength' )
 enum MessagingContext implements FeedbackContext {
 
     CURRENT_TIME( 1000, FeedbackLevel.WARN, Audience.QA, 'The current time is {}.' ),
@@ -31,7 +32,10 @@ enum MessagingContext implements FeedbackContext {
     GENERIC_ERROR( 1007, FeedbackLevel.ERROR, Audience.QA, 'The following error has occurred and was caught by the global error handler: {}'  ),
     INTENTIONAL_ERROR( 1008, FeedbackLevel.ERROR, Audience.QA, 'Failing on purpose for this reason: {}'  ),
     VALIDATION_ERROR( 1009, FeedbackLevel.INFO, Audience.QA, 'The property {} is invalid. Cause: {}' ),
-    PUBLICATION_FAILURE( 1010, FeedbackLevel.ERROR, Audience.SUPPORT, 'The descriptor could not be published because of this error: {}' )
+    PUBLICATION_FAILURE( 1010, FeedbackLevel.ERROR, Audience.SUPPORT, 'The descriptor could not be published because of this error: {}' ),
+    RETRY_UNROUTABLE( 1011, FeedbackLevel.ERROR, Audience.QA, 'A message could not be routed, likely due to a configuration error. code: {}, text: {}, exchange: {}, routing key: {}' ),
+    RETRY_ACKNOWLEDGE( 1012, FeedbackLevel.DEBUG, Audience.DEVELOPMENT, 'The descriptor {} has been acknowledged by RabbitMQ.' ),
+    RETRY_UNACKNOWLEDGED( 1013, FeedbackLevel.WARN, Audience.QA, 'The descriptor {} has not been acknowledged by RabbitMQ due to {}. Will retry later.' ),
 
     private final int code
     private final String formatString

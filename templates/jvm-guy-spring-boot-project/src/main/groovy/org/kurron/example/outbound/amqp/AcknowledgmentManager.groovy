@@ -22,7 +22,7 @@ import org.springframework.amqp.rabbit.support.CorrelationData
 /**
  * Knows how to deal with message broker acknowledgments.
  */
-interface AcknowledgmentManager extends RabbitTemplate.ConfirmCallback {
+interface AcknowledgmentManager extends RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
     /**
      * Places the data under the manager's control.
      * @param data payload of the event.

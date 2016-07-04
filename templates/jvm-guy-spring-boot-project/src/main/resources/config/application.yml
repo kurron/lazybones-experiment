@@ -4,3 +4,4 @@ info:
         name: ${name}
         description: ${description}
         version: ${version}
+        built-on: ${builtOn}

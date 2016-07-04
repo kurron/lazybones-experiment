@@ -76,6 +76,7 @@ apply from: "$rootDir/gradle/docker.gradle"
 apply from: "$rootDir/gradle/bintray.gradle"
 apply from: "$rootDir/gradle/codenarc.gradle"
 apply from: "$rootDir/gradle/jacoco.gradle"
+apply from: "$rootDir/gradle/jackson.gradle"
 
 dependencyManagement {
     imports {

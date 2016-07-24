@@ -1,5 +1,5 @@
 # start with a Ubuntu base box with Java 8 pre-installed
-FROM kurron/docker-oracle-jdk-8:1.8.0_77
+FROM kurron/docker-oracle-jdk-8:1.8.0_101
 
 # set the author/maintainer
 MAINTAINER Ron Kurr "kurr@kurron.org"

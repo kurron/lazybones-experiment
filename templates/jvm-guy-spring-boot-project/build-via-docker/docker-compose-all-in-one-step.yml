@@ -21,7 +21,8 @@ services:
         - /gradle-cache
         - /fake-home
     all-in-one-step:
-        image: kurron/docker-docker-compose:1.7.0
+#       image: kurron/docker-docker-compose:1.7.0
+        image: kurron/docker-oracle-jdk-8:1.8.0_101
         depends_on:
         - rabbitmq
         links:

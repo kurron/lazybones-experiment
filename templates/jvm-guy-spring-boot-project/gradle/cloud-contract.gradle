@@ -15,12 +15,7 @@
  */
 
 dependencies {
-    compile('org.springframework.cloud:spring-cloud-starter-config')
-//  compile('org.springframework.cloud:spring-cloud-config-server')
-//  compile('org.springframework.cloud:spring-cloud-starter-zookeeper-config')
-//  compile('org.springframework.cloud:spring-cloud-starter-consul-config')
-
-// Not in https://start.spring.io/
-//  compile('org.springframework.cloud:spring-cloud-config-monitor')
+//  testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
+//  testCompile('org.springframework.cloud:spring-cloud-starter-contract-verifier')
+//  testCompile('org.springframework.cloud:spring-cloud-contract-wiremock')
 }
-

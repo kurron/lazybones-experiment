@@ -71,25 +71,13 @@ task publishDockerImage( type: Exec, dependsOn: tagDockerImage ) {
     }
 }
 
-task deleteDockerComposeAssets( type: Exec ) {
+task deleteDockerImage( type: Exec ) {
     group 'Docker'
     description = 'Deletes Docker containers started by Docker Compose as well as images'
     workingDir dockerDirectory
     doFirst {
         logger.quiet "Cleaning up Docker containers and networks."
         commandLine 'docker-compose', 'down', '--rmi', 'all'
-    }
-}
-
-task deleteDockerImage( type: Exec, dependsOn: [deleteDockerComposeAssets] ) {
-    group 'Docker'
-    description = 'Deletes Docker images not controlled by Docker Compose'
-    workingDir dockerDirectory
-    if ( 'true' == publishArtifacts ) {
-        doFirst {
-            logger.quiet "Cleaning up Docker image ${fullImageName}."
-            commandLine 'docker', 'rmi', fullImageName
-        }
     }
 }
 

@@ -15,6 +15,9 @@
  */
 package org.kurron.example.inbound.rest
 
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
@@ -32,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.restdocs.JUnitRestDocumentation
-import org.springframework.restdocs.headers.HeaderDocumentation
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -85,13 +87,17 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
                 fieldWithPath( 'error.message' ).description( 'description of the failure suitable for use by the UI' ),
                 fieldWithPath( 'error.developer-message' ).description( 'description of the failure intended for support and development' )
         )
-        def headers = HeaderDocumentation.requestHeaders(
-                HeaderDocumentation.headerWithName( 'Accept' ).description( 'Preferred response format desired by the client' ),
-                HeaderDocumentation.headerWithName( 'X-Correlation-Id' ).description( 'Unique identifier of this request. Used for tracing and logging.' )
+        def requestHeaders = requestHeaders(
+                headerWithName( 'Accept' ).description( 'Preferred response format desired by the client' ),
+                headerWithName( 'X-Correlation-Id' ).description( 'Unique identifier of this request. Used for tracing and logging.' )
+        )
+        def responseHeaders = responseHeaders(
+                headerWithName( 'Content-Type' ).description( 'Actual format of the response.' ),
+                headerWithName( 'Content-Length' ).description( 'Length of the response, in bytes.' )
         )
         mockMvc.perform( requestBuilder )
                .andExpect( status().isIAmATeapot() )
-               .andDo( document( 'failure-scenario', commonLinks, responseFields, headers ) )
+               .andDo( document( 'failure-scenario', commonLinks, responseFields, requestHeaders, responseHeaders ) )
 
         then: 'examples are generated'
     }

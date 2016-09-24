@@ -117,6 +117,7 @@ For example, our forced failure resource will produce a `418 I'm a teapot` respo
 include::{snippets}/failure-scenario/httpie-request.adoc[]
 include::{snippets}/failure-scenario/curl-request.adoc[]
 include::{snippets}/failure-scenario/http-request.adoc[]
+include::{snippets}/failure-scenario/request-headers.adoc[]
 include::{snippets}/failure-scenario/http-response.adoc[]
 include::{snippets}/failure-scenario/response-fields.adoc[]
 

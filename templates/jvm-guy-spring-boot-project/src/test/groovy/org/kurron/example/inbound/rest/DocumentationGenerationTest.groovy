@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.restdocs.JUnitRestDocumentation
+import org.springframework.restdocs.headers.HeaderDocumentation
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -61,7 +62,7 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
     }
 
     // showcases common links that appear in most responses and is a way to reuse snippets
-    def pagingLinks = links(
+    def commonLinks = links(
             linkWithRel( 'first' ).optional().description( 'The first page of results' ),
             linkWithRel( 'last' ).optional().description( 'The last page of results' ),
             linkWithRel( 'next' ).optional().description( 'The next page of results' ),
@@ -70,6 +71,7 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
 
     // TODO: showcase documenting request parameters, eg. /users?page=2&per_page=100
     // TODO: showcase documenting path parameters, eg. /locations/{latitude}/{longitude}
+    // TODO: showcase documenting constraints, eg. @NotNull @Size(min = 1)
 
     def 'demonstrate failure scenario'() {
 
@@ -83,9 +85,13 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
                 fieldWithPath( 'error.message' ).description( 'description of the failure suitable for use by the UI' ),
                 fieldWithPath( 'error.developer-message' ).description( 'description of the failure intended for support and development' )
         )
+        def headers = HeaderDocumentation.requestHeaders(
+                HeaderDocumentation.headerWithName( 'Accept' ).description( 'Preferred response format desired by the client' ),
+                HeaderDocumentation.headerWithName( 'X-Correlation-Id' ).description( 'Unique identifier of this request. Used for tracing and logging.' )
+        )
         mockMvc.perform( requestBuilder )
                .andExpect( status().isIAmATeapot() )
-               .andDo( document( 'failure-scenario', pagingLinks, responseFields ) )
+               .andDo( document( 'failure-scenario', commonLinks, responseFields, headers ) )
 
         then: 'examples are generated'
     }

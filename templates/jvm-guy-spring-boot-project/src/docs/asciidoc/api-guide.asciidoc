@@ -163,6 +163,8 @@ include::{snippets}/get-my-resource/curl-request.adoc[]
 include::{snippets}/get-my-resource/http-request.adoc[]
 include::{snippets}/get-my-resource/http-response.adoc[]
 
+IMPORTANT: If this were a real API, would document both the request and response fields.
+
 [[mime-type]]
 === Specifying Media Types
 The `Accept` and `Content-Type` headers contain the media types of entities being sent to and returned from the service.  Enchantment makes

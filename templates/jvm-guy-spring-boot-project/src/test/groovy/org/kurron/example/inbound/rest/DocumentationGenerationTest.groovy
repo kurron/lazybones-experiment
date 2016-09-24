@@ -15,8 +15,12 @@
  */
 package org.kurron.example.inbound.rest
 
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.junit.Rule
@@ -28,8 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.restdocs.JUnitRestDocumentation
-import org.springframework.restdocs.hypermedia.HypermediaDocumentation
-import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -59,12 +61,15 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
     }
 
     // showcases common links that appear in most responses and is a way to reuse snippets
-    def pagingLinks = HypermediaDocumentation.links(
-            HypermediaDocumentation.linkWithRel( 'first' ).optional().description( 'The first page of results' ),
-            HypermediaDocumentation.linkWithRel( 'last' ).optional().description( 'The last page of results' ),
-            HypermediaDocumentation.linkWithRel( 'next' ).optional().description( 'The next page of results' ),
-            HypermediaDocumentation.linkWithRel( 'prev' ).optional().description( 'The previous page of results' )
+    def pagingLinks = links(
+            linkWithRel( 'first' ).optional().description( 'The first page of results' ),
+            linkWithRel( 'last' ).optional().description( 'The last page of results' ),
+            linkWithRel( 'next' ).optional().description( 'The next page of results' ),
+            linkWithRel( 'prev' ).optional().description( 'The previous page of results' )
     )
+
+    // TODO: showcase documenting request parameters, eg. /users?page=2&per_page=100
+    // TODO: showcase documenting path parameters, eg. /locations/{latitude}/{longitude}
 
     def 'demonstrate failure scenario'() {
 
@@ -72,11 +77,11 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
         def requestBuilder = get( '/descriptor/fail/application' ).accept( HypermediaControl.MEDIA_TYPE ).header( 'X-Correlation-Id', randomUUID() )
 
         when: 'the GET request is made'
-        def responseFields = PayloadDocumentation.responseFields(
-                PayloadDocumentation.fieldWithPath( 'status' ).description( 'HTTP status code' ),
-                PayloadDocumentation.fieldWithPath( 'error.code' ).description( 'application specific error code' ),
-                PayloadDocumentation.fieldWithPath( 'error.message' ).description( 'description of the failure suitable for use by the UI' ),
-                PayloadDocumentation.fieldWithPath( 'error.developer-message' ).description( 'description of the failure intended for support and development' )
+        def responseFields = responseFields(
+                fieldWithPath( 'status' ).description( 'HTTP status code' ),
+                fieldWithPath( 'error.code' ).description( 'application specific error code' ),
+                fieldWithPath( 'error.message' ).description( 'description of the failure suitable for use by the UI' ),
+                fieldWithPath( 'error.developer-message' ).description( 'description of the failure intended for support and development' )
         )
         mockMvc.perform( requestBuilder )
                .andExpect( status().isIAmATeapot() )

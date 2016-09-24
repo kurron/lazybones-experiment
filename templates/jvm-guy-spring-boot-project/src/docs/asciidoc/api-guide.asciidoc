@@ -118,6 +118,7 @@ include::{snippets}/failure-scenario/httpie-request.adoc[]
 include::{snippets}/failure-scenario/curl-request.adoc[]
 include::{snippets}/failure-scenario/http-request.adoc[]
 include::{snippets}/failure-scenario/http-response.adoc[]
+include::{snippets}/failure-scenario/response-fields.adoc[]
 
 Example of documenting links
 include::{snippets}/failure-scenario/links.adoc[]

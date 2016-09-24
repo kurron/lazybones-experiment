@@ -29,6 +29,7 @@ import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.restdocs.JUnitRestDocumentation
 import org.springframework.restdocs.hypermedia.HypermediaDocumentation
+import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -71,9 +72,15 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
         def requestBuilder = get( '/descriptor/fail/application' ).accept( HypermediaControl.MEDIA_TYPE ).header( 'X-Correlation-Id', randomUUID() )
 
         when: 'the GET request is made'
+        def responseFields = PayloadDocumentation.responseFields(
+                PayloadDocumentation.fieldWithPath( 'status' ).description( 'HTTP status code' ),
+                PayloadDocumentation.fieldWithPath( 'error.code' ).description( 'application specific error code' ),
+                PayloadDocumentation.fieldWithPath( 'error.message' ).description( 'description of the failure suitable for use by the UI' ),
+                PayloadDocumentation.fieldWithPath( 'error.developer-message' ).description( 'description of the failure intended for support and development' )
+        )
         mockMvc.perform( requestBuilder )
                .andExpect( status().isIAmATeapot() )
-               .andDo( document( 'failure-scenario', pagingLinks ) )
+               .andDo( document( 'failure-scenario', pagingLinks, responseFields ) )
 
         then: 'examples are generated'
     }

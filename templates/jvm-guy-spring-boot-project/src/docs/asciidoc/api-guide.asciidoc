@@ -119,6 +119,9 @@ include::{snippets}/failure-scenario/curl-request.adoc[]
 include::{snippets}/failure-scenario/http-request.adoc[]
 include::{snippets}/failure-scenario/http-response.adoc[]
 
+Example of documenting links
+include::{snippets}/failure-scenario/links.adoc[]
+
 [[overview-hypermedia]]
 == Hypermedia
 

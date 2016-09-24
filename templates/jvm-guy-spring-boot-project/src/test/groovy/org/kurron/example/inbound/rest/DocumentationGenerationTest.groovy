@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.restdocs.JUnitRestDocumentation
+import org.springframework.restdocs.hypermedia.HypermediaDocumentation
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -56,13 +57,23 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
         mockMvc = MockMvcBuilders.webAppContextSetup( context ).apply( documentationConfiguration( documentation ) ).build()
     }
 
+    // showcases common links that appear in most responses and is a way to reuse snippets
+    def pagingLinks = HypermediaDocumentation.links(
+            HypermediaDocumentation.linkWithRel( 'first' ).optional().description( 'The first page of results' ),
+            HypermediaDocumentation.linkWithRel( 'last' ).optional().description( 'The last page of results' ),
+            HypermediaDocumentation.linkWithRel( 'next' ).optional().description( 'The next page of results' ),
+            HypermediaDocumentation.linkWithRel( 'prev' ).optional().description( 'The previous page of results' )
+    )
+
     def 'demonstrate failure scenario'() {
 
         given: 'a valid request'
         def requestBuilder = get( '/descriptor/fail/application' ).accept( HypermediaControl.MEDIA_TYPE ).header( 'X-Correlation-Id', randomUUID() )
 
         when: 'the GET request is made'
-        mockMvc.perform( requestBuilder ).andExpect( status().isIAmATeapot() ).andDo( document( 'failure-scenario' ) )
+        mockMvc.perform( requestBuilder )
+               .andExpect( status().isIAmATeapot() )
+               .andDo( document( 'failure-scenario', pagingLinks ) )
 
         then: 'examples are generated'
     }

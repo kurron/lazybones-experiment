@@ -114,6 +114,7 @@ The control will populate the following fields in a failure scenario:
 
 For example, our forced failure resource will produce a `418 I'm a teapot` response:
 
+include::{snippets}/failure-scenario/httpie-request.adoc[]
 include::{snippets}/failure-scenario/curl-request.adoc[]
 include::{snippets}/failure-scenario/http-request.adoc[]
 include::{snippets}/failure-scenario/http-response.adoc[]
@@ -153,9 +154,10 @@ to hard code well-known URIs.
 IMPORTANT: The API and its URIs are likely to change over time so it is important the caller
 always begin a session with API discovery to obtain the currently supported URIs.
 
-==== Example Conversation
-
-TODO: add examples here
+include::{snippets}/get-my-resource/httpie-request.adoc[]
+include::{snippets}/get-my-resource/curl-request.adoc[]
+include::{snippets}/get-my-resource/http-request.adoc[]
+include::{snippets}/get-my-resource/http-response.adoc[]
 
 [[mime-type]]
 === Specifying Media Types

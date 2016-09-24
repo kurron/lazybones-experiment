@@ -27,7 +27,7 @@ import org.kurron.traits.GenerationAbility
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
-import org.springframework.restdocs.RestDocumentation
+import org.springframework.restdocs.JUnitRestDocumentation
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -48,7 +48,7 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
     private WebApplicationContext context
 
     @Rule
-    RestDocumentation documentation = new RestDocumentation( 'build/generated-snippets' )
+    JUnitRestDocumentation documentation = new JUnitRestDocumentation( 'build/generated-snippets' )
 
     MockMvc mockMvc
 

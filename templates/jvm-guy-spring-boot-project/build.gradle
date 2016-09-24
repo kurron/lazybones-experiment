@@ -35,7 +35,7 @@ plugins {
 }
 
 description = 'Bare bones example REST micro-service'
-group = 'org.kurron.example'
+group = 'org.kurron'
 ext.builtOn = new Date()
 
 // Show how to exclude objects from being required to have a unit-level test

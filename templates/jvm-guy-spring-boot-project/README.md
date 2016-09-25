@@ -11,6 +11,9 @@ To use this template, you will need to follow these steps:
 1. edit the `README.md` file and put in a quick description, removing this `Instructions` section
 1. run a quick build to verify that things compile, `./gradlew`
 1. double check the output and see if it looks right, `ls build/libs`
+1. edit the `gradle.properties` and point it to your Docker registry coordinates
+1. edit the `bootstrap.yml` and point it to your Consul agent so a configuration server can be located
+1. if you are publishing to [Docker Hub](), make sure to authenticate first via `docker login`
 1. run the full build and verify things work, `bin/simulate-build-server.sh`
 1. launch the application, `./gradlew bootRun`
 1. check the `operations/info` endpoint, `http localhost:8080/operations/info`
@@ -33,7 +36,7 @@ To use this template, you will need to follow these steps:
 1. Use IntelliJ to refactor the package name to suit your project
 1. edit `build.gradle` and make `ext.coverageExcludes` an empty list 
 1. `./gradlew`
-1. check the new artifact coordinates, eg `ls ~/.m2/repository/org/kurron/example/atlantis/atlantis/1.0.0.RELEASE/`
+1. check the new artifact coordinates, eg `ls ~/.m2/repository/org/kurron/atlantis/atlantis/1.0.0.RELEASE/`
 1. commit your changes
 
 ----CUT HERE ----

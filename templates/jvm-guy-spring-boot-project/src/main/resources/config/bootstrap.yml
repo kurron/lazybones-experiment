@@ -8,7 +8,7 @@ spring:
                 enabled: true
                 serviceId: jvm-guy-configuration-server
         consul:
-            host: 192.168.1.227
+            host: 192.168.1.46
             port: 8500
             discovery:
                 tags:

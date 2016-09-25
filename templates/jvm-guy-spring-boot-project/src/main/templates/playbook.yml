@@ -23,34 +23,33 @@
     container_port: 8080
     ports: "{{ host_port }}:{{ container_port }}"
     heap_size: 128m
-    mongodb_host: 10.0.2.15
-    mongodb_port: 27017
+    rabbitmq_host: 10.0.2.15
+    consul_host: 10.0.2.15
     spring_profiles: default
 
+    # this is a bit strange but the container and host ports must match or the JVM broadcasts incorrect information to the JMX clients
+    jmx_port: 2020
+    jmx_ports: "{{ jmx_port }}:{{ jmx_port }}"
+    # this is the ip address of the host where the container is running
+    jmx_host: 10.0.2.15
 
   tasks:
-    - name: Checking if the container exists -- any errors are ignored
-      shell: docker inspect --format=\\{\\{.State.Running\\}\\} {{ container_name }}
-      register: container_state
-      failed_when: container_state.rc != 0 and ( "No such image or container" not in container_state.stderr )
-
     - name: Stopping the container
-      command: docker stop {{ container_name }}
-      when: container_state.stdout == "true"
+      shell: "docker stop {{ container_name }} || true"
 
     - name: Removing the container
-      command: docker rm --force=true {{ container_name }}
-      when: container_state.stdout != ""
+      shell: "docker rm --force=true {{ container_name }} || true"
 
     - name: Running the container
       command: "docker run --detach=true
                            --restart=always
                            --publish={{ ports }}
+                           --publish={{ jmx_ports }}
                            --name={{ container_name }}
-                           --hostname={{host_name}}
+                           --hostname={{ host_name }}
                            --env=SPRING_PROFILES_ACTIVE={{ spring_profiles }}
                            --env=JVM_HEAP_MAX={{ heap_size }}
-                           --env=SPRING_DATA_MONGODB_HOST={{ mongodb_host }}
-                           --env=SPRING_DATA_MONGODB_PORT={{ mongodb_port }}
+                           --env=SPRING_CLOUD_CONSUL_HOST={{ consul_host }}
+                           --env=SPRING_RABBITMQ_HOST={{ rabbitmq_host }}
                            {{ image }}
                            "

@@ -20,7 +20,8 @@ task copyDockerfile( type: Copy, dependsOn: bootRepackage ) {
     from 'src/main/templates'
     into "$dockerDirectory"
     expand( projectName: project.name,
-            port: exposedPort,
+            insecurePort: httpPort,
+            jmxPort: jmxPort,
             generated: new Date(),
             branch: branch,
             version: version,
@@ -77,7 +78,7 @@ task deleteDockerImage( type: Exec ) {
     workingDir dockerDirectory
     doFirst {
         logger.quiet "Cleaning up Docker containers and networks."
-        commandLine 'docker-compose', 'down', '--rmi', 'all'
+        commandLine 'docker-compose', 'down', '--rmi', 'all', '--remove-orphans'
     }
 }
 

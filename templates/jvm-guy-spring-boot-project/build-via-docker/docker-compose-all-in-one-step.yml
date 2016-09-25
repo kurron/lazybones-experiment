@@ -1,5 +1,5 @@
 # This file will drive the integration testing process for the project
-
+# still a work in progress.  Don't rely on this.
 version: '2'
 services:
     rabbitmq:

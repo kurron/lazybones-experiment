@@ -25,6 +25,9 @@ task copyDockerfile( type: Copy, dependsOn: bootRepackage ) {
             generated: new Date(),
             branch: branch,
             version: version,
+            consulAddress: consulAddress,
+            localAddress: localAddress,
+            externalInsecurePort: externalInsecurePort,
             dockerRegistry: dockerRegistry ,
             dockerAccount: dockerAccount)
 }

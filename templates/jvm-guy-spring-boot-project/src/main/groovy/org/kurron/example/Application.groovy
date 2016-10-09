@@ -45,6 +45,9 @@ import org.springframework.retry.backoff.ExponentialBackOffPolicy
 import org.springframework.retry.backoff.ExponentialRandomBackOffPolicy
 import org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor
 import org.springframework.retry.support.RetryTemplate
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 /**
  * The entry point into the system.  Runs as a standalone web server.
@@ -62,6 +65,17 @@ class Application {
     @Bean
     static FeedbackAwareBeanPostProcessor feedbackAwareBeanPostProcessor( ApplicationProperties configuration ) {
         new FeedbackAwareBeanPostProcessor( configuration.logging.serviceCode, configuration.logging.serviceInstance, configuration.logging.realm )
+    }
+
+    // global CORS handler that lets anything frm anywhere in
+    @Bean
+    WebMvcConfigurer corsConfigurer() {
+        new WebMvcConfigurerAdapter() {
+            @Override
+            void addCorsMappings( CorsRegistry registry ) {
+                registry.addMapping( '/**' ).allowedOrigins( '*' ).allowedMethods( 'GET', 'POST', 'DELETE', 'PUT', 'OPTIONS' )
+            }
+        }
     }
 
     @SuppressWarnings( 'UnnecessaryCast' )

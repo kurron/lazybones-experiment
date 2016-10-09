@@ -90,6 +90,36 @@ The services supports a variety of endpoints useful to an Operations engineer.
 ## REST API Documentation
 You can find the current API documentation at `/docs/index.hml`.
 
+## CORS Support
+All origins are allowed.  Here is an example conversation:
+
+```
+http --verbose OPTIONS http://192.168.1.64:8080/descriptor/application Origin:nowhere.com Access-Control-Request-Method:DELETE
+
+OPTIONS /descriptor/application HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate
+Access-Control-Request-Method: DELETE
+Connection: keep-alive
+Content-Length: 0
+Host: 192.168.1.64:8080
+Origin: nowhere.com
+User-Agent: HTTPie/0.9.6
+
+
+
+HTTP/1.1 200
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET,POST,DELETE,PUT,OPTIONS
+Access-Control-Allow-Origin: nowhere.com
+Access-Control-Max-Age: 1800
+Allow: GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH
+Content-Length: 0
+Date: Sun, 09 Oct 2016 16:54:48 GMT
+Vary: Origin
+X-Application-Context: jvm-guy-spring-boot-project:8080
+```
+
 # Troubleshooting
 
 TODO

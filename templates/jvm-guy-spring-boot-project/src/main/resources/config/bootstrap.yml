@@ -6,9 +6,9 @@ spring:
             failFast: true
             discovery:
                 enabled: true
-                serviceId: jvm-guy-configuration-server
+                serviceId: configuration-server
         consul:
-            host: 192.168.1.46
+            host: consul 
             port: 8500
             discovery:
                 tags:

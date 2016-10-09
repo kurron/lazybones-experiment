@@ -29,9 +29,9 @@ services:
         environment:
             JVM_HEAP_MAX: 128m
             SPRING_RABBITMQ_HOST: rabbitmq
-            SPRING_CLOUD_CONSUL_HOST: "192.168.1.61"
-            SPRING_CLOUD_CONSUL_DISCOVERY_IPADDRESS: "192.168.1.46"
-            SPRING_CLOUD_CONSUL_DISCOVERY_PORT: "37445"
+            SPRING_CLOUD_CONSUL_HOST: "${consulAddress}"
+            SPRING_CLOUD_CONSUL_DISCOVERY_IPADDRESS: "${localAddress}"
+            SPRING_CLOUD_CONSUL_DISCOVERY_PORT: "${externalInsecurePort}"
         cpu_shares: 0
         cpu_quota: 0
         mem_limit: 256m

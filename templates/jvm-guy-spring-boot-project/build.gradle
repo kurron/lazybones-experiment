@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import java.util.concurrent.ThreadLocalRandom
+
 buildscript {
     repositories {
         maven {
@@ -37,6 +39,9 @@ plugins {
 description = 'Bare bones example REST micro-service'
 group = 'org.kurron'
 ext.builtOn = new Date()
+
+// this the port that Docker will map to the internal insecure port
+ext.externalInsecurePort = ThreadLocalRandom.newInstance().nextInt( 65531 ) + 1
 
 // Show how to exclude objects from being required to have a unit-level test
 ext.coverageExcludes = [

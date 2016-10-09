@@ -26,8 +26,12 @@ services:
             org.kurron.version: "${version}"
         ports:
         - "${insecurePort}"
+        - "${jmxPort}:${jmxPort}"
         environment:
             JVM_HEAP_MAX: 128m
+            JVM_JMX_PORT: "${jmxPort}"
+            JVM_JMX_RMI_PORT: "${jmxPort}"
+            JVM_JMX_HOST: "${localAddress}"
             SPRING_RABBITMQ_HOST: rabbitmq
             SPRING_CLOUD_CONSUL_HOST: "${consulAddress}"
             SPRING_CLOUD_CONSUL_DISCOVERY_IPADDRESS: "${localAddress}"

@@ -48,7 +48,11 @@
                            --name={{ container_name }}
                            --hostname={{ host_name }}
                            --env=SPRING_PROFILES_ACTIVE={{ spring_profiles }}
+                           --env=JVM_HEAP_MIN={{ heap_size }}
                            --env=JVM_HEAP_MAX={{ heap_size }}
+                           --env=JVM_JMX_HOST={{ jmx_host }}
+                           --env=JVM_JMX_PORT={{ jmx_port }}
+                           --env=JVM_JMX_RMI_PORT={{ jmx_port }}
                            --env=SPRING_CLOUD_CONSUL_HOST={{ consul_host }}
                            --env=SPRING_RABBITMQ_HOST={{ rabbitmq_host }}
                            {{ image }}

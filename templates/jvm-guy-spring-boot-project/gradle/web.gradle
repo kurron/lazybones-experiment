@@ -37,7 +37,7 @@ dependencyManagement {
 */
 
 ext {
-    snippetsDir = file('build/generated-snippets')
+    snippetsDir = file( "${buildDir}/generated-snippets" )
 }
 
 test {

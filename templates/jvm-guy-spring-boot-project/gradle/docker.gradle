@@ -15,6 +15,7 @@
  */
 def fullImageName = "${dockerRegistry}/${dockerAccount}/${project.name}:${version}"
 def containerName = project.name
+def dockerDirectory = "${buildDir}/docker"
 
 task copyDockerfile( type: Copy, dependsOn: bootRepackage ) {
     from 'src/main/templates'
@@ -37,7 +38,7 @@ build.dependsOn copyDockerfile
 
 task copyBuildArtifact( type: Copy, dependsOn: [copyDockerfile] ) {
     def buildArtifactName = "${project.name}-${version}.jar"
-    from( 'build/libs/' ) {
+    from( "${buildDir}/libs/" ) {
         include buildArtifactName
         rename buildArtifactName, "${project.name}.jar"
     }

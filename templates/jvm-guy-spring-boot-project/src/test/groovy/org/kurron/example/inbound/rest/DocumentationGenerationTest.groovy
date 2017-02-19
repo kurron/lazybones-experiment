@@ -55,7 +55,7 @@ class DocumentationGenerationTest extends Specification implements GenerationAbi
     private WebApplicationContext context
 
     @Rule
-    JUnitRestDocumentation documentation = new JUnitRestDocumentation( 'build/generated-snippets' )
+    JUnitRestDocumentation documentation = new JUnitRestDocumentation( "${System.getenv()['BUILD_DIR']}/generated-snippets" )
 
     MockMvc mockMvc
 

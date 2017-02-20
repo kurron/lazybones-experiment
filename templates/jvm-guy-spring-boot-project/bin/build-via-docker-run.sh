@@ -15,7 +15,7 @@ CMD="docker run --rm \
                 --net host \
                 --tty \
                 --user root \
-                --volume $(pwd):/code:rw \
+                --volume $(pwd):/code:ro \
                 --volume /var/run/docker.sock:/var/run/docker.sock \
                 --workdir /code \
                 kurron/docker-azul-jdk-8:latest \
@@ -25,6 +25,7 @@ CMD="docker run --rm \
                 --project-prop branch=master \
                 --project-prop buildDir=/tmp/gradle \
                 --project-dir=/code \
+                --project-cache-dir=/tmp/gradle \
                 --console=plain \
                 --no-daemon \
                 --no-search-upward \

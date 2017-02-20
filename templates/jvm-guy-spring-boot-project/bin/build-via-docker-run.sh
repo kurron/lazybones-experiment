@@ -17,6 +17,7 @@ CMD="docker run --rm \
                 --net host \
                 --tty \
                 --user root \
+                --volume ${HOME}/.docker:/root/.docker:ro \
                 --volume $(pwd):/code:rw \
                 --volume /var/run/docker.sock:/var/run/docker.sock \
                 --workdir /code \

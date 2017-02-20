@@ -31,8 +31,8 @@ publishing {
             artifact groovydocJar
 
             // Docker stuff
-            artifact source: "$projectDir/build/docker/docker-compose.yml", classifier: 'docker-compose', extension: 'yml'
-            artifact source: "$projectDir/build/docker/playbook.yml", classifier: 'playbook', extension: 'yml'
+            artifact source: "${buildDir}/docker/docker-compose.yml", classifier: 'docker-compose', extension: 'yml'
+            artifact source: "${buildDir}/docker/playbook.yml", classifier: 'playbook', extension: 'yml'
         }
     }
 
@@ -48,10 +48,9 @@ publishing {
                 url='Not set - only master and development branches should be published!'
             }
             credentials {
-                username=publishUsername 
-                password=publishPassword 
+                username=publishUsername
+                password=publishPassword
             }
         }
     }
 }
-

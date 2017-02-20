@@ -11,6 +11,7 @@ task acceptanceTests( type: Test ) {
     // categories and cucumber tests don't play nicely -- no tests are detected and run
     includes << '**/AcceptanceTests.class'
     // cucumber dictates where to place the report -- note that this will still generate an empty report at build/reports/tests
+    // location of the report is controlled by the CucumberOptions annotation
     testLogging {
         showStandardStreams = false
         exceptionFormat = 'full'

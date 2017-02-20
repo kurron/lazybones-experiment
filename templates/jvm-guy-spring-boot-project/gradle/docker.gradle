@@ -19,7 +19,7 @@ def dockerDirectory = "${buildDir}/docker"
 
 task copyDockerfile( type: Copy, dependsOn: bootRepackage ) {
     from 'src/main/templates'
-    into "$dockerDirectory"
+    into "${dockerDirectory}"
     expand( projectName: project.name,
             insecurePort: httpPort,
             jmxPort: jmxPort,

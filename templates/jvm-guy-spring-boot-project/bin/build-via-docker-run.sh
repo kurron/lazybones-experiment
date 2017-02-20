@@ -15,6 +15,7 @@ CMD="docker run --rm \
                 --volume $(which docker):/usr/bin/docker \
                 --volume $(which docker-compose):/usr/bin/docker-compose \
                 --workdir /code \
+                --user root \
                 kurron/docker-azul-jdk-8:latest \
                 ./gradlew  \
                 --project-prop runIntegrationTests=true \

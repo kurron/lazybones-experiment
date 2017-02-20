@@ -1,5 +1,5 @@
 # start with a Ubuntu base box with Java 8 pre-installed
-FROM kurron/docker-oracle-jdk-8:1.8.0_101
+FROM kurron/docker-azul-jdk-8:latest
 
 # set the author/maintainer
 MAINTAINER Ron Kurr "kurr@kurron.org"
@@ -19,4 +19,3 @@ EXPOSE ${jmxPort}
 LABEL org.kurron.built-on="${generated}" org.kurron.branch="${branch}" org.kurron.version="${version}"
 
 COPY ${projectName}.jar /opt/${projectName}.jar
-

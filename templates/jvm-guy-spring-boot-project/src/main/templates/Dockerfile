@@ -4,6 +4,9 @@ FROM kurron/docker-azul-jdk-8:latest
 # set the author/maintainer
 MAINTAINER Ron Kurr "kurr@kurron.org"
 
+# the init service and other commands must be run as root user
+USER root
+
 # launch scripts that watchdog process expects
 RUN mkdir /etc/service/microservice
 ADD service.sh /etc/service/microservice/run

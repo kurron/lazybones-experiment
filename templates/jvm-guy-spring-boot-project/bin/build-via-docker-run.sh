@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Docker and Docker Compose uses shared libraries so you need to have them already installed in the container.
+# Bind mounting them won't work
 CMD="docker run --rm \
                 --add-host artifactory:192.168.1.89 \
                 --add-host consul:192.168.1.89 \
@@ -10,12 +12,12 @@ CMD="docker run --rm \
                 --hostname gradle \
                 --interactive \
                 --name gradle \
-                --volume $(pwd):/code:ro \
-                --volume /var/run/docker.sock:/var/run/docker.sock \
-                --volume $(which docker):/usr/bin/docker \
-                --volume $(which docker-compose):/usr/bin/docker-compose \
-                --workdir /code \
+                --net host \
+                --tty \
                 --user root \
+                --volume $(pwd):/code:rw \
+                --volume /var/run/docker.sock:/var/run/docker.sock \
+                --workdir /code \
                 kurron/docker-azul-jdk-8:latest \
                 ./gradlew  \
                 --project-prop runIntegrationTests=true \
@@ -26,7 +28,6 @@ CMD="docker run --rm \
                 --console=plain \
                 --no-daemon \
                 --no-search-upward \
-                --project-cache-dir=/tmp/gradle \
                 --stacktrace"
 
 echo ${CMD}

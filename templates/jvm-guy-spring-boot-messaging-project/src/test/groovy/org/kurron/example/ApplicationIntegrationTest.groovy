@@ -16,6 +16,8 @@
 
 package org.kurron.example
 
+import org.junit.experimental.categories.Category
+import org.kurron.categories.InboundIntegrationTest
 import org.kurron.example.shared.ApplicationProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -24,6 +26,7 @@ import spock.lang.Specification
 /**
  * Integration test that just proves that the application loads properly.
  **/
+@Category( InboundIntegrationTest )
 @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.NONE )
 class ApplicationIntegrationTest extends Specification {
 

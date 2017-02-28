@@ -1,0 +1,17 @@
+example:
+    logging:
+        serviceCode: ${name}
+        serviceInstance: \${random.int[1,65536]}
+        realm: development
+    inbound:
+        exchangeName: example-commands
+        routingKey: example-commands
+        queueName: example-commands
+    outbound:
+        exchangeName: example-events
+        routingKey: example-events
+    deadletter:
+        exchangeName: example-dead-letter
+        queueName: example-dead-letter
+        routingKey: example-dead-letter
+        messageRetryAttempts: 3

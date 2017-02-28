@@ -141,8 +141,3 @@ if ( 'true' == runIntegrationTests ) {
     test.dependsOn inboundIntegrationTests
     test.dependsOn outboundIntegrationTests
 }
-
-/*
-
-*/
-

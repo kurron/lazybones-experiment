@@ -39,6 +39,7 @@ apply from: "$rootDir/gradle/io-platform.gradle"
 apply from: "$rootDir/gradle/boot.gradle"
 apply from: "$rootDir/gradle/codenarc.gradle"
 apply from: "$rootDir/gradle/jacoco.gradle"
+apply from: "$rootDir/gradle/maven-publish.gradle"
 
 defaultTasks = ['clean', 'build']
 
@@ -57,5 +58,5 @@ dependencies {
 
 // Show how to exclude objects from being required to have a unit-level test
 ext.coverageExcludes = [
-        'org/kurron/exampleX/'
+        'org/kurron/example/'
 ]

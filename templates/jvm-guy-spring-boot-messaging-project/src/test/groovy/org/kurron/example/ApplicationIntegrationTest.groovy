@@ -25,7 +25,7 @@ import spock.lang.Specification
 /**
  * Integration test that just proves that the application loads properly.
  **/
-@Category( InboundIntegrationTest )
+@Category( InboundIntegrationTest ) // this really isn't an inbound test but it will do
 @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.NONE )
 class ApplicationIntegrationTest extends Specification {
 
@@ -34,7 +34,7 @@ class ApplicationIntegrationTest extends Specification {
 
     void 'exercise application startup'() {
 
-        expect: 'foo property loaded correctly'
+        expect: 'configuration to be loaded correctly'
         configuration.logging.serviceCode == 'spring-messaging'
     }
 }

@@ -120,12 +120,7 @@ task inboundIntegrationTests( type: Test ) {
     systemProperties['spring.profiles.active'] = System.properties['spring.profiles.active'] ?: 'default'
 }
 
-if ( 'true' == runIntegrationTests ) {
-    test.dependsOn inboundIntegrationTests
-}
-
-/*
-task outboundIntegrationTests( type: Test, dependsOn: build ) {
+task outboundIntegrationTests( type: Test ) {
     group 'Verification'
     description = 'Runs the outbound integration tests.'
     debug = false
@@ -138,9 +133,16 @@ task outboundIntegrationTests( type: Test, dependsOn: build ) {
     }
     reports.html.destination =  "$buildDir/reports/outboundIntegrationTests"
     // if the profile system property is set, copy into forked child process
-    def springProfilesActive = System.properties['spring.profiles.active']
-    if ( springProfilesActive ) { systemProperties['spring.profiles.active'] = springProfilesActive }
+    // if the profile system property is set, copy into forked child process
+    systemProperties['spring.profiles.active'] = System.properties['spring.profiles.active'] ?: 'default'
 }
+
+if ( 'true' == runIntegrationTests ) {
+    test.dependsOn inboundIntegrationTests
+    test.dependsOn outboundIntegrationTests
+}
+
+/*
 
 */
 

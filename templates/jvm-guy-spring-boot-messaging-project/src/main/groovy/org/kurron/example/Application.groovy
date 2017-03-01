@@ -16,6 +16,7 @@
 package org.kurron.example
 
 import groovy.util.logging.Slf4j
+import org.kurron.example.inbound.MessageConsumer
 import org.kurron.example.shared.ApplicationProperties
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -36,5 +37,10 @@ class Application {
     @Bean
     RunAtStartUp runAtStartUp() {
         new RunAtStartUp()
+    }
+
+    @Bean
+    MessageConsumer messageConsumer() {
+        new MessageConsumer()
     }
 }

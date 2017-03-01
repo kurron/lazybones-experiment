@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kurron.example.inbound
 
 import groovy.util.logging.Slf4j
 import org.springframework.cloud.stream.annotation.EnableBinding
-import org.springframework.cloud.stream.annotation.StreamListener
-import org.springframework.cloud.stream.messaging.Sink
+import org.springframework.cloud.stream.messaging.Source
+import org.springframework.integration.annotation.InboundChannelAdapter
 
 /**
- * An example of how Spring Cloud Stream consumes messages.
+ * Produces test messages.
  **/
 @Slf4j
-@EnableBinding( Sink )
-class MessageConsumer {
+@EnableBinding( Source )
+class MessageProducer {
 
-    @StreamListener( Sink.INPUT )
-    void loggerSink( String payload ) {
-        log.info( 'Processing {}', payload )
+    @InboundChannelAdapter( Source.OUTPUT )
+    String generateMessagePayload() {
+        long epoch = Calendar.instance.timeInMillis / 1000
+        def payload = Long.toString( epoch )
+        log.debug( 'Sending {}', payload )
+        payload
     }
 }

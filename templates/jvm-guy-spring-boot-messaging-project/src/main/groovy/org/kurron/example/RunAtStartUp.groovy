@@ -27,6 +27,6 @@ class RunAtStartUp implements ApplicationRunner {
     @Override
     void run( final ApplicationArguments arguments ) {
 
-        log.debug( 'Command-line arguments are: ', arguments.sourceArgs.join( '' ) )
+        log.debug( 'Command-line arguments are: ', arguments.sourceArgs.join( ',' ) )
     }
 }

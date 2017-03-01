@@ -16,6 +16,13 @@
 
 apply plugin: 'org.springframework.boot'
 
+// add Spring Cloud to the mix
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 // have Gradle expand properties when copying resource files
 processResources {
     filesMatching( '**/application.yml' ) {

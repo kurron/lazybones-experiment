@@ -46,6 +46,7 @@ defaultTasks = ['clean', 'build']
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
     compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.cloud:spring-cloud-stream'
     compile "org.kurron:tools-groovy:${toolsGroovyVersion}"
 
     runtime "net.logstash.logback:logstash-logback-encoder:${logstashLogbackVersion}"

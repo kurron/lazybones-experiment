@@ -20,6 +20,7 @@ import org.kurron.example.shared.ApplicationProperties
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.annotation.Bean
 
 /**
  * The entry point into the system.  Runs as a standalone web server.*/
@@ -32,4 +33,8 @@ class Application {
         SpringApplication.run( Application, args )
     }
 
+    @Bean
+    RunAtStartUp runAtStartUp() {
+        new RunAtStartUp()
+    }
 }

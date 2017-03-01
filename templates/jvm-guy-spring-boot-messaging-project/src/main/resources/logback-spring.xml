@@ -40,7 +40,7 @@
 </appender>
 
 <logger name="org.kurron" level="ALL"/>
-<logger name="org.springframework" level="INFO"/>
+<logger name="org.springframework" level="WARN"/>
 
 <!-- handles sending messages using background threads -->
 <appender name="ASYNC-CONSOLE" class="ch.qos.logback.classic.AsyncAppender">

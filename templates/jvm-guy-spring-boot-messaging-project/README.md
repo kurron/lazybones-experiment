@@ -10,12 +10,8 @@ current version of Gradle installed.
 1. `gradle build --continuous`
 1. ` gradle --include-build ../my-utils run`
 1. plugins
-    * java
-    * groovy
-    * maven-publish
     * checkstyle
     * findbugs
-    * jdepend
     * pmd
     * jacoco
 1. `java-library`

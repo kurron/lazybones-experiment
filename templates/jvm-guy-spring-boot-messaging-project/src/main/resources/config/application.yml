@@ -1,4 +1,5 @@
 example:
+    outstandingMessages: 10
     logging:
         serviceCode: ${name}
         serviceInstance: \${random.int[1,65536]}

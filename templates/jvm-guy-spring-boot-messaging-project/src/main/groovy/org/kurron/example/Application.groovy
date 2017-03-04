@@ -16,8 +16,10 @@
 package org.kurron.example
 
 import groovy.util.logging.Slf4j
+import java.util.concurrent.CountDownLatch
 import org.kurron.example.inbound.MessageConsumer
 import org.kurron.example.shared.ApplicationProperties
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -34,6 +36,9 @@ class Application {
         SpringApplication.run( Application, args )
     }
 
+    @Autowired
+    ApplicationProperties configuration
+
     @Bean
     RunAtStartUp runAtStartUp() {
         new RunAtStartUp()
@@ -42,5 +47,10 @@ class Application {
     @Bean
     MessageConsumer messageConsumer() {
         new MessageConsumer()
+    }
+
+    @Bean
+    CountDownLatch latch( ApplicationProperties configuration ) {
+        new CountDownLatch( configuration.outstandingMessages )
     }
 }

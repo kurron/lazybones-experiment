@@ -98,4 +98,9 @@ class ApplicationProperties {
      * This property controls...*/
     String foo
 
+    /**
+     * A dumb way to test that all messages got processed.
+     */
+    Integer outstandingMessages
+
 }

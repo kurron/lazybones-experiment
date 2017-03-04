@@ -16,9 +16,14 @@
 package org.kurron.example.inbound
 
 import groovy.util.logging.Slf4j
+import java.util.concurrent.CountDownLatch
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.stream.annotation.EnableBinding
 import org.springframework.cloud.stream.annotation.StreamListener
 import org.springframework.cloud.stream.messaging.Sink
+import org.springframework.integration.annotation.ServiceActivator
+import org.springframework.messaging.Message
+import org.springframework.messaging.handler.annotation.Headers
 
 /**
  * An example of how Spring Cloud Stream consumes messages.
@@ -27,8 +32,30 @@ import org.springframework.cloud.stream.messaging.Sink
 @EnableBinding( Sink )
 class MessageConsumer {
 
+    // a complete hack to signal to the test that all messages have been processed
+    @Autowired
+    CountDownLatch latch
+
+    // Using StreamListener tells Spring to do automatic payload transformation.
+    // You cannot get to the raw Message
+    @SuppressWarnings( ['GrMethodMayBeStatic', 'GroovyUnusedDeclaration'] )
     @StreamListener( Sink.INPUT )
-    void loggerSink( String payload ) {
-        log.info( 'Processing {}', payload )
+    void streamListener( String payload, @Headers Map<String,Object> headers  ) {
+        headers.each {
+            log.debug( 'Key {} = {}', it.key, it.value )
+        }
+        log.info( 'Processing via StreamListener {}', payload )
+        latch.countDown()
+    }
+
+    // Using ServiceActivator gives you raw access at the cost of automatic transformation
+    @SuppressWarnings( ['GrMethodMayBeStatic', 'GroovyUnusedDeclaration'] )
+    @ServiceActivator( inputChannel=Sink.INPUT )
+    void serviceActivator( Message<byte[]> payload, @Headers Map<String,Object> headers  ) {
+        headers.each {
+            log.debug( 'Key {} = {}', it.key, it.value )
+        }
+        log.info( 'Processing via ServiceActivator {}', payload )
+        latch.countDown()
     }
 }

@@ -16,10 +16,14 @@
 package org.kurron.example.inbound
 
 import groovy.util.logging.Slf4j
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import org.junit.experimental.categories.Category
 import org.kurron.categories.InboundIntegrationTest
+import org.kurron.example.shared.ApplicationProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.cloud.stream.messaging.Sink
 import spock.lang.Specification
 
 /**
@@ -27,19 +31,33 @@ import spock.lang.Specification
  **/
 @Category( InboundIntegrationTest )
 @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.NONE )
-
 @Slf4j
 class MessageConsumerIntegrationTest extends Specification {
 
     @Autowired
     MessageProducer producer
 
-    void 'exercise application startup'() {
+    @Autowired
+    Sink sink
 
-        expect: 'configuration to be loaded correctly'
-        1000.times {
+    @Autowired
+    ApplicationProperties configuration
+
+    @Autowired
+    CountDownLatch latch
+
+    void 'verify application startup'() {
+
+        expect: 'make sure the interface is backed by an implementation'
+        sink.input()
+    }
+
+    void 'exercise event processing'() {
+
+        expect: 'all sent events get processed'
+        configuration.outstandingMessages.times {
             producer.generateMessagePayload()
         }
-        Thread.sleep( 2000 )
+        latch.await( 10, TimeUnit.SECONDS )
     }
 }

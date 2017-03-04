@@ -41,6 +41,10 @@ apply from: "$rootDir/gradle/codenarc.gradle"
 apply from: "$rootDir/gradle/jacoco.gradle"
 apply from: "$rootDir/gradle/maven-publish.gradle"
 
+apply plugin: 'build-announcements'
+apply plugin: 'project-report'
+apply plugin: 'build-dashboard'
+
 defaultTasks = ['clean', 'build']
 
 dependencies {

@@ -13,14 +13,10 @@ current version of Gradle installed.
     * java
     * groovy
     * maven-publish
-    * build-announcements
     * checkstyle
-    * codenarc
     * findbugs
     * jdepend
     * pmd
-    * project-report
     * jacoco
-    * build-dashboard
 1. `java-library`
 1.     

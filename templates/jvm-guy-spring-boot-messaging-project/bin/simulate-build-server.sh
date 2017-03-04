@@ -1,4 +1,4 @@
 #!/bin/bash
 
 UNIXTIME=$(date +%s)
-./gradlew -PrunIntegrationTests=true -PpublishArtifacts=true -Pbranch=master -Ppatch=${UNIXTIME}
+./gradlew -PrunIntegrationTests=false -PpublishArtifacts=true -Pbranch=master -Ppatch=${UNIXTIME}

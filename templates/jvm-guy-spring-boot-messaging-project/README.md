@@ -1,5 +1,5 @@
 1. Setting `GRADLE_OPTS` and `JAVA_OPTS`
-1. Gradyle dry run
+1. Gradle dry run
 1. `gradle wrapper --gradle-version 2.0 --distribution-type --gradle-distribution-url http://foo.bar`
 1. `org.gradle.daemon=false` only on build machine in `~/.gradle/gradle.properties`
 1. `gradle --stop`
@@ -26,11 +26,5 @@
     * project-report
     * jacoco
     * build-dashboard
-1. `test {
-        useJUnit {
-            includeCategories 'org.gradle.junit.CategoryA'
-            excludeCategories 'org.gradle.junit.CategoryB'
-        }
-    }`
 1. `java-library`
 1.     

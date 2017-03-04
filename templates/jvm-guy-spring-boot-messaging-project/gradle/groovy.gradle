@@ -96,48 +96,16 @@ groovydoc {
 test {
     useJUnit {
         includeCategories 'org.kurron.categories.UnitTest'
+        // set up integration tests when the property is set
+        if ( 'true' == runIntegrationTests ) {
+            includeCategories 'org.kurron.categories.InboundIntegrationTest'
+            includeCategories 'org.kurron.categories.OutboundIntegrationTest'
+            // if the profile system property is set, copy into forked child process
+            systemProperties['spring.profiles.active'] = System.properties['spring.profiles.active'] ?: 'default'
+        }
     }
     testLogging {
         showStandardStreams = false
         exceptionFormat = 'full'
     }
-    reports.html.destination =  "$buildDir/reports/unitTests"
-}
-
-task inboundIntegrationTests( type: Test ) {
-    group 'Verification'
-    description = 'Runs the outbound integration tests.'
-    debug = false
-    useJUnit {
-        includeCategories 'org.kurron.categories.InboundIntegrationTest'
-    }
-    testLogging {
-        showStandardStreams = false
-        exceptionFormat = 'full'
-    }
-    reports.html.destination =  "$buildDir/reports/inboundIntegrationTests"
-    // if the profile system property is set, copy into forked child process
-    systemProperties['spring.profiles.active'] = System.properties['spring.profiles.active'] ?: 'default'
-}
-
-task outboundIntegrationTests( type: Test ) {
-    group 'Verification'
-    description = 'Runs the outbound integration tests.'
-    debug = false
-    useJUnit {
-        includeCategories 'org.kurron.categories.OutboundIntegrationTest'
-    }
-    testLogging {
-        showStandardStreams = false
-        exceptionFormat = 'full'
-    }
-    reports.html.destination =  "$buildDir/reports/outboundIntegrationTests"
-    // if the profile system property is set, copy into forked child process
-    // if the profile system property is set, copy into forked child process
-    systemProperties['spring.profiles.active'] = System.properties['spring.profiles.active'] ?: 'default'
-}
-
-if ( 'true' == runIntegrationTests ) {
-    test.dependsOn inboundIntegrationTests
-    test.dependsOn outboundIntegrationTests
 }

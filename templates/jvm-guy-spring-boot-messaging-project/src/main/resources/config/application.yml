@@ -1,5 +1,5 @@
 example:
-    outstandingMessages: 10
+    outstandingMessages: \${random.int[1,10]}
     logging:
         serviceCode: ${name}
         serviceInstance: \${random.int[1,65536]}
@@ -54,3 +54,5 @@ spring:
                         compress: false
                         deliveryMode: PERSISTENT
                         prefix: example.
+    main:
+        banner-mode: "off"

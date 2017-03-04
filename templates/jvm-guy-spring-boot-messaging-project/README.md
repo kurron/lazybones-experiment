@@ -12,4 +12,6 @@ current version of Gradle installed.
 1. plugins
     * jacoco
 1. `java-library`
-1. Spring Environment variables in logback configuration    
+1. Spring Environment variables in logback configuration
+1. @MockBean or hand coded stubs?
+1.     

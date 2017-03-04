@@ -96,6 +96,7 @@ groovydoc {
 test {
     useJUnit {
         includeCategories 'org.kurron.categories.UnitTest'
+
         // set up integration tests when the property is set
         if ( 'true' == runIntegrationTests ) {
             includeCategories 'org.kurron.categories.InboundIntegrationTest'

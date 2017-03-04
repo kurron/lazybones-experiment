@@ -1,3 +1,6 @@
+To refresh the Gradle wrapper script use `gradle wrapper --gradle-version 3.4 --distribution-type all` You need to have a
+current version of Gradle installed.
+
 1. Setting `GRADLE_OPTS` and `JAVA_OPTS`
 1. Gradle dry run
 1. `gradle wrapper --gradle-version 2.0 --distribution-type --gradle-distribution-url http://foo.bar`

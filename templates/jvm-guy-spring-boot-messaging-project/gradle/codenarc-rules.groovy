@@ -144,7 +144,9 @@ ruleset {
     DuplicateListLiteral
     DuplicateMapLiteral
     DuplicateNumberLiteral
-    DuplicateStringLiteral
+    DuplicateStringLiteral {
+        ignoreStrings = 'GrMethodMayBeStatic,GroovyUnusedDeclaration'
+    }
 
     // Do not use these anymore.  They cause compilation errors during the build.
     // rulesets/enhanced.xml

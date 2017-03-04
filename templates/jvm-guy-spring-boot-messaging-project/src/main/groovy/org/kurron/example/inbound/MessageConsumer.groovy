@@ -30,6 +30,7 @@ import org.springframework.messaging.handler.annotation.Headers
  **/
 @Slf4j
 @EnableBinding( Sink )
+@SuppressWarnings( 'DuplicateStringLiteral' )
 class MessageConsumer {
 
     // a complete hack to signal to the test that all messages have been processed
@@ -42,7 +43,7 @@ class MessageConsumer {
     @StreamListener( Sink.INPUT )
     void streamListener( String payload, @Headers Map<String,Object> headers  ) {
         headers.each {
-            log.debug( 'Key {} = {}', it.key, it.value )
+            log.debug( '{} = {}', it.key, it.value )
         }
         log.info( 'Processing via StreamListener {}', payload )
         latch.countDown()
@@ -53,7 +54,7 @@ class MessageConsumer {
     @ServiceActivator( inputChannel=Sink.INPUT )
     void serviceActivator( Message<byte[]> payload, @Headers Map<String,Object> headers  ) {
         headers.each {
-            log.debug( 'Key {} = {}', it.key, it.value )
+            log.debug( '{} = {}', it.key, it.value )
         }
         log.info( 'Processing via ServiceActivator {}', payload )
         latch.countDown()

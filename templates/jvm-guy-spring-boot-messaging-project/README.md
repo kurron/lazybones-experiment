@@ -12,4 +12,4 @@ current version of Gradle installed.
 1. plugins
     * jacoco
 1. `java-library`
-1.     
+1. Spring Environment variables in logback configuration    

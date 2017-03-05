@@ -22,6 +22,10 @@ example:
         routingKey: example-dead-letter
         messageRetryAttempts: 3
 
+management:
+    security:
+        enabled: false
+
 spring:
     cloud:
         stream:

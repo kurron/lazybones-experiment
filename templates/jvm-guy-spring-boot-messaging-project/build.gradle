@@ -25,6 +25,7 @@ buildscript {
     dependencies {
         classpath "io.spring.gradle:dependency-management-plugin:${dependencyPluginVersion}"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:${springCloudContractVersion}"
     }
 }
 
@@ -40,6 +41,7 @@ apply from: "$rootDir/gradle/boot.gradle"
 apply from: "$rootDir/gradle/codenarc.gradle"
 apply from: "$rootDir/gradle/jacoco.gradle"
 apply from: "$rootDir/gradle/maven-publish.gradle"
+apply from: "$rootDir/gradle/contract.gradle"
 
 apply plugin: 'build-announcements'
 apply plugin: 'project-report'

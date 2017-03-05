@@ -15,6 +15,13 @@
  */
 apply plugin: 'groovy'
 
+// so that Spring can expand Gradle's properties
+/*
+processResources {
+    expand( project.properties )
+}
+*/
+
 compileGroovy {
     groovyOptions.configurationScript = file( "$rootDir/gradle/groovyCompilerConfiguration.groovy" )
 }

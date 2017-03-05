@@ -33,8 +33,11 @@ processResources {
     }
 }
 
-// attributes to expose via the /info actuator
 springBoot  {
+    // enable a self-executing jar .eg ./my-jar.jar
+    executable = true
+
+    // attributes to expose via the /info actuator
     buildInfo {
         additionalProperties = [
                 'name': "${project.name}",
@@ -49,4 +52,3 @@ springBoot  {
         ]
     }
 }
-

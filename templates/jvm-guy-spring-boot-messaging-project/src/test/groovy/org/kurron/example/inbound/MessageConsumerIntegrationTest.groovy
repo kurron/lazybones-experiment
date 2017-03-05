@@ -23,7 +23,9 @@ import org.kurron.categories.InboundIntegrationTest
 import org.kurron.example.shared.ApplicationProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.cloud.stream.messaging.Sink
+import org.springframework.context.annotation.Bean
 import spock.lang.Specification
 
 /**
@@ -59,5 +61,15 @@ class MessageConsumerIntegrationTest extends Specification {
             producer.generateMessagePayload()
         }
         latch.await( 10, TimeUnit.SECONDS )
+    }
+
+    // keep the configuration right next to the tests
+    @TestConfiguration
+    static class MessageConsumerIntegrationTestConfiguration {
+
+        @Bean
+        MessageProducer messageProducer() {
+            new MessageProducer()
+        }
     }
 }

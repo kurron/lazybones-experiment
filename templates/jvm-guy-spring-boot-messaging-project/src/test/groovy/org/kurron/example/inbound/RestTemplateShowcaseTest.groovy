@@ -16,60 +16,44 @@
 package org.kurron.example.inbound
 
 import groovy.util.logging.Slf4j
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 import org.junit.experimental.categories.Category
-import org.kurron.categories.InboundIntegrationTest
-import org.kurron.example.shared.ApplicationProperties
+import org.kurron.categories.OutboundIntegrationTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.cloud.stream.messaging.Sink
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import spock.lang.Specification
 
 /**
- * Integration test showing the messages are arriving at the consumer.
+ * Integration test showcasing TestRestTemplate support.
  **/
-@Category( InboundIntegrationTest )
-@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.NONE )
+@Category( OutboundIntegrationTest )
+// IMPORTANT: to get a pre-built template, you cannot use SpringBootTest.WebEnvironment.NONE
+@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT )
 @Slf4j
-class MessageConsumerIntegrationTest extends Specification {
+class RestTemplateShowcaseTest extends Specification {
 
     @Autowired
-    MessageProducer producer
+    TestRestTemplate template
 
-    @Autowired
-    Sink sink
-
-    @Autowired
-    ApplicationProperties configuration
-
-    @Autowired
-    CountDownLatch latch
-
-    void 'verify application startup'() {
+    void 'do a simple GET'() {
 
         expect: 'make sure the interface is backed by an implementation'
-        sink.input()
+        template
+        def headers = template.getForEntity( 'http://www.microsoft.com/' , String.class ).getHeaders()
+        headers.location.toString().contains( 'http://www.microsoft.com/en-us/' )
     }
 
-    void 'exercise event processing'() {
-
-        expect: 'all sent events get processed'
-        configuration.outstandingMessages.times {
-            producer.generateMessagePayload()
-        }
-        latch.await( 10, TimeUnit.SECONDS )
-    }
-
-    // keep the configuration right next to the tests
+    // You can also influence the template's construction, if needed
     @TestConfiguration
     static class Configuration {
 
         @Bean
-        MessageProducer messageProducer() {
-            new MessageProducer()
+        RestTemplateBuilder restTemplateBuilder() {
+            // add customizations if needed
+            new RestTemplateBuilder()
         }
     }
 }

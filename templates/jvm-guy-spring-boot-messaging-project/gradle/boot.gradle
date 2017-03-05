@@ -23,6 +23,11 @@ dependencyManagement {
     }
 }
 
+// sometimes, other projects want to use the artifact as a dependency, so we'll make TWO jars
+bootRepackage  {
+    classifier = 'executable'
+}
+
 // have Gradle expand properties when copying resource files
 processResources {
     filesMatching( '**/application.yml' ) {

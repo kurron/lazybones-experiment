@@ -24,6 +24,9 @@ publishing {
             artifact testSourcesJar
             artifact testBinariesJar
             artifact groovydocJar
+
+            // also push the special executable jar
+            artifact source: "$projectDir/build/libs/${project.name}-${version}-executable.jar", classifier: 'executable', extension: 'jar'
         }
     }
 

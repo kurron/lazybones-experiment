@@ -42,7 +42,7 @@ class RestTemplateShowcaseTest extends Specification {
 
         expect: 'make sure the interface is backed by an implementation'
         template
-        def headers = template.getForEntity( 'http://www.microsoft.com/' , String.class ).getHeaders()
+        def headers = template.getForEntity( 'http://www.microsoft.com/' , String ).headers
         headers.location.toString().contains( 'http://www.microsoft.com/en-us/' )
     }
 

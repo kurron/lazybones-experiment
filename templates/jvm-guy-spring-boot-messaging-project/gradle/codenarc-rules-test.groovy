@@ -113,7 +113,11 @@ ruleset {
     NoTabCharacter
     ParameterReassignment
     TernaryCouldBeElvis
-    TrailingComma
+    // I do not like how this makes the code look
+    TrailingComma {
+        checkList = false
+        checkMap = false
+    }
     VectorIsObsolete
 
     // rulesets/design.xml
@@ -188,7 +192,7 @@ ruleset {
     ConsecutiveBlankLines
     FileEndsWithoutNewline
     LineLength {
-        length = 120
+        length = 180
     }
     MissingBlankLineAfterImports
     MissingBlankLineAfterPackage

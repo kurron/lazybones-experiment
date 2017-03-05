@@ -56,3 +56,7 @@ spring:
                         prefix: example.
     main:
         banner-mode: "off"
+    jackson:
+        serialization:
+            indent_output: true
+        serialization-inclusion: non_empty

@@ -23,6 +23,8 @@ import org.kurron.categories.InboundIntegrationTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
 import org.springframework.boot.test.json.JacksonTester
+import org.springframework.boot.test.util.EnvironmentTestUtils
+import org.springframework.context.ConfigurableApplicationContext
 import spock.lang.Specification
 
 /**
@@ -36,11 +38,20 @@ class JsonSerializationIntegrationTest extends Specification {
     @Autowired
     private JacksonTester<Event> json
 
+    @Autowired
+    private ConfigurableApplicationContext environment
+
+    void setup() {
+        // an example of how to introduce a property into the environment prior to the tests running
+        EnvironmentTestUtils.addEnvironment( environment, 'org=Spring', 'name=Boot' )
+    }
+
     void 'verify serialization'() {
 
         expect: 'pick out a field from the generated JSON'
-        def event = new Event( time: new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm'Z'" ).format( Calendar.instance.time ), value: 'bob' )
-        assertThat( json.write( event ) ).extractingJsonPathStringValue( "@.random-value" ).isEqualTo( 'bob' )
+        def event = new Event( time: new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm'Z'", Locale.US ).format( Calendar.instance.time ),
+                               value: 'bob' )
+        assertThat( json.write( event ) ).extractingJsonPathStringValue( '@.random-value' ).isEqualTo( 'bob' )
     }
 
     void 'verify deserialization'() {

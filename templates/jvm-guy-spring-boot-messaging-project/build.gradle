@@ -45,6 +45,22 @@ apply plugin: 'build-announcements'
 apply plugin: 'project-report'
 apply plugin: 'build-dashboard'
 
+springBoot  {
+    buildInfo {
+        additionalProperties = [
+            'name': "${project.name}",
+            'description': "${project.description}",
+            'built-on.date': "${project.builtOn}",
+            'build-using.groovy.version': "${project.groovyVersion}",
+            'build-using.java.version': System.properties['java.version'],
+            'build-using.java.vendor': System.properties['java.vendor'],
+            'built-on.os.name': System.properties['os.name'],
+            'built-on.os.arch': System.properties['os.arch'],
+            'built-on.os.version': System.properties['os.version']
+        ]
+    }
+}
+
 defaultTasks = ['clean', 'build']
 
 dependencies {

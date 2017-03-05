@@ -38,7 +38,7 @@ jar {
     }
 
     from( buildDir ) {
-        include 'build-info.properties'
+        include 'META-INF/build-info.properties'
     }
 }
 

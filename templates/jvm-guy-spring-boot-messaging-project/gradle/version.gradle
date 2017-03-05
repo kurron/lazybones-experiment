@@ -55,9 +55,15 @@ task createBuildInformationFile() {
     group = 'Help'
     description = 'Creates a properties file that contains details about the build'
     doLast {
-        def infoFile = file( "${buildDir}/build-info.properties" )
+        def metaInfDirector = new File( "${buildDir}/META-INF" )
+        metaInfDirector.mkdirs()
+        def infoFile = file( "${metaInfDirector}/build-info.propertiesX" )
         def properties = new Properties()
-        properties.setProperty( 'version', version.toString() )
+        properties.setProperty( 'name', "${project.name}" )
+        properties.setProperty( 'description', "${project.description}" )
+        properties.setProperty( 'version', "${project.version}" )
+        properties.setProperty( 'built-on', "${project.builtOn}" )
+        properties.setProperty( 'groovy.version', "${project.groovyVersion}" )
         properties.setProperty( 'java.version', System.properties['java.version'] )
         properties.setProperty( 'java.vendor', System.properties['java.vendor'] )
         properties.setProperty( 'os.name', System.properties['os.name'] )

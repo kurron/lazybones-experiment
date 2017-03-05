@@ -25,6 +25,7 @@ example:
 management:
     security:
         enabled: false
+    context-path: /operations
 
 spring:
     cloud:

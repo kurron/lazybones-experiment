@@ -32,12 +32,12 @@ class ProjectVersion {
     String toString() {
         String release = '-SNAPSHOT'
         if ( branch == 'master' ) {
-            release = '.RELEASE'
+            release = 'RELEASE'
         }
         else if ( branch == 'development' ) {
-            release = '.MILESTONE'
+            release = 'MILESTONE'
         }
-        "${major}.${minor}.${patch}${release}"
+        "${major}.${minor}.${patch}.${release}"
     }
 }
 
@@ -50,26 +50,3 @@ task printVersion() {
         logger.quiet "Version: ${version}"
     }
 }
-
-task createBuildInformationFile() {
-    group = 'Help'
-    description = 'Creates a properties file that contains details about the build'
-    doLast {
-        def metaInfDirector = new File( "${buildDir}/META-INF" )
-        metaInfDirector.mkdirs()
-        def infoFile = file( "${metaInfDirector}/build-info.propertiesX" )
-        def properties = new Properties()
-        properties.setProperty( 'name', "${project.name}" )
-        properties.setProperty( 'description', "${project.description}" )
-        properties.setProperty( 'version', "${project.version}" )
-        properties.setProperty( 'built-on', "${project.builtOn}" )
-        properties.setProperty( 'groovy.version', "${project.groovyVersion}" )
-        properties.setProperty( 'java.version', System.properties['java.version'] )
-        properties.setProperty( 'java.vendor', System.properties['java.vendor'] )
-        properties.setProperty( 'os.name', System.properties['os.name'] )
-        properties.setProperty( 'os.arch', System.properties['os.arch'] )
-        properties.setProperty( 'os.version', System.properties['os.version'] )
-        properties.store( infoFile.newWriter(), 'Build Information' )
-    }
-}
-

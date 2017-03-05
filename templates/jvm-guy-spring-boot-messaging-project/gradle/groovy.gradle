@@ -36,13 +36,7 @@ jar {
     manifest = project.manifest {
         from sharedManifest
     }
-
-    from( buildDir ) {
-        include 'META-INF/build-info.properties'
-    }
 }
-
-jar.dependsOn 'createBuildInformationFile'
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'

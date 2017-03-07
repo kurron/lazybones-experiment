@@ -32,3 +32,10 @@ contracts {
     baseClassForTests = 'com.example.MvcTest'
     // fully qualified name to a class that will be the base class for your generated test classes
 }*/
+
+contracts {
+    testMode = 'MockMvc'
+    targetFramework = 'spock'
+//  baseClassForTests = 'org.mycompany.tests'
+//  generatedTestSourcesDir = project.file('src/generatedContract')
+}

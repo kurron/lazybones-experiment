@@ -15,13 +15,16 @@
  */
 package org.kurron.example.shared
 
-import javax.validation.constraints.NotNull
 import org.hibernate.validator.constraints.NotEmpty
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.validation.annotation.Validated
+
+import javax.validation.constraints.NotNull
 
 /**
  * Custom configuration properties that are driven by Spring Boot and its application.yml file.*/
 @ConfigurationProperties( value = 'example', ignoreUnknownFields = false )
+@Validated
 class ApplicationProperties {
 
     /**

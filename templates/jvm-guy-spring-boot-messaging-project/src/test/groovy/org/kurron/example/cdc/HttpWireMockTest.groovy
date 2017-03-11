@@ -20,8 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import spock.lang.Specification
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*
-
 /**
  * An example from the documentation..
  **/
@@ -35,8 +33,6 @@ class HttpWireMockTest extends Specification {
     void 'exercise application startup'() {
 
         expect: 'configuration to be loaded correctly'
-        sut
-        stubFor( get( urlEqualTo( '/resource' ) ).willReturn( aResponse().withBody( 'Hello World!' ) ) )
-        sut.go() == 'Hello World!'
+        sut.go() == 'Hello, World!'
     }
 }

@@ -15,25 +15,28 @@
  */
 package org.kurron.example.cdc
 
-import org.kurron.example.shared.ApplicationProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import spock.lang.Specification
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*
+
 /**
  * An example from the documentation..
  **/
 @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT )
-@AutoConfigureWireMock( port = 0 )
+@AutoConfigureWireMock( port = 1234 ) // <=== must match what the service is using
 class HttpWireMockTest extends Specification {
 
     @Autowired
-    ApplicationProperties configuration
+    OutboundService sut
 
     void 'exercise application startup'() {
 
         expect: 'configuration to be loaded correctly'
-        configuration.logging.serviceCode == 'spring-messaging'
+        sut
+        stubFor( get( urlEqualTo( '/resource' ) ).willReturn( aResponse().withBody( 'Hello World!' ) ) )
+        sut.go() == 'Hello World!'
     }
 }

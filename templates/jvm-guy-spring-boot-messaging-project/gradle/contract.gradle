@@ -23,7 +23,7 @@ dependencyManagement {
 }
 
 dependencies {
-    testCompile( 'org.springframework.cloud:spring-cloud-starter-contract-verifier' ) {
+    testCompile( 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner' ) {
         // prevent older versions of Groovy from getting dragged in
         exclude group: 'org.codehaus.groovy'
     }

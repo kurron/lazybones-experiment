@@ -15,6 +15,6 @@ class DefaultOutboundService implements OutboundService {
 
     @Override
     String go() {
-        template.getForObject( "http://example.org/resource", String )
+        template.getForObject( "http://example.org/some-resource", String )
     }
 }

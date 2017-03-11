@@ -1,7 +1,7 @@
 {
     "request": {
         "method": "GET",
-        "url": "/resource"
+        "url": "/some-resource"
     },
     "response": {
         "status": 200,

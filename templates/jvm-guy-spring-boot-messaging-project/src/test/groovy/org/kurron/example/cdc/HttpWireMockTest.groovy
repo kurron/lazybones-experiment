@@ -17,7 +17,9 @@ package org.kurron.example.cdc
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.cloud.contract.wiremock.WireMockRestServiceServer
+import org.springframework.context.annotation.Bean
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
@@ -43,4 +45,20 @@ class HttpWireMockTest extends Specification {
         sut.go() == 'Hello, World!'
         server.verify()
     }
+
+    @TestConfiguration
+    static class Configuration {
+
+        // just to test out the wire mock stuff
+        @Bean
+        RestTemplate restTemplate() {
+            new RestTemplate()
+        }
+
+        @Bean
+        DefaultOutboundService defaultOutboundService() {
+            new DefaultOutboundService()
+        }
+    }
+
 }

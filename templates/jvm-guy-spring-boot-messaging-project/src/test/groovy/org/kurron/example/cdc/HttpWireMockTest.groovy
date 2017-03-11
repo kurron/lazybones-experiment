@@ -26,7 +26,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*
  * An example from the documentation..
  **/
 @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT )
-@AutoConfigureWireMock( port = 1234 ) // <=== must match what the service is using
+@AutoConfigureWireMock( port = 0 )
 class HttpWireMockTest extends Specification {
 
     @Autowired

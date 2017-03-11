@@ -16,7 +16,6 @@
 package org.kurron.example
 
 import groovy.util.logging.Slf4j
-import java.util.concurrent.CountDownLatch
 import org.kurron.example.inbound.MessageConsumer
 import org.kurron.example.shared.ApplicationProperties
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +23,9 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
+import org.springframework.web.client.RestTemplate
+
+import java.util.concurrent.CountDownLatch
 
 /**
  * The entry point into the system.  Runs as a standalone web server.*/
@@ -52,5 +54,11 @@ class Application {
     @Bean
     CountDownLatch latch( ApplicationProperties configuration ) {
         new CountDownLatch( configuration.outstandingMessages )
+    }
+
+    // just to test out the wire mock stuff
+    @Bean
+    RestTemplate restTemplate() {
+        new RestTemplate()
     }
 }

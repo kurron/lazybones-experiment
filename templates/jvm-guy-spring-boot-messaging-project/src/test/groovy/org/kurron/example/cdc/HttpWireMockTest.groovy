@@ -17,22 +17,30 @@ package org.kurron.example.cdc
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
+import org.springframework.cloud.contract.wiremock.WireMockRestServiceServer
+import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
 /**
  * An example from the documentation..
  **/
 @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT )
-@AutoConfigureWireMock( port = 0 )
 class HttpWireMockTest extends Specification {
 
     @Autowired
     OutboundService sut
 
-    void 'exercise application startup'() {
+    @Autowired
+    RestTemplate template
 
-        expect: 'configuration to be loaded correctly'
+    void 'showcase HTTP mocking'() {
+
+        expect:
+        def server = WireMockRestServiceServer.with( template )
+                                              .baseUrl( 'http://example.org' )
+                                              .stubs( 'classpath:/mappings/' )
+                                              .build()
         sut.go() == 'Hello, World!'
+        server.verify()
     }
 }

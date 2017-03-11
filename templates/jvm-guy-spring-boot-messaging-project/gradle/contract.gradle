@@ -23,7 +23,10 @@ dependencyManagement {
 }
 
 dependencies {
-    testCompile 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
+    testCompile( 'org.springframework.cloud:spring-cloud-starter-contract-verifier' ) {
+        // prevent older versions of Groovy from getting dragged in
+        exclude group: 'org.codehaus.groovy'
+    }
 }
 
 // In this section you define all Spring Cloud Contract Verifier Gradle Plugin properties

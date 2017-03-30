@@ -36,7 +36,8 @@ import spock.lang.Specification
 class RestTemplateShowcaseTest extends Specification {
 
     @Autowired
-    //TestRestTemplate template
+    // TestRestTemplates does NOT appear to spit out Zipkin information
+    // TestRestTemplate template
     RestTemplate template
 
     void 'do a simple GET'() {

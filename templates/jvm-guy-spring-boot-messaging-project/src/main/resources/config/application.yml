@@ -77,5 +77,5 @@ spring:
     zipkin:
         enabled: true
         service:
-            name: foo
+            name: bar
         baseUrl: http://localhost:9411/

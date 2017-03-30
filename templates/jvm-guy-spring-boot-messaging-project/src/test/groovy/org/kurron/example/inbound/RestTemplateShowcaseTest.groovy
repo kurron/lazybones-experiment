@@ -24,6 +24,7 @@ import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
+import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
 /**
@@ -54,6 +55,11 @@ class RestTemplateShowcaseTest extends Specification {
         RestTemplateBuilder restTemplateBuilder() {
             // add customizations if needed
             new RestTemplateBuilder()
+        }
+
+        @Bean
+        RestTemplate restTemplate( RestTemplateBuilder builder ) {
+            builder.build()
         }
     }
 }

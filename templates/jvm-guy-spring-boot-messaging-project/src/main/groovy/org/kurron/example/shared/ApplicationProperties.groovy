@@ -122,7 +122,7 @@ class ApplicationProperties {
     /**
      * A dumb way to test that all messages got processed.
      */
-    @org.hibernate.validator.constraints.Range( min = 1L, max = 10L )
+    @org.hibernate.validator.constraints.Range( min = 1L, max = 100L )
     Integer outstandingMessages
 
 }

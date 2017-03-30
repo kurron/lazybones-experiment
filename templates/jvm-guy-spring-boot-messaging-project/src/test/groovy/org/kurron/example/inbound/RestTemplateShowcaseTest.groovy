@@ -21,7 +21,6 @@ import org.kurron.categories.OutboundIntegrationTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.web.client.RestTemplate
@@ -37,14 +36,17 @@ import spock.lang.Specification
 class RestTemplateShowcaseTest extends Specification {
 
     @Autowired
-    TestRestTemplate template
+    //TestRestTemplate template
+    RestTemplate template
 
     void 'do a simple GET'() {
 
         expect: 'make sure the interface is backed by an implementation'
         template
-        def headers = template.getForEntity( 'http://www.microsoft.com/' , String ).headers
-        headers.location.toString().contains( 'http://www.microsoft.com/en-us/' )
+        10.times {
+            def headers = template.getForEntity( 'http://www.microsoft.com/' , String ).headers
+            headers.location.toString().contains( 'http://www.microsoft.com/en-us/' )
+        }
     }
 
     // You can also influence the template's construction, if needed

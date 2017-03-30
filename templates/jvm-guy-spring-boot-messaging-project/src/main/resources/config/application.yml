@@ -70,3 +70,12 @@ spring:
         serialization:
             indent_output: true
         default-property-inclusion: non_empty
+
+    sleuth:
+        sampler:
+            percentage: 1.0
+    zipkin:
+        enabled: true
+        service:
+            name: foo
+        baseUrl: http://localhost:9411/

@@ -57,6 +57,9 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
     compile "org.kurron:tools-groovy:${toolsGroovyVersion}"
 
+    compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    compile 'org.springframework.cloud:spring-cloud-starter-zipkin'
+
     // so the actuators can use hypermedia
     runtime 'org.springframework.boot:spring-boot-starter-hateoas'
     runtime 'org.webjars:hal-browser'

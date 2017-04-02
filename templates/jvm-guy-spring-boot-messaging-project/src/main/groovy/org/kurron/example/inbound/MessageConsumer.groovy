@@ -24,6 +24,7 @@ import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.web.client.RestOperations
 
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.ThreadLocalRandom
 
 /**
  * An example of how Spring Cloud Stream consumes messages.
@@ -52,6 +53,7 @@ class MessageConsumer {
         latch.countDown()
 
         // just to give Zipkin something else to put in the span
+        Thread.sleep( ThreadLocalRandom.current().nextInt( 100, 2000 ) )
         template.getForObject( 'https://jsonplaceholder.typicode.com/users', String )
     }
 

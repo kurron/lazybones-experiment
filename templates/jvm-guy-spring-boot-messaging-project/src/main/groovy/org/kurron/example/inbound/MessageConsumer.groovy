@@ -16,14 +16,14 @@
 package org.kurron.example.inbound
 
 import groovy.util.logging.Slf4j
-import java.util.concurrent.CountDownLatch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.stream.annotation.EnableBinding
 import org.springframework.cloud.stream.annotation.StreamListener
 import org.springframework.cloud.stream.messaging.Sink
-import org.springframework.integration.annotation.ServiceActivator
-import org.springframework.messaging.Message
 import org.springframework.messaging.handler.annotation.Headers
+import org.springframework.web.client.RestOperations
+
+import java.util.concurrent.CountDownLatch
 
 /**
  * An example of how Spring Cloud Stream consumes messages.
@@ -32,6 +32,9 @@ import org.springframework.messaging.handler.annotation.Headers
 @EnableBinding( Sink )
 @SuppressWarnings( 'DuplicateStringLiteral' )
 class MessageConsumer {
+
+    @Autowired
+    RestOperations template
 
     // a complete hack to signal to the test that all messages have been processed
     @Autowired
@@ -47,6 +50,9 @@ class MessageConsumer {
         }
         log.info( 'Processing via StreamListener {}', payload )
         latch.countDown()
+
+        // just to give Zipkin something else to put in the span
+        template.getForObject( 'https://jsonplaceholder.typicode.com/users', String )
     }
 
 /*

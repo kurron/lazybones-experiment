@@ -16,6 +16,9 @@
 package org.kurron.example.inbound
 
 import groovy.util.logging.Slf4j
+import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.web.client.RestTemplate
+
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import org.junit.experimental.categories.Category
@@ -71,5 +74,17 @@ class MessageConsumerIntegrationTest extends Specification {
         MessageProducer messageProducer() {
             new MessageProducer()
         }
+
+        @Bean
+        RestTemplateBuilder restTemplateBuilder() {
+            // add customizations if needed
+            new RestTemplateBuilder()
+        }
+
+        @Bean
+        RestTemplate restTemplate(RestTemplateBuilder builder ) {
+            builder.build()
+        }
+
     }
 }

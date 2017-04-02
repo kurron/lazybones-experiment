@@ -38,7 +38,7 @@ class MessageConsumer {
     CountDownLatch latch
 
     // Using StreamListener tells Spring to do automatic payload transformation.
-    // You cannot get to the raw Message
+    // You cannot get to the raw Message. This is the Spring Cloud Stream mechanism.
     @SuppressWarnings( ['GrMethodMayBeStatic', 'GroovyUnusedDeclaration'] )
     @StreamListener( Sink.INPUT )
     void streamListener( String payload, @Headers Map<String,Object> headers  ) {
@@ -49,7 +49,9 @@ class MessageConsumer {
         latch.countDown()
     }
 
-    // Using ServiceActivator gives you raw access at the cost of automatic transformation
+/*
+    // Using ServiceActivator gives you raw access at the cost of automatic transformation.
+    // This is the Spring Integration mechanism
     @SuppressWarnings( ['GrMethodMayBeStatic', 'GroovyUnusedDeclaration'] )
     @ServiceActivator( inputChannel=Sink.INPUT )
     void serviceActivator( Message<byte[]> payload, @Headers Map<String,Object> headers  ) {
@@ -59,4 +61,5 @@ class MessageConsumer {
         log.info( 'Processing via ServiceActivator {}', payload )
         latch.countDown()
     }
+*/
 }
